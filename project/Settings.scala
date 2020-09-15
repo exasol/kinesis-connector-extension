@@ -28,7 +28,6 @@ object Settings {
     excludeDependencies ++= Dependencies.ExcludedDependencies,
     dependencyOverrides ++= Seq(
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.7.3",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.6.7",
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.6.7.1"
     )
   )

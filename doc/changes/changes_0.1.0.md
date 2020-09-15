@@ -9,7 +9,8 @@
 <details>
   <summary>Click to expand</summary>
 
-* Added `com.amazonaws:aws-java-sdk-bundle:1.11.861`
+* Added `com.amazonaws:aws-java-sdk-core:1.11.861`
+* Added `com.amazonaws:aws-java-sdk-kinesis:1.11.861`
 * Added `com.exasol:exasol-script-api:6.1.7`
 * Added `com.exasol:import-export-udf-common-scala:0.1.0`
 * Added `com.exasol:import-export-udf-common-scala:0.1.0`

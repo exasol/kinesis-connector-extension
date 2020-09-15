@@ -9,7 +9,7 @@ object Dependencies {
   // Runtime dependencies versions
   private val ExasolVersion = "6.1.7"
   private val ImportExportUDFVersion = "0.1.0"
-  private val AwsJavaSdkVersion = "1.11.861"
+  private val AwsJavaSdkVersion = "1.11.860"
 
   // Test dependencies versions
   private val ScalaTestVersion = "3.2.2"
@@ -26,7 +26,8 @@ object Dependencies {
   lazy val RuntimeDependencies: Seq[ModuleID] = Seq(
     "com.exasol" % "exasol-script-api" % ExasolVersion,
     "com.exasol" %% "import-export-udf-common-scala" % ImportExportUDFVersion,
-    "com.amazonaws" % "aws-java-sdk-bundle" % AwsJavaSdkVersion,
+    "com.amazonaws" % "aws-java-sdk-core" % AwsJavaSdkVersion,
+    "com.amazonaws" % "aws-java-sdk-kinesis" % AwsJavaSdkVersion,
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.7.3",
     "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.6.7.1"
   )
