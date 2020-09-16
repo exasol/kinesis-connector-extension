@@ -1,7 +1,4 @@
-# Exasol Kinesis Connector 
-
-Exasol Kinesis Connector provides UDF scripts that allow users to import data
-from [Kinesis Streams][kinesis-streams] to an Exasol table.
+# User Guide 
 
 ## Prerequisites
 
@@ -21,10 +18,36 @@ See an example of an invalid JSON format. Note the trailing comma.
      
  The Exasol Kinesis Connector will not parse this string correctly.
 
-## Deployment
+## Download the JAR file
 
-Please refer to the [deployment guide](../deployment_guide.md) up to until the section
-`Upload the JAR file to the bucket` (inclusive) to prepare a bucket and a JAR.
+You can download the latest assembled (with all dependencies included) JAR file
+from [Github releases][jars].
+
+## Create Exasol Bucket
+
+Next, you need to upload the jar file to a bucket in the Exasol bucket file
+system (BucketFS). This will allow us to reference the jar in UDF scripts.
+
+> Please see the section "The synchronous cluster file system BucketFS"
+> in the EXASolution User Manual for more details about BucketFS.
+
+For this guide we are going to use an example bucket named `kinesis`.
+
+## Upload the JAR file to the bucket
+
+Then, upload the jar file to the bucket `kinesis`. However, before uploading the
+jar, please make sure that the BucketFS ports are open. In this example, we use
+the port number `2580` for http.
+
+Upload the jar file using curl:
+
+```bash
+curl -X PUT -T cloud-storage-etl-udfs-<VERSION>.jar \
+  http://w:write-password@exasol.datanode.domain.com:2580/kinesis/exasol-kinesis-connector-extension-<VERSION>.jar
+```
+
+> Please also check out Exasol [BucketFS Explorer][bucketfs-explorer] as an
+> alternative option to upload jar file to buckets in BucketFS.
 
 ## Preparing a Table for Data
 
@@ -173,4 +196,5 @@ REGION               |  Mandatory  | An AWS region where a stream is localed
 
 [aws-credentials]: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html
 [exa-connection]: https://docs.exasol.com/sql/create_connection.htm
-[kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
+[jars]: https://github.com/exasol/kinesis-connector-extension/releases
+[bucketfs-explorer]: https://github.com/exasol/bucketfs-explorer

@@ -1,6 +1,7 @@
 # Kinesis Connector Extension
 
-Kinesis connector extension based on Exasol user defined functions (UDF).
+Exasol Kinesis Extension provides UDF scripts that allow users to import data
+from [Kinesis Streams][kinesis-streams] to an Exasol table.
 
 ## Information for users.
 
@@ -70,3 +71,5 @@ These plugins help with project development.
 [sbt-depgraph-link]: https://github.com/jrudolph/sbt-dependency-graph
 [sbt-git-link]: https://github.com/sbt/sbt-git
 [sbt-expdep-link]: https://github.com/cb372/sbt-explicit-dependencies
+
+[kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
