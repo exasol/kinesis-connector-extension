@@ -42,7 +42,7 @@ the port number `2580` for http.
 Upload the jar file using curl:
 
 ```bash
-curl -X PUT -T cloud-storage-etl-udfs-<VERSION>.jar \
+curl -X PUT -T kinesis-connector-extension-<VERSION>.jar \
   http://w:write-password@exasol.datanode.domain.com:2580/kinesis/exasol-kinesis-connector-extension-<VERSION>.jar
 ```
 
