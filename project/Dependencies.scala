@@ -17,6 +17,7 @@ object Dependencies {
   private val MockitoCoreVersion = "3.5.10"
   private val ExasolTestContainersVersion = "3.0.0"
   private val TestContainersLocalstackVersion = "1.14.3"
+  private val FasterxmlJacksonVersion = "2.11.2"
 
   val Resolvers: Seq[Resolver] = Seq(
     "Confluent Maven Repo" at "https://packages.confluent.io/maven/",
@@ -28,8 +29,8 @@ object Dependencies {
     "com.exasol" %% "import-export-udf-common-scala" % ImportExportUDFVersion,
     "com.amazonaws" % "aws-java-sdk-core" % AwsJavaSdkVersion,
     "com.amazonaws" % "aws-java-sdk-kinesis" % AwsJavaSdkVersion,
-    "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.7.3",
-    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.6.7.1"
+    "com.fasterxml.jackson.core" % "jackson-databind" % FasterxmlJacksonVersion,
+    "com.fasterxml.jackson.module" %% "jackson-module-scala" % FasterxmlJacksonVersion
   )
 
   lazy val TestDependencies: Seq[ModuleID] = Seq(

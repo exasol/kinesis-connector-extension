@@ -22,14 +22,6 @@ object Settings {
     scalacOptions in (Compile, console) := Compilation.consoleFlagsFn(scalaVersion.value),
     javacOptions ++= Compilation.JavacCompilerFlags,
     compileOrder in Compile := CompileOrder.JavaThenScala,
-    // Dependency settings
-    resolvers ++= Dependencies.Resolvers,
-    libraryDependencies ++= Dependencies.AllDependencies,
-    excludeDependencies ++= Dependencies.ExcludedDependencies,
-    dependencyOverrides ++= Seq(
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.7.3",
-      "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.6.7.1"
-    )
   )
 
   def miscSettings(): Seq[Setting[_]] = Seq(

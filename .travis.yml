@@ -37,7 +37,7 @@ after_success:
 before_deploy:
   - echo "Ensure assembly jar file is created for a $TRAVIS_TAG"
   - ./sbtx clean assembly
-  - export JAR_VERSION=${TRAVIS_TAG#v}
+  - export JAR_VERSION=${TRAVIS_TAG}
   - echo "Jar artifact version $JAR_VERSION"
   - mkdir -p artifacts
   - cp target/scala-2.12/exasol-kinesis-connector-extension-${JAR_VERSION}.jar artifacts/
@@ -50,15 +50,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: |-
-      u8cr+1uVDUU2k1/OIEJzzUVfHezB8yHfCtupxJgOy7xp3cwInetJ6l5AO1+2FWTEzhiS0PN5srqLdk0mZxAAUBWVDv2
-      RTxZ9c6iduNLxuaL1BFX6D/lgVJ/zGW69ghOcn8Pa40V2OAocB2JxiKb3Mob9PBC0CBirlr1V9RI2+cIwP2JGb0WJYf
-      Mg6JSF9zYqQiXYPhCjVLKE7wDVeO2M0SfI1kURcM+4iDMB1DPfMy7G0ATKoefq8xzSl7/8DwvOT+r3T1L1QO0fk1z62
-      V2toJzcBfiXK3kU8b2+YPGnyx8YEqcsWfciKaBJqFHiAtGMlq/ea7isHsG+BiJxVUR0hcLqJvi+S4HbldchP35mMgnG
-      EP6vwtTExTgsWuH84ApH4uDCwJZkqngLrUpblt26f7iye9F8e5zG0mGfkxgZBrJgYkJPod7ntH0nYGb0Y4ZC+px/oIe
-      D5t7yvmwxGT3ARvNS7vOlgl7IQ3dRn4hcrMjqPQmwet6nmo1vv9RtUrY6vTJeh8blkPRjExbC/lCfKkT6AOr1OUuR3f
-      shq9MLKBeFQBahsH7T5sWaW/m2MeAbVBCG+r9qyN17dlDnQiD8KDjVQeu73lvwTUMdFZzDMfoiGrV31tTddSMfYa/CX
-      9p2j0tcPrxJW/fgX10YLJ44Zgy/26CVGYLJ1NYAZed3D7U=
+    secure: $GITHUB_TOKEN
   file:
     - artifacts/exasol-kinesis-connector-extension-${JAR_VERSION}.jar
     - artifacts/checksum.sha256.txt
@@ -66,7 +58,7 @@ deploy:
   on:
     repo: exasol/kinesis-connector-extension
     tags: true
-    condition: $RELEASE = true && $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-rc[0-9]+)?$
+    condition: $RELEASE = true && $TRAVIS_TAG =~ (\d+)\.(\d+)\.(\d+)
 
 cache:
   directories:

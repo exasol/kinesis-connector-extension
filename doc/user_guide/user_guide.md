@@ -82,21 +82,21 @@ Create the following UDF scripts. Please do not change the names of the scripts.
 CREATE OR REPLACE JAVA SET SCRIPT KINESIS_METADATA (...) 
 EMITS (KINESIS_SHARD_ID VARCHAR(130), SHARD_SEQUENCE_NUMBER VARCHAR(2000)) AS
   %scriptclass com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader;
-  %jar /buckets/bfsdefault/kinesis/cloud-storage-etl-udfs-<VERSION>.jar;
+  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-<VERSION>.jar;
 /
 ;
   
 --/
 CREATE OR REPLACE JAVA SET SCRIPT KINESIS_IMPORT (...) EMITS (...) AS
   %scriptclass com.exasol.cloudetl.kinesis.KinesisShardDataImporter;
-  %jar /buckets/bfsdefault/kinesis/cloud-storage-etl-udfs-<VERSION>.jar;
+  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-<VERSION>.jar;
 /
 ;
     
 --/
 CREATE OR REPLACE JAVA SET SCRIPT KINESIS_PATH (...) EMITS (...) AS
   %scriptclass com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator;
-  %jar /buckets/bfsdefault/kinesis/cloud-storage-etl-udfs-<VERSION>.jar;
+  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-<VERSION>.jar;
 /
 ; 
 ```
