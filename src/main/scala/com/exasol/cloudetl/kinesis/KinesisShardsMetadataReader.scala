@@ -42,7 +42,7 @@ object KinesisShardsMetadataReader {
       case exception @ (_: ExaDataTypeException | _: ExaIterationException) =>
         val message = exception.getMessage
         throw new KinesisConnectorException(
-          s"KinesisShardsMetadataReader cannot emit shards' ids. Caused: $message",
+          s" F-KIN-MR-1: KinesisShardsMetadataReader cannot emit shards' ids. Caused: $message",
           exception
         )
     } finally {

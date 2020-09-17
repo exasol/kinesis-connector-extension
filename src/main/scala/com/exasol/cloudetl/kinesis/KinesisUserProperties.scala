@@ -92,7 +92,7 @@ class KinesisUserProperties(val propertiesMap: Map[String, String])
   private[this] def validateDoesNotContainCredentials(): Unit =
     if (containsAwsSecretKey() || containsAwsSecretKey() || containsAwsSessionToken()) {
       throw new KinesisConnectorException(
-        "Credentials as properties are not supported anymore. " +
+        "E-KIN-PROP-1: Credentials as properties are not supported anymore. " +
           "Please use a named connection and provide a CONNECTION_NAME property."
       )
     }

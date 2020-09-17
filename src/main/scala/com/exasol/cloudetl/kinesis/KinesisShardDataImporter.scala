@@ -44,7 +44,8 @@ object KinesisShardDataImporter {
     } catch {
       case exception @ (_: ExaDataTypeException | _: ExaIterationException) =>
         throw new KinesisConnectorException(
-          "KinesisShardDataImporter cannot emit records. Caused: " + exception.getMessage,
+          "F-KIN-IMP-1: KinesisShardDataImporter cannot emit records. Caused: "
+            + exception.getMessage,
           exception
         )
     } finally {

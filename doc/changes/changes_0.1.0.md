@@ -13,6 +13,7 @@ Please, provide credentials using a named connection. Check the user guide for m
 
 * #5: Removed deprecated properties AWS_ACCESS_KEY, AWS_SECRET_KEY and AWS_SESSION_TOKEN.
 * #6: Renamed a script KINESIS_PATH to KINESIS_CONSUMER in tests and documentation.
+* #7: Unified error handling.
 
 ## Documentation
 
