@@ -2,7 +2,11 @@
 
 ## Feature
 
-#1: added initial implementation
+* #1: Added initial implementation.
+
+## Documentation
+
+* #2: Updated documentation.
 
 ## Dependency updates
 
