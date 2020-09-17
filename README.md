@@ -1,5 +1,9 @@
 # Kinesis Connector Extension
 
+[![Build Status][travis-badge]][travis-link]
+[![Coveralls][coveralls-badge]][coveralls-link]
+[![GitHub Release][gh-release-badge]][gh-release-link]
+
 Exasol Kinesis Extension provides UDF scripts that allow users to import data
 from [Kinesis Streams][kinesis-streams] to an Exasol table.
 
@@ -71,5 +75,12 @@ These plugins help with project development.
 [sbt-depgraph-link]: https://github.com/jrudolph/sbt-dependency-graph
 [sbt-git-link]: https://github.com/sbt/sbt-git
 [sbt-expdep-link]: https://github.com/cb372/sbt-explicit-dependencies
+
+[travis-badge]: https://img.shields.io/travis/exasol/kinesis-connector-extension/master.svg?logo=travis
+[travis-link]: https://travis-ci.com/exasol/kinesis-connector-extension
+[coveralls-badge]: https://coveralls.io/repos/github/exasol/kinesis-connector-extension/badge.svg?branch=master
+[coveralls-link]: https://coveralls.io/github/exasol/kinesis-connector-extension?branch=master
+[gh-release-badge]: https://img.shields.io/github/release/exasol/kinesis-connector-extension.svg?logo=github
+[gh-release-link]: https://github.com/exasol/kinesis-connector-extension/releases/latest
 
 [kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
