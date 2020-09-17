@@ -117,7 +117,7 @@ CREATE OR REPLACE JAVA SET SCRIPT KINESIS_IMPORT (...) EMITS (...) AS
 ;
     
 --/
-CREATE OR REPLACE JAVA SET SCRIPT KINESIS_PATH (...) EMITS (...) AS
+CREATE OR REPLACE JAVA SET SCRIPT KINESIS_CONSUMER (...) EMITS (...) AS
   %scriptclass com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator;
   %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-<VERSION>.jar;
 /
@@ -149,7 +149,7 @@ Run an import query.
  
 ```sql
 IMPORT INTO <table_name>
-FROM SCRIPT KINESIS_PATH WITH
+FROM SCRIPT KINESIS_CONSUMER WITH
   TABLE_NAME = '<table_name>'
   CONNECTION_NAME = 'KINESIS_CONNECTION'
   STREAM_NAME = '<stream_name>'
