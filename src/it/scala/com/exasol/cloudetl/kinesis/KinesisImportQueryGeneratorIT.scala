@@ -1,7 +1,7 @@
 package com.exasol.cloudetl.kinesis
 
 import java.nio.ByteBuffer
-import java.sql.ResultSet
+import java.sql.{ResultSet, SQLDataException}
 
 import com.exasol.cloudetl.kinesis.KinesisConstants.{
   KINESIS_SHARD_ID_COLUMN_NAME,
@@ -40,21 +40,22 @@ class KinesisImportQueryGeneratorIT
     ()
   }
 
-  test("KinesisImportQueryGenerator runs with credentials") {
+  test("KinesisImportQueryGenerator with credentials throws an exception") {
     createTable()
     val streamName = "Stream_1"
     createKinesisStream(streamName, 1)
     val partitionKey = "partitionKey-1"
     putRecordIntoStream(17, 147, "WARN", partitionKey, streamName)
     putRecordIntoStream(20, 15, "OK", partitionKey, streamName)
-    executeKinesisPathScriptWithoutConnection(streamName)
-    val expected = List(
-      (17, 147, "WARN", "shardId-000000000000", true),
-      (20, 15, "OK", "shardId-000000000000", true)
+    val thrown = intercept[SQLDataException] {
+      executeKinesisPathScriptWithoutConnection(streamName)
+    }
+    assert(
+      thrown.getMessage.contains(
+        "Credentials as properties are not supported anymore. " +
+          "Please use a named connection and provide a CONNECTION_NAME property."
+      )
     )
-    assertResultSet(expected)
-    executeKinesisPathScriptWithoutConnection(streamName)
-    assertResultSet(expected)
   }
 
   private[this] def assertResultSet(expected: List[(Int, Int, String, String, Boolean)]): Unit = {

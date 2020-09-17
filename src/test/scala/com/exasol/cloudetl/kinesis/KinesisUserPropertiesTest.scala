@@ -175,9 +175,8 @@ class KinesisUserPropertiesTest extends AnyFunSuite with MockitoSugar {
     }
     assert(
       thrown.getMessage ===
-        """Please provide either CONNECTION_NAME property
-          | or secure access credentials parameters, but not the both!""".stripMargin
-          .replace("\n", "")
+        "Credentials as properties are not supported anymore. " +
+          "Please use a named connection and provide a CONNECTION_NAME property."
     )
   }
 

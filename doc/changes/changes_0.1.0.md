@@ -1,8 +1,17 @@
 # Kinesis Connector Extension 0.1.0, released 2020-??-??
 
+## Summary
+
+In this release we removed deprecated properties AWS_ACCESS_KEY, AWS_SECRET_KEY and AWS_SESSION_TOKEN.
+Please, provide credentials using a named connection. Check the user guide for more details.
+
 ## Feature
 
 * #1: Added initial implementation.
+
+## Refactoring
+
+* #5 Removed deprecated properties AWS_ACCESS_KEY, AWS_SECRET_KEY and AWS_SESSION_TOKEN.
 
 ## Documentation
 

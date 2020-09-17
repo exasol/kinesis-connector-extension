@@ -82,18 +82,18 @@ class KinesisUserProperties(val propertiesMap: Map[String, String])
    * parsed from user provided Exasol named connection object.
    */
   final def mergeWithConnectionObject(exaMetadata: ExaMetadata): KinesisUserProperties = {
-    validateConnectionObject()
+    validateDoesNotContainCredentials()
     val connectionParsedMap =
       parseConnectionInfo(AWS_ACCESS_KEY_PROPERTY, Option(exaMetadata))
     val newProperties = propertiesMap ++ connectionParsedMap
     new KinesisUserProperties(newProperties)
   }
 
-  private[this] def validateConnectionObject(): Unit =
-    if (containsAwsSecretKey() || containsAwsSessionToken()) {
+  private[this] def validateDoesNotContainCredentials(): Unit =
+    if (containsAwsSecretKey() || containsAwsSecretKey() || containsAwsSessionToken()) {
       throw new KinesisConnectorException(
-        "Please provide either CONNECTION_NAME property or " +
-          "secure access credentials parameters, but not the both!"
+        "Credentials as properties are not supported anymore. " +
+          "Please use a named connection and provide a CONNECTION_NAME property."
       )
     }
 
