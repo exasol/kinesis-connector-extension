@@ -27,11 +27,8 @@ object KinesisClientFactory {
     kinesisUserProperties: KinesisUserProperties,
     exaMetadata: ExaMetadata
   ): AmazonKinesis = {
-    val localKinesisUserProperties = if (kinesisUserProperties.hasNamedConnection()) {
+    val localKinesisUserProperties =
       kinesisUserProperties.mergeWithConnectionObject(exaMetadata)
-    } else {
-      kinesisUserProperties
-    }
     val region = localKinesisUserProperties.getRegion()
     val awsCredentials = createAwsCredentials(localKinesisUserProperties)
     val kinesisClientBuilder = AmazonKinesisClientBuilder.standard

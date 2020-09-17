@@ -12,6 +12,15 @@ class KinesisShardsMetadataReaderIT extends KinesisAbstractIntegrationTest {
     createKinesisStream(TEST_STREAM_NAME, 3)
     setupExasol()
     createKinesisMetadataScript()
+    val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
+    statement.execute(
+      s"""CREATE OR REPLACE CONNECTION KINESIS_CONNECTION
+         | TO '' USER '' IDENTIFIED BY
+         | 'AWS_ACCESS_KEY=${credentials.getAWSAccessKeyId};
+         | AWS_SECRET_KEY=${credentials.getAWSSecretKey};'""".stripMargin
+        .replace("'\n", "")
+    )
+    ()
   }
 
   test("returns shards from a stream") {
@@ -53,10 +62,8 @@ class KinesisShardsMetadataReaderIT extends KinesisAbstractIntegrationTest {
       kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
     val endpointInsideDocker =
       endpointConfiguration.getServiceEndpoint.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
-    val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
     val properties =
-      s"""|'AWS_ACCESS_KEY -> ${credentials.getAWSAccessKeyId}
-          |;AWS_SECRET_KEY -> ${credentials.getAWSSecretKey}
+      s"""|'CONNECTION_NAME -> KINESIS_CONNECTION
           |;REGION -> ${endpointConfiguration.getSigningRegion}
           |;STREAM_NAME -> $TEST_STREAM_NAME
           |;AWS_SERVICE_ENDPOINT -> $endpointInsideDocker

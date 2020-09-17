@@ -25,13 +25,14 @@ class KinesisClientFactoryTest extends AnyFunSuite with MockitoSugar with Before
     when(userProperties.containsAwsSessionToken()).thenReturn(true)
     when(userProperties.getAwsSessionToken()).thenReturn("MY_SESSION_TOKEN")
     when(userProperties.containsAwsServiceEndpoint()).thenReturn(false)
-    when(userProperties.hasNamedConnection()).thenReturn(false)
+    when(userProperties.hasNamedConnection()).thenReturn(true)
+    when(userProperties.mergeWithConnectionObject(exaMetadata)).thenReturn(userProperties)
     val kinesisClient = KinesisClientFactory.createKinesisClient(userProperties, exaMetadata)
     assert(kinesisClient.isInstanceOf[AmazonKinesis])
     verify(userProperties, times(1)).containsAwsServiceEndpoint()
     verify(userProperties, times(1)).containsAwsSessionToken()
     verify(userProperties, times(1)).getAwsSessionToken()
-    verify(userProperties, times(1)).hasNamedConnection()
+    verify(userProperties, times(1)).mergeWithConnectionObject(exaMetadata)
     verify(userProperties, never).getAwsServiceEndpoint()
   }
 
@@ -39,25 +40,14 @@ class KinesisClientFactoryTest extends AnyFunSuite with MockitoSugar with Before
     when(userProperties.containsAwsSessionToken()).thenReturn(false)
     when(userProperties.containsAwsServiceEndpoint()).thenReturn(true)
     when(userProperties.getAwsServiceEndpoint()).thenReturn("http://127.0.0.1:40215")
-    when(userProperties.hasNamedConnection()).thenReturn(false)
+    when(userProperties.hasNamedConnection()).thenReturn(true)
+    when(userProperties.mergeWithConnectionObject(exaMetadata)).thenReturn(userProperties)
     val kinesisClient = KinesisClientFactory.createKinesisClient(userProperties, exaMetadata)
     assert(kinesisClient.isInstanceOf[AmazonKinesis])
     verify(userProperties, times(1)).containsAwsServiceEndpoint()
     verify(userProperties, times(1)).containsAwsSessionToken()
     verify(userProperties, times(1)).getAwsServiceEndpoint()
-    verify(userProperties, times(1)).hasNamedConnection()
-    verify(userProperties, never).getAwsSessionToken()
-  }
-
-  test("createKinesisClient returns AmazonKinesis with connection name") {
-    when(userProperties.containsAwsSessionToken()).thenReturn(true)
-    when(userProperties.getAwsSessionToken()).thenReturn("MY_SESSION_TOKEN")
-    when(userProperties.containsAwsServiceEndpoint()).thenReturn(false)
-    when(userProperties.hasNamedConnection()).thenReturn(true)
-    when(userProperties.mergeWithConnectionObject(exaMetadata)).thenReturn(userProperties)
-    val kinesisClient = KinesisClientFactory.createKinesisClient(userProperties, exaMetadata)
-    assert(kinesisClient.isInstanceOf[AmazonKinesis])
-    verify(userProperties, times(1)).hasNamedConnection()
     verify(userProperties, times(1)).mergeWithConnectionObject(exaMetadata)
+    verify(userProperties, never).getAwsSessionToken()
   }
 }

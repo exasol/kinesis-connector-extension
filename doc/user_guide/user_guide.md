@@ -96,7 +96,7 @@ Null values are supported.
 * Currently, the connector has a flat data mapping and does not support mapping of the nested JSON Objects and Arrays.
 All nested Objects and Arrays will be mapped to a String. That means you need to prepare a VARCHAR column for them.
 
-## Create ETL UDFs Scripts
+## Creating ETL UDFs Scripts
 
 Create the following UDF scripts. Please do not change the names of the scripts.
 
@@ -124,23 +124,11 @@ CREATE OR REPLACE JAVA SET SCRIPT KINESIS_PATH (...) EMITS (...) AS
 ; 
 ```
 
-## Import Data
+## Creating the Connection Object
 
-You can provide AWS credentials using:
+You need to provide AWS credentials using [Exasol named connection object][exa-connection]. 
 
-1. UDF parameters 
-1. [Exasol named connection object][exa-connection]. 
-
-We highly recommend you **use connection objects** to provide credentials 
-to UDFs so that credentials do not display in audit logs.
-
-### Using the Connection Object
-
-First, create a named connection object and encode credentials as key-value
-pairs separated by semicolon (`;`).
-
-`AWS_SESSION_TOKEN` is an optional property. You can remove it from the string
-if you don't need it. 
+First, create a named connection object and encode credentials as key-value pairs separated by semicolon (`;`).                
 
 ```sql
 CREATE OR REPLACE CONNECTION KINESIS_CONNECTION
@@ -148,6 +136,14 @@ TO ''
 USER ''
 IDENTIFIED BY 'AWS_ACCESS_KEY=<AWS_ACCESS_KEY>;AWS_SECRET_KEY=<AWS_SECRET_KEY>;AWS_SESSION_TOKEN=<AWS_SESSION_TOKEN>';
 ```
+
+| Key name          | Required  | Description           |
+|-------------------|-----------|-----------------------|
+| AWS_ACCESS_KEY    | Mandatory | An AWS access key id. |  
+| AWS_SECRET_KEY    | Mandatory | An AWS secret key.    |              
+| AWS_SESSION_TOKEN | Optional  | An AWS session token. |   
+
+## Importing Data
 
 Run an import query.
  
@@ -161,38 +157,16 @@ FROM SCRIPT KINESIS_PATH WITH
 ;
 ``` 
 
-### Without Connection Object
-
-Provide credentials as properties and run an import query.
-
-**Attention! Providing credentials via properties is 
-deprecated and will be removed in future releases.**
- 
-```sql
-IMPORT INTO <table_name>
-FROM SCRIPT KINESIS_PATH WITH
-  TABLE_NAME = '<table_name>'
-  AWS_ACCESS_KEY = '<access_key>'
-  AWS_SECRET_KEY = '<secret_key>'
-  AWS_SESSION_TOKEN = '<session_token>'
-  STREAM_NAME = '<stream_name>'
-  REGION = '<region>'
-;
-```
-
 ### Properties
 
-Property name        | Required    | Description
----------------------|-------------|----------------------------------------------------------------
-AWS_ACCESS_KEY       |  Mandatory  | An AWS access key id. Can be provided via connection object.                    
-AWS_SERVICE_ENDPOINT |  Optional   | An endpoint is the URL of the entry point for an AWS web service.                    
-AWS_SECRET_KEY       |  Mandatory  | An AWS secret key. Can be provided via connection object.                   
-AWS_SESSION_TOKEN    |  Optional   | An AWS session token. Can be provided via connection object.                   
-CONNECTION_NAME      |  Optional   | A name of connection with defined credentials properties.                   
-STREAM_NAME          |  Mandatory  | A name of the stream to consume the data from   
-TABLE_NAME           |  Mandatory  | A name of an Exasol table to store the data.                                   
-MAX_RECORDS_PER_RUN  |  Optional   | The maximum number of records to return per shard. A value between 1 and 10000.                   
-REGION               |  Mandatory  | An AWS region where a stream is localed                   
+| Property name        | Required  | Description                                                                     |
+|----------------------|-----------|---------------------------------------------------------------------------------|
+| CONNECTION_NAME      | Mandatory | A name of connection with defined credentials properties.                       |
+| STREAM_NAME          | Mandatory | A name of the stream to consume the data from                                   |
+| TABLE_NAME           | Mandatory | A name of an Exasol table to store the data.                                    |
+| REGION               | Mandatory | An AWS region where a stream is localed                                         |
+| AWS_SERVICE_ENDPOINT | Optional  | An endpoint is the URL of the entry point for an AWS web service.               |     
+| MAX_RECORDS_PER_RUN  | Optional  | The maximum number of records to return per shard. A value between 1 and 10000. |                  
 
 [aws-credentials]: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html
 [exa-connection]: https://docs.exasol.com/sql/create_connection.htm
