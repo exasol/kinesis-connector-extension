@@ -29,7 +29,7 @@ class KinesisImportQueryGeneratorIT
         .replace("'\n", "")
     )
     statement.execute(
-      s"""CREATE OR REPLACE JAVA SET SCRIPT KINESIS_PATH (...)
+      s"""CREATE OR REPLACE JAVA SET SCRIPT KINESIS_CONSUMER (...)
          |EMITS (...) AS
          |     %jvmoption -Dcom.amazonaws.sdk.disableCbor=true;
          |     %scriptclass com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator;
@@ -48,7 +48,7 @@ class KinesisImportQueryGeneratorIT
     putRecordIntoStream(17, 147, "WARN", partitionKey, streamName)
     putRecordIntoStream(20, 15, "OK", partitionKey, streamName)
     val thrown = intercept[SQLDataException] {
-      executeKinesisPathScriptWithoutConnection(streamName)
+      executeKinesisConsumerScriptWithoutConnection(streamName)
     }
     assert(
       thrown.getMessage.contains(
@@ -112,7 +112,7 @@ class KinesisImportQueryGeneratorIT
     createKinesisStream(streamName, 2)
     putRecordIntoStream(17, 147, "WARN", "partitionKey-1", streamName)
     putRecordIntoStream(20, 15, "OK", "partitionKey-1", streamName)
-    executeKinesisPathScriptWithConnection(streamName)
+    executeKinesisConsumerScriptWithConnection(streamName)
     val expected = List(
       (17, 147, "WARN", "shardId-000000000000", true),
       (20, 15, "OK", "shardId-000000000000", true)
@@ -121,7 +121,7 @@ class KinesisImportQueryGeneratorIT
 
     putRecordIntoStream(67, 154, "FAIL", "partitionKey-2", streamName)
     putRecordIntoStream(54, 4, "OK", "partitionKey-2", streamName)
-    executeKinesisPathScriptWithConnection(streamName)
+    executeKinesisConsumerScriptWithConnection(streamName)
     val expected2 = List(
       (17, 147, "WARN", "shardId-000000000000", true),
       (20, 15, "OK", "shardId-000000000000", true),
@@ -136,7 +136,7 @@ class KinesisImportQueryGeneratorIT
     createKinesisStream(streamName, 1)
     putRecordSWithAllDataTypesIntoStream(streamName)
     createTableWithAllDataTypes()
-    executeKinesisPathScriptWithConnection(streamName)
+    executeKinesisConsumerScriptWithConnection(streamName)
     val expected = List(
       (
         "[\"first\",\"second\"]",
@@ -210,14 +210,14 @@ class KinesisImportQueryGeneratorIT
       resultSet.getString(SHARD_SEQUENCE_NUMBER_COLUMN_NAME) != null
     )
 
-  private[this] def executeKinesisPathScriptWithConnection(streamName: String): Unit = {
+  private[this] def executeKinesisConsumerScriptWithConnection(streamName: String): Unit = {
     val endpointConfiguration =
       kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
     val endpointInsideDocker =
       endpointConfiguration.getServiceEndpoint.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     statement.execute(
       s"""IMPORT INTO $TEST_TABLE_NAME
-         |FROM SCRIPT KINESIS_PATH WITH
+         |FROM SCRIPT KINESIS_CONSUMER WITH
          |  TABLE_NAME     = '$TEST_TABLE_NAME'
          |  CONNECTION_NAME  = 'KINESIS_CONNECTION'
          |  STREAM_NAME    = '$streamName'
@@ -228,7 +228,7 @@ class KinesisImportQueryGeneratorIT
     ()
   }
 
-  private[this] def executeKinesisPathScriptWithoutConnection(streamName: String): Unit = {
+  private[this] def executeKinesisConsumerScriptWithoutConnection(streamName: String): Unit = {
     val endpointConfiguration =
       kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
     val endpointInsideDocker =
@@ -236,7 +236,7 @@ class KinesisImportQueryGeneratorIT
     val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
     statement.execute(
       s"""IMPORT INTO $TEST_TABLE_NAME
-         |FROM SCRIPT KINESIS_PATH WITH
+         |FROM SCRIPT KINESIS_CONSUMER WITH
          |  TABLE_NAME     = '$TEST_TABLE_NAME'
          |  AWS_ACCESS_KEY  = '${credentials.getAWSAccessKeyId}'
          |  AWS_SECRET_KEY  = '${credentials.getAWSSecretKey}'

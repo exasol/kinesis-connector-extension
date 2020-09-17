@@ -50,9 +50,9 @@ Emits a list of available shards from a stream.
 
 Emits data from a single shard.
 
-### `KINESIS_PATH`
+### `KINESIS_CONSUMER`
 
-Uses `KINESIS_METADATA` and `KINESIS_PATH` internally to generate a single
+Uses `KINESIS_METADATA` and `KINESIS_IMPORT` internally to generate a single
 import statement.
 
 ## Scriptclasses Implementation
