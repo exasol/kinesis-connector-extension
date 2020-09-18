@@ -173,11 +173,7 @@ class KinesisUserPropertiesTest extends AnyFunSuite with MockitoSugar {
     val thrown = intercept[KinesisConnectorException] {
       kinesisUserProperties.mergeWithConnectionObject(exaMetadata)
     }
-    assert(
-      thrown.getMessage ===
-        "Credentials as properties are not supported anymore. " +
-          "Please use a named connection and provide a CONNECTION_NAME property."
-    )
+    assert(thrown.getMessage.contains("E-KIN-PROP-1"))
   }
 
   test("mkString returns a properties string") {

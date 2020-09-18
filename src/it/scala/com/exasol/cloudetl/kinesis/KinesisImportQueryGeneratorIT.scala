@@ -50,12 +50,7 @@ class KinesisImportQueryGeneratorIT
     val thrown = intercept[SQLDataException] {
       executeKinesisConsumerScriptWithoutConnection(streamName)
     }
-    assert(
-      thrown.getMessage.contains(
-        "Credentials as properties are not supported anymore. " +
-          "Please use a named connection and provide a CONNECTION_NAME property."
-      )
-    )
+    assert(thrown.getMessage.contains("E-KIN-PROP-1"))
   }
 
   private[this] def assertResultSet(expected: List[(Int, Int, String, String, Boolean)]): Unit = {
