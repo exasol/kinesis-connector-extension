@@ -55,9 +55,11 @@ These plugins help with project development.
 | [SBT Git][sbt-git-link]                     | A plugin for Git integration, used to version the release jars  | BSD 2-Clause License |
 
 [aws-java-sdk]: https://aws.amazon.com/sdk-for-java/
+[exasol-cont-link]: https://github.com/exasol/exasol-testcontainers
 [exasol-script-api-link]: https://docs.exasol.com/database_concepts/udf_scripts.htm
 [faster-xml-jackson]: https://github.com/FasterXML/jackson
 [ieudf]: https://github.com/exasol/import-export-udf-common-scala
+[localstack-link]: https://www.testcontainers.org/modules/localstack/
 [scala-logging-link]: https://github.com/lightbend/scala-logging
 [scalatest-link]: http://www.scalatest.org/
 [scalatestplus-link]: https://github.com/scalatest/scalatestplus-mockito
