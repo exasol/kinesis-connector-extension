@@ -78,7 +78,7 @@ These plugins help with project development.
 [sbt-git-link]: https://github.com/sbt/sbt-git
 [sbt-expdep-link]: https://github.com/cb372/sbt-explicit-dependencies
 
-[travis-badge]: https://img.shields.io/travis/exasol/kinesis-connector-extension/master.svg?logo=travis
+[travis-badge]: https://img.shields.io/travis/com/exasol/kinesis-connector-extension/master.svg?logo=travis
 [travis-link]: https://travis-ci.com/exasol/kinesis-connector-extension
 [coveralls-badge]: https://coveralls.io/repos/github/exasol/kinesis-connector-extension/badge.svg?branch=master
 [coveralls-link]: https://coveralls.io/github/exasol/kinesis-connector-extension?branch=master
