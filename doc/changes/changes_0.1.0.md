@@ -1,4 +1,4 @@
-# Kinesis Connector Extension 0.1.0, released 2020-??-??
+# Kinesis Connector Extension 0.1.0, released 2020-09-17
 
 ## Summary
 
