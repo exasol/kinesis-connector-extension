@@ -12,6 +12,10 @@ from [Kinesis Streams][kinesis-streams] to an Exasol table.
 * [User Guide](doc/user_guide/user_guide.md)
 * [Changelog](doc/changes/changelog.md)
 
+## Information for Contributors
+
+* [Developer Guide][developer-guide]
+
 ## Dependencies
 
 ### Runtime Dependencies
@@ -86,3 +90,4 @@ These plugins help with project development.
 [gh-release-link]: https://github.com/exasol/kinesis-connector-extension/releases/latest
 
 [kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
+[developer-guide]: https://github.com/exasol/import-export-udf-common-scala/blob/master/doc/development/developer_guide.md
