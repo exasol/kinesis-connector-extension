@@ -8,7 +8,7 @@ object Dependencies {
 
   // Runtime dependencies versions
   private val ExasolVersion = "6.1.7"
-  private val ImportExportUDFVersion = "0.1.0"
+  private val ImportExportUDFVersion = "0.2.0"
   private val AwsJavaSdkVersion = "1.11.916"
   private val FasterxmlJacksonVersion = "2.12.0"
 

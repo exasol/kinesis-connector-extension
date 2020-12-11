@@ -2,7 +2,7 @@
 
 Code name: 
 
-## Bug
+## Bug Fixes
 
 * #18: Fixed jackson-core/jackson-dataformat-cbor incompatible library version.
 
@@ -23,3 +23,4 @@ Code name:
 * Updated `com.exasol:exasol-testcontainers:3.0.0` to `3.4.0`
 * Updated `org.testcontainers:localstack:1.14.3` to `1.15.0`
 * Updated `com.amazonaws:aws-java-sdk-core:1.11.860` to `1.11.916`
+* Updated `com.exasol:import-export-udf-common-scala:0.1.0` to `0.2.0`
