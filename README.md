@@ -11,6 +11,7 @@ from [Kinesis Streams][kinesis-streams] to an Exasol table.
 
 * [User Guide](doc/user_guide/user_guide.md)
 * [Changelog](doc/changes/changelog.md)
+* [How to import data from AWS Kinesis Data Streams with Exasol (tech blog)][kinesis-blog-link]
 
 ## Information for Contributors
 
@@ -91,3 +92,4 @@ These plugins help with project development.
 
 [kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
 [developer-guide]: https://github.com/exasol/import-export-udf-common-scala/blob/master/doc/development/developer_guide.md
+[kinesis-blog-link]: https://community.exasol.com/t5/tech-blog/how-to-import-data-from-aws-kinesis-data-streams-with-our/ba-p/1704

@@ -14,6 +14,7 @@ Code name:
 ## Documentation
 
 * #15: Added a link to the development guide.
+* #17: Added a link to the tech blog article about Kinesis Connector.
 
 ## Dependency updates
 
