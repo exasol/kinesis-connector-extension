@@ -1,6 +1,6 @@
-# Kinesis Connector Extension 0.1.1, released 2020-??-??
+# Kinesis Connector Extension 0.1.1, released 2020-12-14
 
-Code name: 
+Code name: Bug fix for Exasol 7 and jackson-core/jackson-dataformat-cbor dependency problem
 
 ## Bug Fixes
 
