@@ -1,15 +1,16 @@
 package com.exasol.cloudetl.kinesis
 
-import java.io.File
-import java.nio.file.Paths
-import java.sql.ResultSet
-
 import com.amazonaws.SDKGlobalConfiguration.AWS_CBOR_DISABLE_SYSTEM_PROPERTY
 import com.amazonaws.services.kinesis.{AmazonKinesis, AmazonKinesisClientBuilder}
-import com.exasol.containers.{ExasolContainer, ExasolContainerConstants}
+import com.exasol.containers.ExasolContainer
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
 import org.testcontainers.containers.localstack.LocalStackContainer
+import org.testcontainers.utility.DockerImageName
+
+import java.io.File
+import java.nio.file.Paths
+import java.sql.ResultSet
 
 trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll {
   val JAR_DIRECTORY_PATTERN = "scala-"
@@ -18,11 +19,10 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   val TEST_SCHEMA_NAME = "kinesis_schema"
   var assembledJarName: String = _
 
-  val exasolContainer = new ExasolContainer(
-    ExasolContainerConstants.EXASOL_DOCKER_IMAGE_REFERENCE
-  )
+  val exasolContainer = new ExasolContainer("7.0.4")
   val kinesisLocalStack: LocalStackContainer =
-    new LocalStackContainer().withServices(LocalStackContainer.Service.KINESIS)
+    new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.12.3"))
+      .withServices(LocalStackContainer.Service.KINESIS)
 
   private[this] var connection: java.sql.Connection = _
   var statement: java.sql.Statement = _
@@ -98,7 +98,6 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
     statement.execute(
       s"""CREATE OR REPLACE JAVA SET SCRIPT KINESIS_METADATA (...)
          |EMITS (KINESIS_SHARD_ID VARCHAR(130), SHARD_SEQUENCE_NUMBER VARCHAR(2000)) AS
-         |     %jvmoption -Dcom.amazonaws.sdk.disableCbor=true;
          |     %scriptclass com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader;
          |     %jar /buckets/bfsdefault/default/$assembledJarName;
          |/
