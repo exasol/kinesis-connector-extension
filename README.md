@@ -5,12 +5,20 @@
 [![GitHub Release][gh-release-badge]][gh-release-link]
 
 Exasol Kinesis Extension provides UDF scripts that allow users to import data
-from [Kinesis Streams][kinesis-streams] to an Exasol table.
+from [Kinesis Data Streams][kinesis-streams](KDS) to an Exasol table.
+
+KDS is a real-time data streaming service provided by Amazon. 
+It lets you continuously collect and temporarily store data from multiple sources.
+KDS provides SDKs for creating custom producing and consuming application.
+
+This connector is a consumer that transfers the data from KDS to an Exasol table. 
+Since the data in KDS is stored for a limited time you have to schedule Kinesis Connector to transfer the data regularly to avoid data loss.
 
 ## Information for users.
 
 * [User Guide](doc/user_guide/user_guide.md)
 * [Changelog](doc/changes/changelog.md)
+* [How to import data from AWS Kinesis Data Streams with Exasol (tech blog)][kinesis-blog-link]
 
 ## Information for Contributors
 
@@ -91,3 +99,4 @@ These plugins help with project development.
 
 [kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
 [developer-guide]: https://github.com/exasol/import-export-udf-common-scala/blob/master/doc/development/developer_guide.md
+[kinesis-blog-link]: https://community.exasol.com/t5/tech-blog/how-to-import-data-from-aws-kinesis-data-streams-with-our/ba-p/1704
