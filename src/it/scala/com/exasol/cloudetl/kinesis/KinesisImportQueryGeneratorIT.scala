@@ -7,6 +7,8 @@ import com.exasol.cloudetl.kinesis.KinesisConstants.{
   KINESIS_SHARD_ID_COLUMN_NAME,
   SHARD_SEQUENCE_NUMBER_COLUMN_NAME
 }
+import com.exasol.dbbuilder.dialects.Column
+import com.exasol.dbbuilder.dialects.exasol.udf.UdfScript
 import org.scalatest.BeforeAndAfterEach
 import org.testcontainers.containers.localstack.LocalStackContainer
 
@@ -19,24 +21,17 @@ class KinesisImportQueryGeneratorIT
     prepareContainers()
     setupExasol()
     createKinesisMetadataScript()
-    createKinesisImportScript("...")
-    val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
-    statement.execute(
-      s"""CREATE OR REPLACE CONNECTION KINESIS_CONNECTION
-         | TO '' USER '' IDENTIFIED BY
-         | 'AWS_ACCESS_KEY=${credentials.getAWSAccessKeyId};
-         | AWS_SECRET_KEY=${credentials.getAWSSecretKey};'""".stripMargin
-        .replace("'\n", "")
-    )
-    statement.execute(
-      s"""CREATE OR REPLACE JAVA SET SCRIPT KINESIS_CONSUMER (...)
-         |EMITS (...) AS
-         |     %jvmoption -Dcom.amazonaws.sdk.disableCbor=true;
-         |     %scriptclass com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator;
-         |     %jar /buckets/bfsdefault/default/${findAssembledJarName()};
-         |/
-         |""".stripMargin
-    )
+    createKinesisImportScript(Seq.empty[Column])
+    schema
+      .createUdfBuilder("KINESIS_CONSUMER")
+      .language(UdfScript.Language.JAVA)
+      .inputType(UdfScript.InputType.SET)
+      .emits()
+      .bucketFsContent(
+        "com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator",
+        s"/buckets/bfsdefault/default/$findAssembledJarName"
+      )
+      .build()
     ()
   }
 
@@ -213,9 +208,9 @@ class KinesisImportQueryGeneratorIT
     statement.execute(
       s"""IMPORT INTO $TEST_TABLE_NAME
          |FROM SCRIPT KINESIS_CONSUMER WITH
-         |  TABLE_NAME     = '$TEST_TABLE_NAME'
-         |  CONNECTION_NAME  = 'KINESIS_CONNECTION'
-         |  STREAM_NAME    = '$streamName'
+         |  TABLE_NAME      = '$TEST_TABLE_NAME'
+         |  CONNECTION_NAME = 'KINESIS_CONNECTION'
+         |  STREAM_NAME     = '$streamName'
          |  REGION          = '${endpointConfiguration.getSigningRegion}'
          |  AWS_SERVICE_ENDPOINT = '$endpointInsideDocker'
       """.stripMargin
@@ -233,10 +228,10 @@ class KinesisImportQueryGeneratorIT
       s"""IMPORT INTO $TEST_TABLE_NAME
          |FROM SCRIPT KINESIS_CONSUMER WITH
          |  TABLE_NAME     = '$TEST_TABLE_NAME'
-         |  AWS_ACCESS_KEY  = '${credentials.getAWSAccessKeyId}'
-         |  AWS_SECRET_KEY  = '${credentials.getAWSSecretKey}'
+         |  AWS_ACCESS_KEY = '${credentials.getAWSAccessKeyId}'
+         |  AWS_SECRET_KEY = '${credentials.getAWSSecretKey}'
          |  STREAM_NAME    = '$streamName'
-         |  REGION          = '${endpointConfiguration.getSigningRegion}'
+         |  REGION         = '${endpointConfiguration.getSigningRegion}'
          |  AWS_SERVICE_ENDPOINT = '$endpointInsideDocker'
       """.stripMargin
     )

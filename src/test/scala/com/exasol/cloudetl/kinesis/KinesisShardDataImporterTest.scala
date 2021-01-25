@@ -64,7 +64,7 @@ class KinesisShardDataImporterTest extends AnyFunSuite with MockitoSugar {
   test("createTableValuesListFromRecord returns table values") {
     val record = new Record
     val byteBuffer = ByteBuffer.wrap(
-      "{\"sensorId\": 17,\"currentTemperature\": 147,\"status\": \"WARN\"}".getBytes()
+      "{\"sensorId\": 17,\"currentTemperature\": 147,\"status\": \"WARN\"}".getBytes("UTF-8")
     )
     record.setData(byteBuffer)
     val value = "49604832218991145411663169279930025628073300079339896866"

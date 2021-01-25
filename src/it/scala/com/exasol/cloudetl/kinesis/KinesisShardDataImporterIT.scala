@@ -7,6 +7,7 @@ import com.exasol.cloudetl.kinesis.KinesisConstants.{
   KINESIS_SHARD_ID_COLUMN_NAME,
   SHARD_SEQUENCE_NUMBER_COLUMN_NAME
 }
+import com.exasol.dbbuilder.dialects.Column
 import org.testcontainers.containers.localstack.LocalStackContainer
 
 class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
@@ -16,14 +17,6 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
   override final def beforeAll(): Unit = {
     prepareContainers()
     setupExasol()
-    val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
-    statement.execute(
-      s"""CREATE OR REPLACE CONNECTION KINESIS_CONNECTION
-         | TO '' USER '' IDENTIFIED BY
-         | 'AWS_ACCESS_KEY=${credentials.getAWSAccessKeyId};
-         | AWS_SECRET_KEY=${credentials.getAWSSecretKey};'""".stripMargin
-        .replace("'\n", "")
-    )
     ()
   }
 
@@ -32,11 +25,12 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
     createKinesisStream(streamName, 1)
     putRecordIntoStream(17, 25.3, streamName)
     putRecordIntoStream(20, 21.0, streamName)
-    val columns =
-      """sensorId DECIMAL(18,0),
-        |currentTemperature DOUBLE PRECISION,
-        |kinesis_shard_id VARCHAR(2000),
-        |shard_sequence_number VARCHAR(2000)"""
+    val columns = Seq(
+      new Column("sensorId", "DECIMAL(18,0)"),
+      new Column("currentTemperature", "DOUBLE PRECISION"),
+      new Column("kinesis_shard_id", "VARCHAR(2000)"),
+      new Column("shard_sequence_number", "VARCHAR(2000)")
+    )
     createKinesisImportScript(columns)
     val expected = List(
       (17, 25.3, shardId, true),
@@ -75,11 +69,12 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
     createKinesisStream(streamName, 1)
     putRecordIntoStream("1", "WARN", streamName)
     putRecordIntoStream("2", "OK", streamName)
-    val columns =
-      """sensorId CHAR(1),
-        |status VARCHAR(100),
-        |kinesis_shard_id VARCHAR(2000),
-        |shard_sequence_number VARCHAR(2000)"""
+    val columns = Seq(
+      new Column("sensorId", "CHAR(1)"),
+      new Column("status", "VARCHAR(100)"),
+      new Column("kinesis_shard_id", "VARCHAR(2000)"),
+      new Column("shard_sequence_number", "VARCHAR(2000)")
+    )
     createKinesisImportScript(columns)
     val resultSet = this.executeKinesisImportScript(streamName)
     val expected = List(
@@ -118,11 +113,12 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
     createKinesisStream(streamName, 1)
     putRecordIntoStream(true, false, streamName)
     putRecordIntoStream(false, true, streamName)
-    val columns =
-      """first_sensor_status BOOLEAN,
-        |second_sensor_status BOOLEAN,
-        |kinesis_shard_id VARCHAR(2000),
-        |shard_sequence_number VARCHAR(2000)"""
+    val columns = Seq(
+      new Column("first_sensor_status", "BOOLEAN"),
+      new Column("second_sensor_status", "BOOLEAN"),
+      new Column("kinesis_shard_id", "VARCHAR(2000)"),
+      new Column("shard_sequence_number", "VARCHAR(2000)")
+    )
     createKinesisImportScript(columns)
     val resultSet = this.executeKinesisImportScript(streamName)
     val expected = List(
@@ -161,11 +157,12 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
   test("returns nested data from a shard") {
     val streamName = "Test_stream_nested"
     createKinesisStream(streamName, 1)
-    val columns =
-      """sensorId DECIMAL(18,0),
-        |statuses VARCHAR(1000),
-        |kinesis_shard_id VARCHAR(2000),
-        |shard_sequence_number VARCHAR(2000)"""
+    val columns = Seq(
+      new Column("sensorId", "DECIMAL(18,0)"),
+      new Column("statuses", "VARCHAR(1000)"),
+      new Column("kinesis_shard_id", "VARCHAR(2000)"),
+      new Column("shard_sequence_number", "VARCHAR(2000)")
+    )
     createKinesisImportScript(columns)
     putRecordWithNestedDataIntoStream(17, 35, 14, 29, partitionKey, streamName)
     putRecordWithNestedDataIntoStream(20, 25, 11, 16, partitionKey, streamName)
@@ -210,11 +207,12 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
   test("returns array data from a shard") {
     val streamName = "Test_stream_array"
     createKinesisStream(streamName, 1)
-    val columns =
-      """sensorId DECIMAL(18,0),
-        |statuses VARCHAR(1000),
-        |kinesis_shard_id VARCHAR(2000),
-        |shard_sequence_number VARCHAR(2000)"""
+    val columns = Seq(
+      new Column("sensorId", "DECIMAL(18,0)"),
+      new Column("statuses", "VARCHAR(1000)"),
+      new Column("kinesis_shard_id", "VARCHAR(2000)"),
+      new Column("shard_sequence_number", "VARCHAR(2000)")
+    )
     createKinesisImportScript(columns)
     putRecordWithArrayIntoStream(17, 35, 14, 29, partitionKey, streamName)
     putRecordWithArrayIntoStream(20, 25, 11, 16, partitionKey, streamName)
