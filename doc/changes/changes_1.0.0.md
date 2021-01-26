@@ -13,7 +13,6 @@ Code name:
 * Updated `com.exasol:exasol-testcontainers:3.4.0` to `3.4.1`
 * Updated `org.testcontainers:localstack:1.15.0` to `1.15.1`
 * Updated `org.mockito:mockito-core:3.5.10` to `3.7.7`
-* Updated `org.mockito:mockito-core:3.5.10` to `3.7.7`
 * Updated `org.scalatest:scalatest:3.2.2` to `3.2.2`
 
 ### Plugin Updates
