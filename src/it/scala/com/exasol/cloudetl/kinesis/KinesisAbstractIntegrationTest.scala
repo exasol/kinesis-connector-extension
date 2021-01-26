@@ -3,6 +3,9 @@ package com.exasol.cloudetl.kinesis
 import com.amazonaws.SDKGlobalConfiguration.AWS_CBOR_DISABLE_SYSTEM_PROPERTY
 import com.amazonaws.services.kinesis.{AmazonKinesis, AmazonKinesisClientBuilder}
 import com.exasol.containers.ExasolContainer
+import com.exasol.dbbuilder.dialects.Column
+import com.exasol.dbbuilder.dialects.exasol._
+import com.exasol.dbbuilder.dialects.exasol.udf.UdfScript
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
 import org.testcontainers.containers.localstack.LocalStackContainer
@@ -17,12 +20,15 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   val JAR_NAME_PATTERN = "exasol-kinesis-connector-extension-"
   val DOCKER_IP_ADDRESS = "172.17.0.1"
   val TEST_SCHEMA_NAME = "kinesis_schema"
-  var assembledJarName: String = _
 
-  val exasolContainer = new ExasolContainer("7.0.4")
+  val exasolContainer = new ExasolContainer("7.0.6")
   val kinesisLocalStack: LocalStackContainer =
-    new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.12.3"))
+    new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.12.5"))
       .withServices(LocalStackContainer.Service.KINESIS)
+
+  var assembledJarName: String = _
+  var schema: ExasolSchema = _
+  var factory: ExasolObjectFactory = _
 
   private[this] var connection: java.sql.Connection = _
   var statement: java.sql.Statement = _
@@ -49,8 +55,22 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   private[kinesis] def setupExasol(): Unit = {
     assembledJarName = findAssembledJarName()
     uploadJarToBucket(assembledJarName)
-    statement.execute(s"CREATE SCHEMA $TEST_SCHEMA_NAME")
-    statement.execute(s"OPEN SCHEMA $TEST_SCHEMA_NAME")
+    val exasolConfiguration = ExasolObjectConfiguration
+      .builder()
+      .withJvmOptions("-Dcom.amazonaws.sdk.disableCbor=true")
+      .build()
+    factory = new ExasolObjectFactory(connection, exasolConfiguration)
+    schema = factory.createSchema(TEST_SCHEMA_NAME)
+    createConnectionObject()
+    ()
+  }
+
+  private[this] def createConnectionObject(): Unit = {
+    val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
+    val awsAccessKey = credentials.getAWSAccessKeyId()
+    val awsSecretKey = credentials.getAWSSecretKey()
+    val secret = s"AWS_ACCESS_KEY=$awsAccessKey;AWS_SECRET_KEY=$awsSecretKey"
+    factory.createConnectionDefinition("KINESIS_CONNECTION", "", "user", secret)
     ()
   }
 
@@ -95,27 +115,37 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   }
 
   private[kinesis] def createKinesisMetadataScript(): Unit = {
-    statement.execute(
-      s"""CREATE OR REPLACE JAVA SET SCRIPT KINESIS_METADATA (...)
-         |EMITS (KINESIS_SHARD_ID VARCHAR(130), SHARD_SEQUENCE_NUMBER VARCHAR(2000)) AS
-         |     %scriptclass com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader;
-         |     %jar /buckets/bfsdefault/default/$assembledJarName;
-         |/
-         |""".stripMargin
-    )
+    schema
+      .createUdfBuilder("KINESIS_METADATA")
+      .language(UdfScript.Language.JAVA)
+      .inputType(UdfScript.InputType.SET)
+      .emits(
+        new Column("KINESIS_SHARD_ID", "VARCHAR(130)"),
+        new Column("SHARD_SEQUENCE_NUMBER", "VARCHAR(2000)")
+      )
+      .bucketFsContent(
+        "com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader",
+        s"/buckets/bfsdefault/default/$assembledJarName"
+      )
+      .build()
     ()
   }
 
-  private[kinesis] def createKinesisImportScript(emits: String): Unit = {
-    statement.execute(
-      s"""CREATE OR REPLACE JAVA SET SCRIPT KINESIS_IMPORT (...)
-         |EMITS ($emits) AS
-         |     %jvmoption -Dcom.amazonaws.sdk.disableCbor=true;
-         |     %scriptclass com.exasol.cloudetl.kinesis.KinesisShardDataImporter;
-         |     %jar /buckets/bfsdefault/default/$assembledJarName;
-         |/
-         |""".stripMargin
-    )
+  private[kinesis] def createKinesisImportScript(emittedColumns: Seq[Column]): Unit = {
+    statement.execute(s"DROP SCRIPT IF EXISTS KINESIS_IMPORT")
+    val udfScript = schema
+      .createUdfBuilder("KINESIS_IMPORT")
+      .language(UdfScript.Language.JAVA)
+      .inputType(UdfScript.InputType.SET)
+      .bucketFsContent(
+        "com.exasol.cloudetl.kinesis.KinesisShardDataImporter",
+        s"/buckets/bfsdefault/default/$assembledJarName"
+      )
+    if (emittedColumns.isEmpty) {
+      udfScript.emits().build()
+    } else {
+      udfScript.emits(emittedColumns: _*).build()
+    }
     ()
   }
 

@@ -99,7 +99,7 @@ object KinesisShardDataImporter {
   ): Seq[AnyRef] = {
     val data = record.getData
     val parsedValuesMap = JsonMapper
-      .parseJson[util.LinkedHashMap[String, AnyRef]](new String(data.array()))
+      .parseJson[util.LinkedHashMap[String, AnyRef]](new String(data.array(), "UTF-8"))
       .values()
       .stream()
       .toArray

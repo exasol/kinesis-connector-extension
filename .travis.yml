@@ -15,7 +15,8 @@ env:
 
 before_install:
   - git fetch --tags
-  - docker pull exasol/docker-db:7.0.4
+  - docker pull exasol/docker-db:7.0.6
+  - docker pull localstack/localstack:0.12.5
 
 matrix:
   include:
