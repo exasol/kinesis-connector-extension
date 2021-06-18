@@ -7,12 +7,13 @@
 Exasol Kinesis Extension provides UDF scripts that allow users to import data
 from [Kinesis Data Streams][kinesis-streams](KDS) to an Exasol table.
 
-KDS is a real-time data streaming service provided by Amazon. 
-It lets you continuously collect and temporarily store data from multiple sources.
-KDS provides SDKs for creating custom producing and consuming application.
+KDS is a real-time data streaming service provided by Amazon. It lets you
+continuously collect and temporarily store data from multiple sources. KDS
+provides SDKs for creating custom producing and consuming application.
 
-This connector is a consumer that transfers the data from KDS to an Exasol table. 
-Since the data in KDS is stored for a limited time you have to schedule Kinesis Connector to transfer the data regularly to avoid data loss.
+This connector is a consumer that transfers the data from KDS to an Exasol
+table. Since the data in KDS is stored for a limited time you have to schedule
+Kinesis Connector to transfer the data regularly to avoid data loss.
 
 ## Information for users.
 
@@ -90,13 +91,13 @@ These plugins help with project development.
 [sbt-git-link]: https://github.com/sbt/sbt-git
 [sbt-expdep-link]: https://github.com/cb372/sbt-explicit-dependencies
 
-[travis-badge]: https://img.shields.io/travis/com/exasol/kinesis-connector-extension/master.svg?logo=travis
+[travis-badge]: https://img.shields.io/travis/com/exasol/kinesis-connector-extension/main.svg?logo=travis
 [travis-link]: https://travis-ci.com/exasol/kinesis-connector-extension
-[coveralls-badge]: https://coveralls.io/repos/github/exasol/kinesis-connector-extension/badge.svg?branch=master
-[coveralls-link]: https://coveralls.io/github/exasol/kinesis-connector-extension?branch=master
+[coveralls-badge]: https://coveralls.io/repos/github/exasol/kinesis-connector-extension/badge.svg?branch=main
+[coveralls-link]: https://coveralls.io/github/exasol/kinesis-connector-extension?branch=main
 [gh-release-badge]: https://img.shields.io/github/release/exasol/kinesis-connector-extension.svg?logo=github
 [gh-release-link]: https://github.com/exasol/kinesis-connector-extension/releases/latest
 
 [kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
-[developer-guide]: https://github.com/exasol/import-export-udf-common-scala/blob/master/doc/development/developer_guide.md
+[developer-guide]: https://github.com/exasol/import-export-udf-common-scala/blob/main/doc/development/developer_guide.md
 [kinesis-blog-link]: https://community.exasol.com/t5/tech-blog/how-to-import-data-from-aws-kinesis-data-streams-with-our/ba-p/1704
