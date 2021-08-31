@@ -38,9 +38,7 @@ object KinesisShardDataImporter {
     val limit: Option[Int] = getLimit(kinesisUserProperties)
     val records = getRecords(amazonKinesis, shardIteratorRequest, limit)
     try {
-      records.foreach(record => {
-        exaIterator.emit(createTableValuesListFromRecord(record, shardId): _*)
-      })
+      records.foreach(record => exaIterator.emit(createTableValuesListFromRecord(record, shardId): _*))
     } catch {
       case exception @ (_: ExaDataTypeException | _: ExaIterationException) =>
         throw new KinesisConnectorException(
@@ -86,7 +84,7 @@ object KinesisShardDataImporter {
     val shardIterator = shardIteratorResult.getShardIterator
     val getRecordsRequest = new GetRecordsRequest
     getRecordsRequest.setShardIterator(shardIterator)
-    limitOption.fold({}) { limitValue =>
+    limitOption.fold {} { limitValue =>
       getRecordsRequest.setLimit(limitValue)
     }
     val getRecordsResult = amazonKinesis.getRecords(getRecordsRequest)

@@ -10,7 +10,8 @@ import com.exasol.cloudetl.kinesis.KinesisConstants._
  */
 object KinesisImportQueryGenerator {
 
-  /** Provides a SELECT query for IMPORT.
+  /**
+   * Provides a SELECT query for IMPORT.
    *
    * This is a function which is called inside Exasol when an IMPORT query refers to a script
    * based on this object.

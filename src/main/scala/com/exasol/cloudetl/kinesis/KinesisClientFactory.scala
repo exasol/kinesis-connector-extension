@@ -2,12 +2,7 @@ package com.exasol.cloudetl.kinesis
 
 import com.exasol.ExaMetadata
 
-import com.amazonaws.auth.{
-  AWSCredentials,
-  AWSStaticCredentialsProvider,
-  BasicAWSCredentials,
-  BasicSessionCredentials
-}
+import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider, BasicAWSCredentials, BasicSessionCredentials}
 import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
 import com.amazonaws.services.kinesis.{AmazonKinesis, AmazonKinesisClientBuilder}
 

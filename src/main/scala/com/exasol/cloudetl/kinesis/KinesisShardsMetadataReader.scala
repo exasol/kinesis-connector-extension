@@ -35,8 +35,8 @@ object KinesisShardsMetadataReader {
     val kinesisMetadata =
       combineShardsMetadata(shardsMetadataFromTable, shardsMetadataFromStream)
     try {
-      kinesisMetadata.foreach {
-        case (shardId, sequenceNumber) => exaIterator.emit(shardId, sequenceNumber)
+      kinesisMetadata.foreach { case (shardId, sequenceNumber) =>
+        exaIterator.emit(shardId, sequenceNumber)
       }
     } catch {
       case exception @ (_: ExaDataTypeException | _: ExaIterationException) =>
@@ -95,10 +95,10 @@ object KinesisShardsMetadataReader {
     shardsMetadataFromStream: List[String]
   ): Map[String, String] = {
     val kinesisMetadata: mutable.HashMap[String, String] = mutable.HashMap.empty[String, String]
-    shardsMetadataFromStream.foreach(shardId => {
+    shardsMetadataFromStream.foreach { shardId =>
       val sequenceNumber: String = shardsMetadataFromTable.getOrElse(shardId, null)
       kinesisMetadata += (shardId -> sequenceNumber)
-    })
+    }
     kinesisMetadata.toMap
   }
 }
