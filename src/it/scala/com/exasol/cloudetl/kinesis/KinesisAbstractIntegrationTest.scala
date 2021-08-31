@@ -20,10 +20,11 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   val JAR_NAME_PATTERN = "exasol-kinesis-connector-extension-"
   val DOCKER_IP_ADDRESS = "172.17.0.1"
   val TEST_SCHEMA_NAME = "kinesis_schema"
+  val DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.0-d1"
 
-  val exasolContainer = new ExasolContainer("7.0.6")
+  val exasolContainer = new ExasolContainer(getExasolDockerImageVersion())
   val kinesisLocalStack: LocalStackContainer =
-    new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.12.5"))
+    new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.12.17"))
       .withServices(LocalStackContainer.Service.KINESIS)
 
   var assembledJarName: String = _
@@ -154,6 +155,15 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
       def hasNext = resultSet.next()
       def next() = func(resultSet)
     }.toList
+
+  private[this] def getExasolDockerImageVersion(): String = {
+    val dockerVersion = System.getenv("EXASOL_DOCKER_VERSION")
+    if (dockerVersion == null) {
+      DEFAULT_EXASOL_DOCKER_IMAGE
+    } else {
+      dockerVersion
+    }
+  }
 
   override final def afterAll(): Unit = {
     connection.close()

@@ -78,7 +78,8 @@ object Settings {
     assembly / assemblyMergeStrategy ~= { defaultStrategy =>
       {
         case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-        case x                                                => defaultStrategy(x)
+        case x if x.endsWith(".class")     => MergeStrategy.last
+        case x                             => defaultStrategy(x)
       }
     },
     assembly / assemblyExcludedJars := {
