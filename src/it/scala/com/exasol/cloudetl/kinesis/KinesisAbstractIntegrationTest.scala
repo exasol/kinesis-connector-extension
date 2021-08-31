@@ -21,11 +21,17 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   val DOCKER_IP_ADDRESS = "172.17.0.1"
   val TEST_SCHEMA_NAME = "kinesis_schema"
   val DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.0-d1"
+  val LOCALSTACK_DOCKER_IMAGE = "localstack/localstack:0.12.17"
 
-  val exasolContainer = new ExasolContainer(getExasolDockerImageVersion())
+  val exasolContainer = {
+    val c: ExasolContainer[_] = new ExasolContainer(getExasolDockerImageVersion())
+    c.withReuse(true)
+    c
+  }
   val kinesisLocalStack: LocalStackContainer =
-    new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.12.17"))
+    new LocalStackContainer(DockerImageName.parse(LOCALSTACK_DOCKER_IMAGE))
       .withServices(LocalStackContainer.Service.KINESIS)
+      .withReuse(true)
 
   var assembledJarName: String = _
   var schema: ExasolSchema = _
