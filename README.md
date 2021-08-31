@@ -1,8 +1,20 @@
 # Kinesis Connector Extension
 
-[![Build Status][travis-badge]][travis-link]
-[![Coveralls][coveralls-badge]][coveralls-link]
-[![GitHub Release][gh-release-badge]][gh-release-link]
+[![Build Status](https://github.com/exasol/kinesis-connector-extension/actions/workflows/ci-build.yml/badge.svg)](https://github.com/exasol/kinesis-connector-extension/actions/workflows/ci-build.yml)
+[![Coveralls](https://img.shields.io/coveralls/exasol/kinesis-connector-extension.svg)](https://coveralls.io/github/exasol/kinesis-connector-extension)
+[![GitHub Release](https://img.shields.io/github/release/exasol/kinesis-connector-extension.svg?logo=github)](https://github.com/exasol/kinesis-connector-extension/releases/latest)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=security_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=sqale_index)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=code_smells)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=coverage)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=ncloc)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
 
 Exasol Kinesis Extension provides UDF scripts that allow users to import data
 from [Kinesis Data Streams][kinesis-streams](KDS) to an Exasol table.
@@ -90,13 +102,6 @@ These plugins help with project development.
 [sbt-depgraph-link]: https://github.com/jrudolph/sbt-dependency-graph
 [sbt-git-link]: https://github.com/sbt/sbt-git
 [sbt-expdep-link]: https://github.com/cb372/sbt-explicit-dependencies
-
-[travis-badge]: https://img.shields.io/travis/com/exasol/kinesis-connector-extension/main.svg?logo=travis
-[travis-link]: https://travis-ci.com/exasol/kinesis-connector-extension
-[coveralls-badge]: https://coveralls.io/repos/github/exasol/kinesis-connector-extension/badge.svg?branch=main
-[coveralls-link]: https://coveralls.io/github/exasol/kinesis-connector-extension?branch=main
-[gh-release-badge]: https://img.shields.io/github/release/exasol/kinesis-connector-extension.svg?logo=github
-[gh-release-link]: https://github.com/exasol/kinesis-connector-extension/releases/latest
 
 [kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
 [developer-guide]: https://github.com/exasol/import-export-udf-common-scala/blob/main/doc/development/developer_guide.md
