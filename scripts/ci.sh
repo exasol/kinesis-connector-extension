@@ -31,7 +31,7 @@ run_cleaning () {
   echo "#        Cleaning                          #"
   echo "#                                          #"
   echo "############################################"
-  ./sbtx ++$TRAVIS_SCALA_VERSION clean assembly
+  sbt ++$TRAVIS_SCALA_VERSION clean assembly
 }
 
 run_unit_tests () {
@@ -40,7 +40,7 @@ run_unit_tests () {
   echo "#        Unit testing                      #"
   echo "#                                          #"
   echo "############################################"
-  ./sbtx ++$TRAVIS_SCALA_VERSION coverage test
+  sbt ++$TRAVIS_SCALA_VERSION coverage test
 }
 
 run_integration_tests () {
@@ -49,7 +49,7 @@ run_integration_tests () {
   echo "#        Integration testing               #"
   echo "#                                          #"
   echo "############################################"
-  ./sbtx ++$TRAVIS_SCALA_VERSION coverage it:test
+  sbt ++$TRAVIS_SCALA_VERSION coverage it:test
 }
 
 run_coverage_report () {
@@ -58,7 +58,7 @@ run_coverage_report () {
   echo "#        Coverage report                   #"
   echo "#                                          #"
   echo "############################################"
-  ./sbtx ++$TRAVIS_SCALA_VERSION coverageReport
+  sbt ++$TRAVIS_SCALA_VERSION coverageReport
 }
 
 run_api_doc () {
@@ -67,16 +67,7 @@ run_api_doc () {
   echo "#        Generating API documentaion       #"
   echo "#                                          #"
   echo "############################################"
-  ./sbtx ++$TRAVIS_SCALA_VERSION doc
-}
-
-run_explicit_dependencies () {
-  echo "############################################"
-  echo "#                                          #"
-  echo "#        Unused Dependencies               #"
-  echo "#                                          #"
-  echo "############################################"
-  ./sbtx ++$TRAVIS_SCALA_VERSION undeclaredCompileDependencies unusedCompileDependencies
+  sbt ++$TRAVIS_SCALA_VERSION doc
 }
 
 run_dependency_info () {
@@ -85,7 +76,7 @@ run_dependency_info () {
   echo "#        Dependency information            #"
   echo "#                                          #"
   echo "############################################"
-  ./sbtx ++$TRAVIS_SCALA_VERSION dependencyUpdates pluginUpdates dependencyTree
+  sbt ++$TRAVIS_SCALA_VERSION dependencyUpdates pluginUpdates dependencyTree
 }
 
 run_shell_check () {
@@ -103,7 +94,7 @@ run_assembly () {
   echo "#        Assembling binary artifact        #"
   echo "#                                          #"
   echo "############################################"
-  ./sbtx ++$TRAVIS_SCALA_VERSION assembly
+  sbt ++$TRAVIS_SCALA_VERSION assembly
 }
 
 run_clean_worktree_check () {
@@ -130,7 +121,6 @@ run_unit_tests
 run_integration_tests
 run_coverage_report
 run_api_doc
-run_explicit_dependencies
 run_dependency_info
 run_shell_check
 run_assembly

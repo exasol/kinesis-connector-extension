@@ -1,7 +1,5 @@
 package com.exasol.cloudetl.sbt
 
-import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
-import com.typesafe.sbt.SbtGit.git
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
 import sbt.Keys._
 import sbt._
@@ -30,16 +28,12 @@ object Settings {
     wartremoverErrors in (Test, compile) := Compilation.WartremoverTestFlags,
     // General settings
     cancelable in Global := true,
-    // ScalaFmt settings
-    scalafmtOnCompile := true,
     // Scoverage settings
     coverageMinimum := 50,
     coverageOutputHTML := true,
     coverageOutputXML := true,
     coverageOutputCobertura := true,
     coverageFailOnMinimum := false,
-    // Git versioning, use git describe
-    git.useGitDescribe := true
   )
 
   /** Creates a Scalastyle tasks that run with unit and integration tests. */
