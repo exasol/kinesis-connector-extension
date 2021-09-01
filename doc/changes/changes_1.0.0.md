@@ -2,6 +2,8 @@
 
 Code name:
 
+## Summary
+
 ## Refactoring
 
 * #21: Refactored integration tests using test-db-builder-java
