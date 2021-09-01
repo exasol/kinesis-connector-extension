@@ -40,3 +40,7 @@ addSbtPlugin("org.scalastyle" % "scalastyle-sbt-plugin" % "1.0.0")
 // Adds a `dependencyUpdates` task to check for dependency updates
 // https://github.com/jrudolph/sbt-dependency-graph
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.10.0-RC1")
+
+// Adds a `sbt-reproducible-builds` plugin
+// https://github.com/raboof/sbt-reproducible-builds
+addSbtPlugin("net.bzzt" % "sbt-reproducible-builds" % "0.30")

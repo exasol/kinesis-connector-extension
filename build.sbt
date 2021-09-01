@@ -27,6 +27,6 @@ lazy val root =
       libraryDependencies ++= Dependencies.AllDependencies,
       excludeDependencies ++= Dependencies.ExcludedDependencies
     )
-    .enablePlugins(IntegrationTestPlugin)
+    .enablePlugins(IntegrationTestPlugin, ReproducibleBuildsPlugin)
 
 addCommandAlias("pluginUpdates", ";reload plugins;dependencyUpdates;reload return")
