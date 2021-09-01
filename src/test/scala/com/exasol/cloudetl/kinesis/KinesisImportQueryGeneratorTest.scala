@@ -10,10 +10,7 @@ import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatestplus.mockito.MockitoSugar
 
-class KinesisImportQueryGeneratorTest
-    extends AnyFunSuite
-    with BeforeAndAfterAll
-    with MockitoSugar {
+class KinesisImportQueryGeneratorTest extends AnyFunSuite with BeforeAndAfterAll with MockitoSugar {
   private[this] var exaMetadata: ExaMetadata = _
   private[this] var importSpecification: ExaImportSpecification = _
   private[this] val kinesisProperties = Map(

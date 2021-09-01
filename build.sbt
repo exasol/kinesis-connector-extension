@@ -10,14 +10,15 @@ lazy val orgSettings = Seq(
 )
 
 lazy val buildSettings = Seq(
-  scalaVersion := "2.12.12",
-  crossScalaVersions := Seq("2.11.12", "2.12.12")
+  scalaVersion := "2.12.14",
+  crossScalaVersions := Seq("2.11.12", "2.12.14")
 )
 
 lazy val root =
   project
     .in(file("."))
     .settings(moduleName := "exasol-kinesis-connector-extension")
+    .settings(version := "1.0.0")
     .settings(orgSettings)
     .settings(buildSettings)
     .settings(Settings.projectSettings(scalaVersion))
@@ -26,6 +27,6 @@ lazy val root =
       libraryDependencies ++= Dependencies.AllDependencies,
       excludeDependencies ++= Dependencies.ExcludedDependencies
     )
-    .enablePlugins(IntegrationTestPlugin, GitVersioning)
+    .enablePlugins(IntegrationTestPlugin, ReproducibleBuildsPlugin)
 
 addCommandAlias("pluginUpdates", ";reload plugins;dependencyUpdates;reload return")

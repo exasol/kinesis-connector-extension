@@ -3,10 +3,7 @@ package com.exasol.cloudetl.kinesis
 import java.nio.ByteBuffer
 import java.sql.ResultSet
 
-import com.exasol.cloudetl.kinesis.KinesisConstants.{
-  KINESIS_SHARD_ID_COLUMN_NAME,
-  SHARD_SEQUENCE_NUMBER_COLUMN_NAME
-}
+import com.exasol.cloudetl.kinesis.KinesisConstants.{KINESIS_SHARD_ID_COLUMN_NAME, SHARD_SEQUENCE_NUMBER_COLUMN_NAME}
 import com.exasol.dbbuilder.dialects.Column
 import org.testcontainers.containers.localstack.LocalStackContainer
 

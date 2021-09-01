@@ -1,8 +1,8 @@
 package com.exasol.cloudetl.sbt
 
-import com.lucidchart.sbt.scalafmt.ScalafmtPlugin
-import org.scalastyle.sbt.ScalastylePlugin
 import sbt._
+import org.scalafmt.sbt.ScalafmtPlugin
+import org.scalastyle.sbt.ScalastylePlugin
 
 /** A plugin for creating an integration test task and settings */
 object IntegrationTestPlugin extends AutoPlugin {

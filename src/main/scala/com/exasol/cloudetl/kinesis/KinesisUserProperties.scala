@@ -37,8 +37,7 @@ object KinesisUserProperties extends CommonProperties {
 /**
  * This class parses and stores Kinesis user's properties.
  */
-class KinesisUserProperties(val propertiesMap: Map[String, String])
-    extends AbstractProperties(propertiesMap) {
+class KinesisUserProperties(val propertiesMap: Map[String, String]) extends AbstractProperties(propertiesMap) {
   import KinesisUserProperties._
 
   final def getAwsAccessKey(): String =
