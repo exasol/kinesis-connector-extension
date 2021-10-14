@@ -1,11 +1,12 @@
 package com.exasol.cloudetl.kinesis
 
-import java.util
+import java.util.{List => JList, Map => JMap}
+import java.util.LinkedHashMap
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 import com.exasol._
-import com.exasol.cloudetl.util.JsonMapper
+import com.exasol.common.json.JsonMapper
 
 import com.amazonaws.services.kinesis.AmazonKinesis
 import com.amazonaws.services.kinesis.model._
@@ -25,16 +26,12 @@ object KinesisShardDataImporter {
    * based on this object.
    */
   def run(exaMetadata: ExaMetadata, exaIterator: ExaIterator): Unit = {
-    val kinesisUserProperties = KinesisUserProperties(
-      exaIterator.getString(PROPERTIES_STRING_INDEX)
-    )
+    val kinesisUserProperties = KinesisUserProperties(exaIterator.getString(PROPERTIES_STRING_INDEX))
     val shardId = exaIterator.getString(SHARD_ID_INDEX)
     val shardSequenceNumber = exaIterator.getString(SHARD_SEQUENCE_NUMBER_INDEX)
     val streamName = kinesisUserProperties.getStreamName()
-    val amazonKinesis =
-      KinesisClientFactory.createKinesisClient(kinesisUserProperties, exaMetadata)
-    val shardIteratorRequest =
-      createShardIteratorRequest(streamName, shardId, shardSequenceNumber)
+    val amazonKinesis = KinesisClientFactory.createKinesisClient(kinesisUserProperties, exaMetadata)
+    val shardIteratorRequest = createShardIteratorRequest(streamName, shardId, shardSequenceNumber)
     val limit: Option[Int] = getLimit(kinesisUserProperties)
     val records = getRecords(amazonKinesis, shardIteratorRequest, limit)
     try {
@@ -42,8 +39,7 @@ object KinesisShardDataImporter {
     } catch {
       case exception @ (_: ExaDataTypeException | _: ExaIterationException) =>
         throw new KinesisConnectorException(
-          "F-KIN-IMP-1: KinesisShardDataImporter cannot emit records. Caused: "
-            + exception.getMessage,
+          "F-KIN-IMP-1: KinesisShardDataImporter cannot emit records. Caused: " + exception.getMessage(),
           exception
         )
     } finally {
@@ -91,21 +87,19 @@ object KinesisShardDataImporter {
     getRecordsResult.getRecords.asScala.toList
   }
 
-  private[kinesis] def createTableValuesListFromRecord(
-    record: Record,
-    shardId: String
-  ): Seq[AnyRef] = {
+  private[kinesis] def createTableValuesListFromRecord(record: Record, shardId: String): Seq[AnyRef] = {
     val data = record.getData
     val parsedValuesMap = JsonMapper
-      .parseJson[util.LinkedHashMap[String, AnyRef]](new String(data.array(), "UTF-8"))
+      .fromJson[LinkedHashMap[String, AnyRef]](new String(data.array(), "UTF-8"))
       .values()
-      .stream()
       .toArray
       .toSeq
       .map {
-        case element: Map[_, _] => JsonMapper.toJson(element)
-        case element: List[_]   => JsonMapper.toJson(element)
-        case element            => element
+        case element: Map[_, _]  => JsonMapper.toJson(element)
+        case element: List[_]    => JsonMapper.toJson(element)
+        case element: JMap[_, _] => JsonMapper.toJson(element)
+        case element: JList[_]   => JsonMapper.toJson(element)
+        case element             => element
       }
     parsedValuesMap ++ Seq(shardId, record.getSequenceNumber)
   }

@@ -1,14 +1,16 @@
 package com.exasol.cloudetl.kinesis
 
-import com.amazonaws.services.kinesis.AmazonKinesis
-import com.amazonaws.services.kinesis.model._
+import scala.jdk.CollectionConverters._
+
 import com.exasol.ExaIterator
 import com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader._
+
+import com.amazonaws.services.kinesis.AmazonKinesis
+import com.amazonaws.services.kinesis.model._
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatestplus.mockito.MockitoSugar
-import scala.collection.JavaConverters._
 
 class KinesisShardsMetadataReaderTest extends AnyFunSuite with MockitoSugar {
   test("getAllShardsFromStream returns shards") {

@@ -84,9 +84,7 @@ class KinesisUserPropertiesTest extends AnyFunSuite with MockitoSugar {
     val thrown = intercept[IllegalArgumentException] {
       kinesisUserProperties.getAwsAccessKey()
     }
-    assert(
-      thrown.getMessage === s"Please provide a value for the $AWS_ACCESS_KEY_PROPERTY property!"
-    )
+    assertMissingPropertyKey(thrown.getMessage(), AWS_ACCESS_KEY_PROPERTY)
   }
 
   test("getAwsSecretKeyProperty throws an exception as the property is missing") {
@@ -94,9 +92,7 @@ class KinesisUserPropertiesTest extends AnyFunSuite with MockitoSugar {
     val thrown = intercept[IllegalArgumentException] {
       kinesisUserProperties.getAwsSecretKey()
     }
-    assert(
-      thrown.getMessage === s"Please provide a value for the $AWS_SECRET_KEY_PROPERTY property!"
-    )
+    assertMissingPropertyKey(thrown.getMessage(), AWS_SECRET_KEY_PROPERTY)
   }
 
   test("getAwsSessionTokenProperty throws an exception as the property is missing") {
@@ -104,9 +100,7 @@ class KinesisUserPropertiesTest extends AnyFunSuite with MockitoSugar {
     val thrown = intercept[IllegalArgumentException] {
       kinesisUserProperties.getAwsSessionToken()
     }
-    assert(
-      thrown.getMessage === s"Please provide a value for the $AWS_SESSION_TOKEN_PROPERTY property!"
-    )
+    assertMissingPropertyKey(thrown.getMessage(), AWS_SESSION_TOKEN_PROPERTY)
   }
 
   test("getStreamNameProperty throws an exception as the property is missing") {
@@ -114,9 +108,7 @@ class KinesisUserPropertiesTest extends AnyFunSuite with MockitoSugar {
     val thrown = intercept[IllegalArgumentException] {
       kinesisUserProperties.getStreamName()
     }
-    assert(
-      thrown.getMessage === s"Please provide a value for the $STREAM_NAME_PROPERTY property!"
-    )
+    assertMissingPropertyKey(thrown.getMessage(), STREAM_NAME_PROPERTY)
   }
 
   test("getRegionProperty throws an exception as the property is missing") {
@@ -124,7 +116,7 @@ class KinesisUserPropertiesTest extends AnyFunSuite with MockitoSugar {
     val thrown = intercept[IllegalArgumentException] {
       kinesisUserProperties.getRegion()
     }
-    assert(thrown.getMessage === s"Please provide a value for the $REGION_PROPERTY property!")
+    assertMissingPropertyKey(thrown.getMessage(), REGION_PROPERTY)
   }
 
   test("getTableNameProperty throws an exception as the property is missing") {
@@ -132,7 +124,12 @@ class KinesisUserPropertiesTest extends AnyFunSuite with MockitoSugar {
     val thrown = intercept[IllegalArgumentException] {
       kinesisUserProperties.getTableName()
     }
-    assert(thrown.getMessage === s"Please provide a value for the $TABLE_NAME_PROPERTY property!")
+    assertMissingPropertyKey(thrown.getMessage(), TABLE_NAME_PROPERTY)
+  }
+
+  private[this] def assertMissingPropertyKey(message: String, propertyKey: String): Unit = {
+    assert(message.contains(s"Please provide key-value pairs for '$propertyKey' property."))
+    ()
   }
 
   test("mergeWithConnectionObject returns new KinesisUserProperties") {

@@ -10,8 +10,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scala: [ 2.12.14 ]
-        exasol-docker-version: [ 6.2.16-d1, 7.0.12, 7.1.0-d1 ]
+        scala: [ 2.13.6 ]
+        exasol-docker-version: [ 6.2.17-d1, 7.0.13, 7.1.1 ]
 
     steps:
       - name: Checkout the Repository
@@ -27,7 +27,7 @@ jobs:
       - name: Pull Docker Images
         run: |
           docker pull exasol/docker-db:${{ matrix.exasol-docker-version }}
-          docker pull localstack/localstack:0.12.17
+          docker pull localstack/localstack:0.12.18
 
       - name: Cache Local SBT Dependencies
         uses: actions/cache@v2
@@ -51,6 +51,7 @@ jobs:
           EXASOL_DOCKER_VERSION: ${{ matrix.exasol-docker-version }}
 
       - name: Upload Coverage Results to Coveralls
+        if: startsWith(matrix.exasol-docker-version, '7.1')
         run: sbt ++${{ matrix.scala }} coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,7 +1,7 @@
 package com.exasol.cloudetl.kinesis
 
-import scala.collection.JavaConverters._
 import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 import com.amazonaws.services.kinesis.AmazonKinesis
 import com.amazonaws.services.kinesis.model._
@@ -23,17 +23,13 @@ object KinesisShardsMetadataReader {
    * based on this object.
    */
   def run(exaMetadata: ExaMetadata, exaIterator: ExaIterator): Unit = {
-    val kinesisUserProperties = KinesisUserProperties(
-      exaIterator.getString(PROPERTIES_STRING_INDEX)
-    )
+    val kinesisUserProperties = KinesisUserProperties(exaIterator.getString(PROPERTIES_STRING_INDEX))
     val streamName = kinesisUserProperties.getStreamName()
-    val amazonKinesis =
-      KinesisClientFactory.createKinesisClient(kinesisUserProperties, exaMetadata)
+    val amazonKinesis = KinesisClientFactory.createKinesisClient(kinesisUserProperties, exaMetadata)
     val shardsMetadataFromTable = getShardsMetadataFromTable(exaIterator)
     val shards = getAllShardsFromStream(streamName, amazonKinesis)
     val shardsMetadataFromStream = collectShardsIds(shards)
-    val kinesisMetadata =
-      combineShardsMetadata(shardsMetadataFromTable, shardsMetadataFromStream)
+    val kinesisMetadata = combineShardsMetadata(shardsMetadataFromTable, shardsMetadataFromStream)
     try {
       kinesisMetadata.foreach { case (shardId, sequenceNumber) =>
         exaIterator.emit(shardId, sequenceNumber)
@@ -50,9 +46,7 @@ object KinesisShardsMetadataReader {
     }
   }
 
-  private[kinesis] def getShardsMetadataFromTable(
-    exaIterator: ExaIterator
-  ): Map[String, String] = {
+  private[kinesis] def getShardsMetadataFromTable(exaIterator: ExaIterator): Map[String, String] = {
     val shardsMetadata: mutable.HashMap[String, String] = mutable.HashMap.empty[String, String]
     do {
       val shardId = exaIterator.getString(SHARD_ID_INDEX)
@@ -64,10 +58,7 @@ object KinesisShardsMetadataReader {
 
   // Obtains shards from a Stream until there is no more shards.
   // https://docs.aws.amazon.com/streams/latest/dev/kinesis-using-sdk-java-retrieve-shards.html
-  private[kinesis] def getAllShardsFromStream(
-    streamName: String,
-    amazonKinesis: AmazonKinesis
-  ): List[Shard] = {
+  private[kinesis] def getAllShardsFromStream(streamName: String, amazonKinesis: AmazonKinesis): List[Shard] = {
     val describeStreamRequest = new DescribeStreamRequest
     describeStreamRequest.setStreamName(streamName)
     val shards = new util.ArrayList[Shard]
@@ -88,7 +79,7 @@ object KinesisShardsMetadataReader {
   }
 
   private[kinesis] def collectShardsIds(shards: List[Shard]): List[String] =
-    shards.toStream.map(shard => shard.getShardId).toList
+    shards.map(shard => shard.getShardId)
 
   private[kinesis] def combineShardsMetadata(
     shardsMetadataFromTable: Map[String, String],

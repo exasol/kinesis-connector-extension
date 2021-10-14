@@ -13,7 +13,7 @@ addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "1.3.12")
 // Adds a `assembly` task to create a fat JAR with all of its
 // dependencies
 // https://github.com/sbt/sbt-assembly
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "1.0.0")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "1.1.0")
 
 // Adds most common doc api mappings
 // https://github.com/ThoughtWorksInc/sbt-api-mappings
@@ -21,7 +21,7 @@ addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 
 // Adds Scala Code Coverage (Scoverage) used during unit tests
 // http://github.com/scoverage/sbt-scoverage
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.8.2")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.1")
 
 // Adds SBT Coveralls plugin for uploading Scala code coverage to
 // https://coveralls.io

@@ -24,7 +24,7 @@ class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with 
       .emits()
       .bucketFsContent(
         "com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator",
-        s"/buckets/bfsdefault/default/$findAssembledJarName"
+        s"/buckets/bfsdefault/default/${findAssembledJarName()}"
       )
       .build()
     ()
@@ -137,9 +137,7 @@ class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with 
     assertResultSetAllDataTypes(expected)
   }
 
-  private[kinesis] def putRecordSWithAllDataTypesIntoStream(
-    streamName: String
-  ): Unit = {
+  private[kinesis] def putRecordSWithAllDataTypesIntoStream(streamName: String): Unit = {
     val partitionKey = "shardId-000000000000"
     val recordData =
       s"""{"array_val": ["first", "second"],
