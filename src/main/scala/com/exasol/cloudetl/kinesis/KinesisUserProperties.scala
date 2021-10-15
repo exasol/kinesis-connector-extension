@@ -1,15 +1,15 @@
 package com.exasol.cloudetl.kinesis
 
-import scala.collection.SortedMap
-
 import com.exasol.ExaMetadata
 import com.exasol.common.AbstractProperties
-import com.exasol.common.CommonProperties
+import com.exasol.common.PropertiesParser
 
 /**
  * A companion object for [[KinesisUserProperties]] class.
  */
-object KinesisUserProperties extends CommonProperties {
+object KinesisUserProperties {
+  val INNER_PROPERTY_SEPARATOR: String = ";"
+  val INNER_KEYVALUE_ASSIGNMENT: String = " -> "
   val AWS_ACCESS_KEY_PROPERTY: String = "AWS_ACCESS_KEY"
   val AWS_SECRET_KEY_PROPERTY: String = "AWS_SECRET_KEY"
   val AWS_SESSION_TOKEN_PROPERTY: String = "AWS_SESSION_TOKEN"
@@ -31,7 +31,8 @@ object KinesisUserProperties extends CommonProperties {
    * string with properties.
    */
   def apply(string: String): KinesisUserProperties =
-    apply(mapFromString(string))
+    apply(PropertiesParser(INNER_PROPERTY_SEPARATOR, INNER_KEYVALUE_ASSIGNMENT).mapFromString(string))
+
 }
 
 /**
@@ -102,7 +103,6 @@ class KinesisUserProperties(val propertiesMap: Map[String, String]) extends Abst
    * Uses a map that user passed to a constructor.
    */
   final def mkString(): String =
-    (SortedMap.empty[String, String] ++ propertiesMap)
-      .map { case (k, v) => s"$k$KEY_VALUE_SEPARATOR$v" }
-      .mkString(PROPERTY_SEPARATOR)
+    mkString(INNER_PROPERTY_SEPARATOR, INNER_KEYVALUE_ASSIGNMENT)
+
 }

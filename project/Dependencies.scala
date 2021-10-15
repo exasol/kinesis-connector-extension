@@ -8,15 +8,14 @@ object Dependencies {
 
   // Runtime dependencies versions
   private val ExasolVersion = "6.1.7"
-  private val ImportExportUDFVersion = "0.2.0"
-  private val AwsJavaSdkVersion = "1.12.58"
-  private val FasterxmlJacksonVersion = "2.12.0"
+  private val ImportExportUDFVersion = "0.3.1"
+  private val AwsJavaSdkVersion = "1.12.88"
 
   // Test dependencies versions
-  private val ScalaTestVersion = "3.2.9"
+  private val ScalaTestVersion = "3.2.10"
   private val ScalaTestPlusVersion = "1.0.0-M2"
-  private val MockitoCoreVersion = "3.12.4"
-  private val ExasolTestContainersVersion = "4.0.1"
+  private val MockitoCoreVersion = "4.0.0"
+  private val ExasolTestContainersVersion = "5.1.0"
   private val ExasolTestDBBuilderVersion = "3.2.1"
   private val TestContainersLocalstackVersion = "1.16.0"
 
@@ -29,10 +28,7 @@ object Dependencies {
     "com.exasol" % "exasol-script-api" % ExasolVersion,
     "com.exasol" %% "import-export-udf-common-scala" % ImportExportUDFVersion,
     "com.amazonaws" % "aws-java-sdk-core" % AwsJavaSdkVersion,
-    "com.amazonaws" % "aws-java-sdk-kinesis" % AwsJavaSdkVersion,
-    "com.fasterxml.jackson.core" % "jackson-databind" % FasterxmlJacksonVersion,
-    "com.fasterxml.jackson.module" %% "jackson-module-scala" % FasterxmlJacksonVersion,
-    "com.fasterxml.jackson.dataformat" % "jackson-dataformat-cbor" % FasterxmlJacksonVersion
+    "com.amazonaws" % "aws-java-sdk-kinesis" % AwsJavaSdkVersion
   )
 
   lazy val TestDependencies: Seq[ModuleID] = Seq(

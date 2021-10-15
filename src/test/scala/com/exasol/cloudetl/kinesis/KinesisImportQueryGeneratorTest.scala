@@ -1,6 +1,6 @@
 package com.exasol.cloudetl.kinesis
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 import com.exasol.{ExaImportSpecification, ExaMetadata}
 import com.exasol.cloudetl.kinesis.KinesisConstants._

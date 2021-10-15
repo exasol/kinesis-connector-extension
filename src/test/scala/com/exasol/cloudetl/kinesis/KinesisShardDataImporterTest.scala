@@ -2,7 +2,7 @@ package com.exasol.cloudetl.kinesis
 
 import java.nio.ByteBuffer
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 import com.amazonaws.services.kinesis.AmazonKinesis
 import com.amazonaws.services.kinesis.model._
@@ -21,10 +21,7 @@ class KinesisShardDataImporterTest extends AnyFunSuite with MockitoSugar {
     assert(getShardIteratorRequest.isInstanceOf[GetShardIteratorRequest])
     assert(getShardIteratorRequest.getStreamName === streamName)
     assert(getShardIteratorRequest.getShardId === shardId)
-    assert(
-      getShardIteratorRequest.getShardIteratorType ===
-        ShardIteratorType.AFTER_SEQUENCE_NUMBER.toString
-    )
+    assert(getShardIteratorRequest.getShardIteratorType === ShardIteratorType.AFTER_SEQUENCE_NUMBER.toString)
     assert(getShardIteratorRequest.getStartingSequenceNumber === shardSequenceNumber)
   }
 
@@ -37,10 +34,7 @@ class KinesisShardDataImporterTest extends AnyFunSuite with MockitoSugar {
     assert(getShardIteratorRequest.isInstanceOf[GetShardIteratorRequest])
     assert(getShardIteratorRequest.getStreamName === streamName)
     assert(getShardIteratorRequest.getShardId === shardId)
-    assert(
-      getShardIteratorRequest.getShardIteratorType ===
-        ShardIteratorType.TRIM_HORIZON.toString
-    )
+    assert(getShardIteratorRequest.getShardIteratorType === ShardIteratorType.TRIM_HORIZON.toString)
     assert(getShardIteratorRequest.getStartingSequenceNumber === shardSequenceNumber)
   }
 
@@ -55,23 +49,23 @@ class KinesisShardDataImporterTest extends AnyFunSuite with MockitoSugar {
     when(shardIteratorResult.getShardIterator).thenReturn(shardIterator)
     when(amazonKinesis.getRecords(any(classOf[GetRecordsRequest]))).thenReturn(getRecordsResult)
     when(getRecordsResult.getRecords).thenReturn(records.asJava)
-    assert(
-      KinesisShardDataImporter
-        .getRecords(amazonKinesis, shardIteratorRequest, None) === records
-    )
+    assert(KinesisShardDataImporter.getRecords(amazonKinesis, shardIteratorRequest, None) === records)
   }
 
   test("createTableValuesListFromRecord returns table values") {
-    val record = new Record
-    val byteBuffer = ByteBuffer.wrap(
-      "{\"sensorId\": 17,\"currentTemperature\": 147,\"status\": \"WARN\"}".getBytes("UTF-8")
-    )
-    record.setData(byteBuffer)
-    val value = "49604832218991145411663169279930025628073300079339896866"
-    record.setSequenceNumber(value)
+    val offsetId = "49604832218991145411663169279930025628073300079339896866"
     val shardId = "shardId-000000000002"
-    val values = KinesisShardDataImporter.createTableValuesListFromRecord(record, shardId)
-    assert(values === Seq(17, 147, "WARN", shardId, value))
+    val tests: Map[String, Seq[Any]] = Map(
+      """{"sensorId":17, "currentTemperature":147, "status":"WARN"}""" -> Seq(17, 147, "WARN"),
+      """{"array_val":["a","b"], "bool_val":true, "int_val":3}""" -> Seq("""["a","b"]""", true, 3)
+    )
+    tests.foreach { case (given, expected) =>
+      val record = new Record()
+      record.setData(ByteBuffer.wrap(given.getBytes("UTF-8")))
+      record.setSequenceNumber(offsetId)
+      val values = KinesisShardDataImporter.createTableValuesListFromRecord(record, shardId)
+      assert(values === expected ++ Seq(shardId, offsetId))
+    }
   }
 
   test("getLimit returns Option with value") {
