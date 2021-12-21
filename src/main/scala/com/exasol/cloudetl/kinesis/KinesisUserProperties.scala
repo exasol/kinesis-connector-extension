@@ -44,6 +44,9 @@ class KinesisUserProperties(val propertiesMap: Map[String, String]) extends Abst
   final def getAwsAccessKey(): String =
     getString(AWS_ACCESS_KEY_PROPERTY)
 
+  final def containsAwsAccessKey(): Boolean =
+    containsKey(AWS_ACCESS_KEY_PROPERTY)
+
   final def getAwsSecretKey(): String =
     getString(AWS_SECRET_KEY_PROPERTY)
 
@@ -83,14 +86,13 @@ class KinesisUserProperties(val propertiesMap: Map[String, String]) extends Abst
    */
   final def mergeWithConnectionObject(exaMetadata: ExaMetadata): KinesisUserProperties = {
     validateDoesNotContainCredentials()
-    val connectionParsedMap =
-      parseConnectionInfo(AWS_ACCESS_KEY_PROPERTY, Option(exaMetadata))
+    val connectionParsedMap = parseConnectionInfo(AWS_ACCESS_KEY_PROPERTY, Option(exaMetadata))
     val newProperties = propertiesMap ++ connectionParsedMap
     new KinesisUserProperties(newProperties)
   }
 
   private[this] def validateDoesNotContainCredentials(): Unit =
-    if (containsAwsSecretKey() || containsAwsSecretKey() || containsAwsSessionToken()) {
+    if (containsAwsAccessKey() || containsAwsSecretKey() || containsAwsSessionToken()) {
       throw new KinesisConnectorException(
         "E-KIN-PROP-1: Credentials as properties are not supported anymore. " +
           "Please use a named connection and provide a CONNECTION_NAME property."

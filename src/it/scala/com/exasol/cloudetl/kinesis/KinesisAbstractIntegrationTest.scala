@@ -20,8 +20,8 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   val JAR_NAME_PATTERN = "exasol-kinesis-connector-extension-"
   val DOCKER_IP_ADDRESS = "172.17.0.1"
   val TEST_SCHEMA_NAME = "kinesis_schema"
-  val DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.1"
-  val LOCALSTACK_DOCKER_IMAGE = "localstack/localstack:0.12.18"
+  val DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.3"
+  val LOCALSTACK_DOCKER_IMAGE = "localstack/localstack:0.13.2"
 
   val exasolContainer = {
     val c: ExasolContainer[_] = new ExasolContainer(getExasolDockerImageVersion())
