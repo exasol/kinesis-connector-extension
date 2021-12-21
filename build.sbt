@@ -10,14 +10,14 @@ lazy val orgSettings = Seq(
 )
 
 lazy val buildSettings = Seq(
-  scalaVersion := "2.13.6"
+  scalaVersion := "2.13.7"
 )
 
 lazy val root =
   project
     .in(file("."))
     .settings(moduleName := "exasol-kinesis-connector-extension")
-    .settings(version := "1.0.0")
+    .settings(version := "1.0.1")
     .settings(orgSettings)
     .settings(buildSettings)
     .settings(Settings.projectSettings(scalaVersion))
