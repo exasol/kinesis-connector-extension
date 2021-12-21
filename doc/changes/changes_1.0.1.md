@@ -6,7 +6,7 @@ Code name: Updated dependencies
 
 In this release we updated dependencies.
 
-## Bug Fixes
+## Refactoring
 
 * #28: Updated dependencies
 
