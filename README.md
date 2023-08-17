@@ -17,7 +17,7 @@
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=ncloc)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
 
 Exasol Kinesis Extension provides UDF scripts that allow users to import data
-from [Kinesis Data Streams][kinesis-streams](KDS) to an Exasol table.
+from [Kinesis Data Streams (KDS)][kinesis-streams] to an Exasol table.
 
 KDS is a real-time data streaming service provided by Amazon. It lets you
 continuously collect and temporarily store data from multiple sources. KDS
