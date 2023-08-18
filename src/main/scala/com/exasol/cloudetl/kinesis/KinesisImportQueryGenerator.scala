@@ -16,6 +16,7 @@ object KinesisImportQueryGenerator {
    * This is a function which is called inside Exasol when an IMPORT query refers to a script
    * based on this object.
    */
+  @annotation.nowarn("msg=parameter value exaMetadata in method generateSqlForImportSpec is never used")
   def generateSqlForImportSpec(exaMetadata: ExaMetadata, importSpecification: ExaImportSpecification): String = {
     val kinesisUserProperties = new KinesisUserProperties(importSpecification.getParameters.asScala.toMap)
     val tableName = kinesisUserProperties.getTableName()
