@@ -1,0 +1,5 @@
+error-tags:
+  KIN:
+    packages:
+      - com.exasol.cloudetl.kinesis
+    highest-index: 1
