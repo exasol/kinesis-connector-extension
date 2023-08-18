@@ -1,5 +1,6 @@
-# Releases
+# Changes
 
+* [1.6.0](changes_1.6.0.md)
 * [1.0.1](changes_1.0.1.md)
 * [1.0.0](changes_1.0.0.md)
 * [0.1.1](changes_0.1.1.md)
