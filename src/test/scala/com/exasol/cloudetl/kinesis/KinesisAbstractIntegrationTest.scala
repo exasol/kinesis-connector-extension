@@ -14,14 +14,17 @@ import org.testcontainers.utility.DockerImageName
 import java.io.File
 import java.nio.file.Paths
 import java.sql.ResultSet
+import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
 
 trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll {
   val JAR_DIRECTORY_PATTERN = "scala-"
   val JAR_NAME_PATTERN = "exasol-kinesis-connector-extension-"
   val DOCKER_IP_ADDRESS = "172.17.0.1"
   val TEST_SCHEMA_NAME = "kinesis_schema"
-  val DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.3"
-  val LOCALSTACK_DOCKER_IMAGE = "localstack/localstack:0.13.2"
+  val DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.22"
+  val LOCALSTACK_DOCKER_IMAGE = "localstack/localstack:2.2"
 
   val exasolContainer = {
     val c: ExasolContainer[_] = new ExasolContainer(getExasolDockerImageVersion())
@@ -50,10 +53,8 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
     statement = connection.createStatement()
     kinesisLocalStack.start()
     kinesisClient = AmazonKinesisClientBuilder.standard
-      .withEndpointConfiguration(
-        kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
-      )
-      .withCredentials(kinesisLocalStack.getDefaultCredentialsProvider)
+      .withEndpointConfiguration(new EndpointConfiguration(kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString(), kinesisLocalStack.getRegion()))
+      .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(kinesisLocalStack.getAccessKey(), kinesisLocalStack.getSecretKey())))
       .build
     System.setProperty(AWS_CBOR_DISABLE_SYSTEM_PROPERTY, "true")
     ()
@@ -73,10 +74,7 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   }
 
   private[this] def createConnectionObject(): Unit = {
-    val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
-    val awsAccessKey = credentials.getAWSAccessKeyId()
-    val awsSecretKey = credentials.getAWSSecretKey()
-    val secret = s"AWS_ACCESS_KEY=$awsAccessKey;AWS_SECRET_KEY=$awsSecretKey"
+    val secret = s"AWS_ACCESS_KEY=${kinesisLocalStack.getAccessKey()};AWS_SECRET_KEY=${kinesisLocalStack.getSecretKey()}"
     factory.createConnectionDefinition("KINESIS_CONNECTION", "", "user", secret)
     ()
   }

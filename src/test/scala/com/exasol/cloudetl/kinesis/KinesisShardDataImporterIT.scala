@@ -244,12 +244,12 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
     streamName: String
   ): ResultSet = {
     val endpointConfiguration =
-      kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
+      kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
     val endpointInsideDocker =
-      endpointConfiguration.getServiceEndpoint.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
+      endpointConfiguration.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     val properties =
       s"""|'CONNECTION_NAME -> KINESIS_CONNECTION
-          |;REGION -> ${endpointConfiguration.getSigningRegion}
+          |;REGION -> ${kinesisLocalStack.getRegion()}
           |;STREAM_NAME -> $streamName
           |;MAX_RECORDS_PER_RUN -> 2
           |;AWS_SERVICE_ENDPOINT -> $endpointInsideDocker

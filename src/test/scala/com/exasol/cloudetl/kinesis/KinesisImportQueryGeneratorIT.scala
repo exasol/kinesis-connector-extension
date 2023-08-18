@@ -195,16 +195,16 @@ class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with 
 
   private[this] def executeKinesisConsumerScriptWithConnection(streamName: String): Unit = {
     val endpointConfiguration =
-      kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
+      kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
     val endpointInsideDocker =
-      endpointConfiguration.getServiceEndpoint.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
+      endpointConfiguration.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     statement.execute(
       s"""IMPORT INTO $TEST_TABLE_NAME
          |FROM SCRIPT KINESIS_CONSUMER WITH
          |  TABLE_NAME      = '$TEST_TABLE_NAME'
          |  CONNECTION_NAME = 'KINESIS_CONNECTION'
          |  STREAM_NAME     = '$streamName'
-         |  REGION          = '${endpointConfiguration.getSigningRegion}'
+         |  REGION          = '${kinesisLocalStack.getRegion()}'
          |  AWS_SERVICE_ENDPOINT = '$endpointInsideDocker'
       """.stripMargin
     )
@@ -213,18 +213,17 @@ class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with 
 
   private[this] def executeKinesisConsumerScriptWithoutConnection(streamName: String): Unit = {
     val endpointConfiguration =
-      kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
+      kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
     val endpointInsideDocker =
-      endpointConfiguration.getServiceEndpoint.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
-    val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
+      endpointConfiguration.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     statement.execute(
       s"""IMPORT INTO $TEST_TABLE_NAME
          |FROM SCRIPT KINESIS_CONSUMER WITH
          |  TABLE_NAME     = '$TEST_TABLE_NAME'
-         |  AWS_ACCESS_KEY = '${credentials.getAWSAccessKeyId}'
-         |  AWS_SECRET_KEY = '${credentials.getAWSSecretKey}'
+         |  AWS_ACCESS_KEY = '${kinesisLocalStack.getAccessKey()}'
+         |  AWS_SECRET_KEY = '${kinesisLocalStack.getSecretKey()}'
          |  STREAM_NAME    = '$streamName'
-         |  REGION         = '${endpointConfiguration.getSigningRegion}'
+         |  REGION         = '${kinesisLocalStack.getRegion()}'
          |  AWS_SERVICE_ENDPOINT = '$endpointInsideDocker'
       """.stripMargin
     )
