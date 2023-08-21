@@ -12,7 +12,7 @@ Code name:
 
 ### Compile Dependency Updates
 
-* Added `com.amazonaws:aws-java-sdk-kinesis:1.12.531`
+* Added `com.amazonaws:aws-java-sdk-kinesis:1.12.533`
 * Added `com.exasol:error-reporting-java:1.0.1`
 * Added `com.exasol:import-export-udf-common-scala_2.13:1.1.1`
 * Added `org.scala-lang:scala-library:2.13.3`
@@ -23,8 +23,8 @@ Code name:
 * Added `com.exasol:hamcrest-resultset-matcher:1.6.0`
 * Added `com.exasol:test-db-builder-java:3.4.2`
 * Added `org.mockito:mockito-core:5.4.0`
-* Added `org.scalatestplus:scalatestplus-mockito_2.13:1.0.0-M2`
-* Added `org.scalatest:scalatest_2.13:3.2.16`
+* Added `org.scalatestplus:scalatestplus-mockito_2.13:1.0.0-SNAP5`
+* Added `org.scalatest:scalatest_2.13:3.3.0-SNAP4`
 * Added `org.testcontainers:localstack:1.18.3`
 
 ### Plugin Dependency Updates
