@@ -51,7 +51,6 @@ Code name:
 * Added `org.basepom.maven:duplicate-finder-maven-plugin:2.0.1`
 * Added `org.codehaus.mojo:flatten-maven-plugin:1.5.0`
 * Added `org.codehaus.mojo:versions-maven-plugin:2.16.0`
-* Added `org.itsallcode:openfasttrace-maven-plugin:1.6.2`
 * Added `org.jacoco:jacoco-maven-plugin:0.8.10`
 * Added `org.scalastyle:scalastyle-maven-plugin:1.0.0`
 * Added `org.scalatest:scalatest-maven-plugin:2.2.0`
