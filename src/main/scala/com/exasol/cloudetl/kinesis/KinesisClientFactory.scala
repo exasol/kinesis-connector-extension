@@ -12,12 +12,12 @@ import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder
 
 /**
  * This object provides a factory method to create an instance of
- * [[com.amazonaws.services.kinesis.AmazonKinesis]].
+ * [[AmazonKinesis]].
  */
 object KinesisClientFactory {
 
   /**
-   * Creates an instance of [[com.amazonaws.services.kinesis.AmazonKinesis]].
+   * Creates an instance of [[AmazonKinesis]].
    *
    * @param kinesisUserProperties An instance of [[KinesisUserProperties]] class
    * with user properties.
