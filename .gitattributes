@@ -13,3 +13,6 @@ doc/changes/changelog.md                                         linguist-genera
 .github/workflows/release_droid_upload_github_release_assets.yml linguist-generated=true
 .settings/org.eclipse.jdt.core.prefs                             linguist-generated=true
 .settings/org.eclipse.jdt.ui.prefs                               linguist-generated=true
+src/assembly/all-dependencies.xml                                linguist-generated=true
+src/test/resources/logging.properties                            linguist-generated=true
+versionsMavenPluginRules.xml                                     linguist-generated=true
