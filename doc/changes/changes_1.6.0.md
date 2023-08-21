@@ -4,9 +4,9 @@ Code name:
 
 ## Summary
 
-## Features
+## Refactoring
 
-* ISSUE_NUMBER: description
+* #30: Migrated from sbt to Maven
 
 ## Dependency Updates
 
