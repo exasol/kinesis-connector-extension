@@ -38,4 +38,4 @@ Kinesis Connector to transfer the data regularly to avoid data loss.
 
 [kinesis-streams]: https://aws.amazon.com/kinesis/data-streams/
 [developer-guide]: https://github.com/exasol/import-export-udf-common-scala/blob/main/doc/development/developer_guide.md
-[kinesis-blog-link]: https://community.exasol.com/t5/tech-blog/how-to-import-data-from-aws-kinesis-data-streams-with-our/ba-p/1704
+[kinesis-blog-link]: https://www.exasol.com/resource/how-to-import-data-from-aws-kinesis-data-streams-with-our-analytics-database/
