@@ -395,7 +395,7 @@
   <check level="error"
     class="org.scalastyle.scalariform.NumberOfMethodsInTypeChecker" enabled="true">
     <parameters>
-      <parameter name="maxMethods"><![CDATA[40]]></parameter>
+      <parameter name="maxMethods"><![CDATA[30]]></parameter>
     </parameters>
   </check>
 
@@ -462,7 +462,7 @@
   <!-- Check a file lines does not exceed threshold (800 default) -->
   <check level="error" class="org.scalastyle.file.FileLengthChecker" enabled="true">
     <parameters>
-      <parameter name="maxFileLength"><![CDATA[1000]]></parameter>
+      <parameter name="maxFileLength"><![CDATA[800]]></parameter>
     </parameters>
   </check>
 
