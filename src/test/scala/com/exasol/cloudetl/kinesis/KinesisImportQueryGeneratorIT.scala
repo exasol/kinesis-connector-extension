@@ -27,7 +27,7 @@ class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with 
       .emits()
       .bucketFsContent(
         "com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator",
-        s"/buckets/bfsdefault/default/${JAR_FILE_NAME}"
+        s"/buckets/bfsdefault/default/$JAR_FILE_NAME"
       )
       .build()
     ()

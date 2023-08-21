@@ -76,7 +76,7 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   private[this] def createConnectionObject(): Unit = {
     val accessKey = kinesisLocalStack.getAccessKey()
     val secretKey = kinesisLocalStack.getSecretKey()
-    val secret = s"AWS_ACCESS_KEY=${accessKey};AWS_SECRET_KEY=${secretKey}"
+    val secret = s"AWS_ACCESS_KEY=$accessKey;AWS_SECRET_KEY=$secretKey"
     factory.createConnectionDefinition("KINESIS_CONNECTION", "", "user", secret)
     ()
   }

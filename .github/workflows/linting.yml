@@ -16,4 +16,4 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3
       - name: Run scalafix checks
-        run: mvn --batch-mode clean compile test-compile scalastyle:check scalafix:scalafix
+        run: mvn --batch-mode clean compile test-compile scalastyle:check scalafix:scalafix spotless:check
