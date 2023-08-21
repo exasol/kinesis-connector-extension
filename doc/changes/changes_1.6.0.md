@@ -25,6 +25,7 @@ Code name:
 * Added `org.mockito:mockito-core:5.4.0`
 * Added `org.scalatestplus:scalatestplus-mockito_2.13:1.0.0-M2`
 * Added `org.scalatest:scalatest_2.13:3.2.16`
+* Added `org.testcontainers:localstack:1.18.3`
 
 ### Plugin Dependency Updates
 

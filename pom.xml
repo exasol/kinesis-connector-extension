@@ -323,7 +323,8 @@
                     <reportOutputFormat>html</reportOutputFormat>
                     <reportVerbosity>ALL</reportVerbosity>
                     <reportShowOrigin>true</reportShowOrigin>
-                    <failBuild>false</failBuild> <!-- Requirement tracing not working at the moment -->
+                    <!-- Requirement tracing not working at the moment -->
+                    <failBuild>false</failBuild>
                 </configuration>
             </plugin>
             <plugin>
