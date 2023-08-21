@@ -2,17 +2,17 @@
 
 [![Build Status](https://github.com/exasol/kinesis-connector-extension/actions/workflows/ci-build.yml/badge.svg)](https://github.com/exasol/kinesis-connector-extension/actions/workflows/ci-build.yml)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=security_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=sqale_index)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=security_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=sqale_index)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
 
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=code_smells)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=coverage)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-kinesis-connector-extension&metric=ncloc)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-kinesis-connector-extension)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=code_smells)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=coverage)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Akinesis-connector-extension&metric=ncloc)](https://sonarcloud.io/dashboard?id=com.exasol%3Akinesis-connector-extension)
 
 Exasol Kinesis Extension provides UDF scripts that allow users to import data
 from [Kinesis Data Streams (KDS)][kinesis-streams] to an Exasol table.

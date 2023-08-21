@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
-    <artifactId>exasol-kinesis-connector-extension</artifactId>
-    <version>1.2.0</version>
+    <artifactId>kinesis-connector-extension</artifactId>
+    <version>1.1.0</version>
     <name>Exasol Kinesis Connector Extension</name>
     <description>Exasol Kafka Extension for accessing Apache Kafka</description>
     <url>https://github.com/exasol/kinesis-connector-extension/</url>
@@ -391,9 +391,9 @@
         </plugins>
     </build>
     <parent>
-        <artifactId>exasol-kinesis-connector-extension-generated-parent</artifactId>
+        <artifactId>kinesis-connector-extension-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>1.2.0</version>
+        <version>1.1.0</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
