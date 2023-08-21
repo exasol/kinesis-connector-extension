@@ -2,9 +2,13 @@ package com.exasol.cloudetl.kinesis
 
 import com.exasol.ExaMetadata
 
-import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider, BasicAWSCredentials, BasicSessionCredentials}
+import com.amazonaws.auth.AWSCredentials
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.auth.BasicSessionCredentials
 import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
-import com.amazonaws.services.kinesis.{AmazonKinesis, AmazonKinesisClientBuilder}
+import com.amazonaws.services.kinesis.AmazonKinesis
+import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder
 
 /**
  * This object provides a factory method to create an instance of

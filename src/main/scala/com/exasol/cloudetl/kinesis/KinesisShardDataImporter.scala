@@ -1,7 +1,8 @@
 package com.exasol.cloudetl.kinesis
 
-import java.util.{List => JList, Map => JMap}
 import java.util.LinkedHashMap
+import java.util.{List => JList}
+import java.util.{Map => JMap}
 
 import scala.jdk.CollectionConverters._
 

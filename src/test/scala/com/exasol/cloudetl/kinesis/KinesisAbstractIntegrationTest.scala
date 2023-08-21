@@ -1,21 +1,23 @@
 package com.exasol.cloudetl.kinesis
 
-import com.amazonaws.SDKGlobalConfiguration.AWS_CBOR_DISABLE_SYSTEM_PROPERTY
-import com.amazonaws.services.kinesis.{AmazonKinesis, AmazonKinesisClientBuilder}
+import java.nio.file.Paths
+import java.sql.ResultSet
+
 import com.exasol.containers.ExasolContainer
 import com.exasol.dbbuilder.dialects.Column
 import com.exasol.dbbuilder.dialects.exasol._
 import com.exasol.dbbuilder.dialects.exasol.udf.UdfScript
+
+import com.amazonaws.SDKGlobalConfiguration.AWS_CBOR_DISABLE_SYSTEM_PROPERTY
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
+import com.amazonaws.services.kinesis.AmazonKinesis
+import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
 import org.testcontainers.containers.localstack.LocalStackContainer
 import org.testcontainers.utility.DockerImageName
-
-import java.nio.file.Paths
-import java.sql.ResultSet
-import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
-import com.amazonaws.auth.AWSStaticCredentialsProvider
-import com.amazonaws.auth.BasicAWSCredentials
 
 trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll {
   val JAR_FILE_NAME = "exasol-exasol-kinesis-connector-extension-1.6.0.jar"

@@ -1,12 +1,14 @@
 package com.exasol.cloudetl.kinesis
 
+import java.util
+
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
+import com.exasol._
+
 import com.amazonaws.services.kinesis.AmazonKinesis
 import com.amazonaws.services.kinesis.model._
-import com.exasol._
-import java.util
 
 /**
  * This object reads shards' metadata from Kinesis Streams.

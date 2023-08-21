@@ -1,6 +1,7 @@
 package com.exasol.cloudetl.kinesis
 
-import com.exasol.{ExaConnectionInformation, ExaMetadata}
+import com.exasol.ExaConnectionInformation
+import com.exasol.ExaMetadata
 import com.exasol.cloudetl.kinesis.KinesisUserProperties._
 
 import org.mockito.Mockito.when
