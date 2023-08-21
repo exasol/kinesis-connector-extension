@@ -42,8 +42,9 @@ tmp/
 .cache
 .classpath
 .project
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.jdt.apt.core.prefs
 .scala_dependencies
-.settings/
 *.sc
 
 # Ensime
