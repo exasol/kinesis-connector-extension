@@ -49,9 +49,11 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
     )
     statement = connection.createStatement()
     kinesisLocalStack.start()
+    val endpoint = kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
+    val credentials = new BasicAWSCredentials(kinesisLocalStack.getAccessKey(), kinesisLocalStack.getSecretKey())
     kinesisClient = AmazonKinesisClientBuilder.standard
-      .withEndpointConfiguration(new EndpointConfiguration(kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString(), kinesisLocalStack.getRegion()))
-      .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(kinesisLocalStack.getAccessKey(), kinesisLocalStack.getSecretKey())))
+      .withEndpointConfiguration(new EndpointConfiguration(endpoint, kinesisLocalStack.getRegion()))
+      .withCredentials(new AWSStaticCredentialsProvider(credentials))
       .build
     System.setProperty(AWS_CBOR_DISABLE_SYSTEM_PROPERTY, "true")
     ()
@@ -70,7 +72,9 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   }
 
   private[this] def createConnectionObject(): Unit = {
-    val secret = s"AWS_ACCESS_KEY=${kinesisLocalStack.getAccessKey()};AWS_SECRET_KEY=${kinesisLocalStack.getSecretKey()}"
+    val accessKey = kinesisLocalStack.getAccessKey()
+    val secretKey = kinesisLocalStack.getSecretKey()
+    val secret = s"AWS_ACCESS_KEY=${accessKey};AWS_SECRET_KEY=${secretKey}"
     factory.createConnectionDefinition("KINESIS_CONNECTION", "", "user", secret)
     ()
   }
