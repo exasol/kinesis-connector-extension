@@ -1,7 +1,9 @@
 <!-- @formatter:off -->
 # Dependencies
 
-## Compile Dependencies
+## Exasol Kinesis Connector Extension
+
+### Compile Dependencies
 
 | Dependency                           | License                          |
 | ------------------------------------ | -------------------------------- |
@@ -10,7 +12,7 @@
 | [AWS Java SDK for Amazon Kinesis][4] | [Apache License, Version 2.0][5] |
 | [error-reporting-java][6]            | [MIT License][7]                 |
 
-## Test Dependencies
+### Test Dependencies
 
 | Dependency                                 | License                                  |
 | ------------------------------------------ | ---------------------------------------- |
@@ -22,7 +24,7 @@
 | [Test Database Builder for Java][17]       | [MIT License][18]                        |
 | [Matcher for SQL Result Sets][19]          | [MIT License][20]                        |
 
-## Plugin Dependencies
+### Plugin Dependencies
 
 | Dependency                                              | License                                        |
 | ------------------------------------------------------- | ---------------------------------------------- |
@@ -54,6 +56,14 @@
 | [Maven Deploy Plugin][56]                               | [The Apache Software License, Version 2.0][28] |
 | [Maven Site Plugin 3][57]                               | [The Apache Software License, Version 2.0][28] |
 
+## Extension
+
+### Compile Dependencies
+
+| Dependency                                | License |
+| ----------------------------------------- | ------- |
+| [@exasol/extension-manager-interface][58] | MIT     |
+
 [0]: https://www.scala-lang.org/
 [1]: https://www.apache.org/licenses/LICENSE-2.0
 [2]: https://github.com/exasol/import-export-udf-common-scala/
@@ -69,7 +79,7 @@
 [12]: https://github.com/mockito/mockito/blob/main/LICENSE
 [13]: https://github.com/exasol/exasol-testcontainers/
 [14]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
-[15]: https://testcontainers.org
+[15]: https://java.testcontainers.org
 [16]: http://opensource.org/licenses/MIT
 [17]: https://github.com/exasol/test-db-builder-java/
 [18]: https://github.com/exasol/test-db-builder-java/blob/main/LICENSE
@@ -112,3 +122,4 @@
 [55]: http://maven.apache.org/plugins/maven-install-plugin/
 [56]: http://maven.apache.org/plugins/maven-deploy-plugin/
 [57]: http://maven.apache.org/plugins/maven-site-plugin/
+[58]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.3.1.tgz

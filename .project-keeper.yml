@@ -4,3 +4,7 @@ sources:
     modules:
       - jar_artifact
       - integration_tests
+  - type: npm
+    path: extension/package.json
+version:
+  fromSource: pom.xml

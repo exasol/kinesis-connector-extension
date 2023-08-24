@@ -75,3 +75,7 @@ pom.xml.versionsBackup
 *.md.html
 *.flattened-pom.xml
 /.testcontainers-tmp-*
+/extension/node_modules/
+/extension/dist/
+/extension/src/extension-description.ts
+/extension/coverage/

@@ -1,7 +1,18 @@
 {
-  "files.watcherExclude": {
-    "**/target": true
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+    "source.generate.finalModifiers": true
   },
+  "java.saveActions.organizeImports": true,
+  "java.sources.organizeImports.starThreshold": 3,
+  "java.sources.organizeImports.staticStarThreshold": 3,
+  "java.test.config": {
+    "vmArgs": [
+      "-Djava.util.logging.config.file=src/test/resources/logging.properties"
+    ]
+  },q
+  "files.watcherExclude": { "**/target": true },
   "sonarlint.connectedMode.project": {
     "connectionId": "exasol",
     "projectKey": "com.exasol:kinesis-connector-extension"

@@ -16,3 +16,4 @@ doc/changes/changelog.md                                         linguist-genera
 src/assembly/all-dependencies.xml                                linguist-generated=true
 src/test/resources/logging.properties                            linguist-generated=true
 versionsMavenPluginRules.xml                                     linguist-generated=true
+extension/package-lock.json                                      linguist-generated=true
