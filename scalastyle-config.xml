@@ -17,26 +17,26 @@
 
   <!-- Check there are no tabs in a file -->
   <check level="error"
-         class="org.scalastyle.file.FileTabChecker"
-         enabled="true">
+    class="org.scalastyle.file.FileTabChecker"
+    enabled="true">
   </check>
 
   <!-- Check that the plus sign is followed by a space -->
   <check level="error"
-         class="org.scalastyle.scalariform.SpacesAfterPlusChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.SpacesAfterPlusChecker"
+    enabled="true">
   </check>
 
   <!-- Check that the plus sign is preceded by a space -->
   <check level="error"
-         class="org.scalastyle.scalariform.SpacesBeforePlusChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.SpacesBeforePlusChecker"
+    enabled="true">
   </check>
 
   <!-- Check that there is no trailing whitespace at the end of lines -->
   <check level="error"
-         class="org.scalastyle.file.WhitespaceEndOfLineChecker"
-         enabled="true">
+    class="org.scalastyle.file.WhitespaceEndOfLineChecker"
+    enabled="true">
   </check>
 
   <!-- Check the number of characters in a line -->
@@ -64,7 +64,7 @@
 
   <!-- Check that package object names match a regular expression -->
   <check level="error"
-         class="org.scalastyle.scalariform.PackageObjectNamesChecker" enabled="true">
+    class="org.scalastyle.scalariform.PackageObjectNamesChecker" enabled="true">
     <parameters>
       <parameter name="regex"><![CDATA[^[a-z][A-Za-z]*$]]></parameter>
     </parameters>
@@ -81,30 +81,30 @@
 
   <!-- Check that classes and objects do not define the finalize() method -->
   <check level="error"
-         class="org.scalastyle.scalariform.NoFinalizeChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.NoFinalizeChecker"
+    enabled="true">
   </check>
 
   <!-- Check that classes and objects do not define equals without overriding
        equals(java.lang.Object)
   -->
   <check level="error"
-         class="org.scalastyle.scalariform.CovariantEqualsChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.CovariantEqualsChecker"
+    enabled="true">
   </check>
 
   <!-- Structural types in Scala can use reflection - this can have unexpected
        performance consequences
   -->
   <check level="error"
-         class="org.scalastyle.scalariform.StructuralTypeChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.StructuralTypeChecker"
+    enabled="true">
   </check>
 
   <!-- Checks that if a long literal is used, then an uppercase L is used -->
   <check level="error"
-         class="org.scalastyle.scalariform.UppercaseLChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.UppercaseLChecker"
+    enabled="true">
   </check>
 
   <!-- Checks that if statements have braces -->
@@ -117,7 +117,7 @@
 
   <!-- Check that a method has an explicit return type, it is not inferred -->
   <check level="error"
-         class="org.scalastyle.scalariform.PublicMethodsHaveTypeChecker" enabled="true">
+    class="org.scalastyle.scalariform.PublicMethodsHaveTypeChecker" enabled="true">
     <parameters>
       <parameter name="ignoreOverride">false</parameter>
     </parameters>
@@ -125,29 +125,29 @@
 
   <!-- Checks that a file ends with a newline character -->
   <check level="error"
-         class="org.scalastyle.file.NewLineAtEofChecker"
-         enabled="true">
+    class="org.scalastyle.file.NewLineAtEofChecker"
+    enabled="true">
   </check>
 
   <!-- Checks that non-ascii characters are not used. Some editors are unfriendly
        to non ascii characters.
   -->
   <check customId="nonascii"
-         level="error"
-         class="org.scalastyle.scalariform.NonASCIICharacterChecker"
-         enabled="true">
+    level="error"
+    class="org.scalastyle.scalariform.NonASCIICharacterChecker"
+    enabled="true">
   </check>
 
   <!-- Checks a space after the start of the comment -->
   <check level="error"
-         class="org.scalastyle.scalariform.SpaceAfterCommentStartChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.SpaceAfterCommentStartChecker"
+    enabled="true">
   </check>
 
   <!-- Ensure single space before certain token(s) -->
   <check level="error"
-         class="org.scalastyle.scalariform.EnsureSingleSpaceBeforeTokenChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.EnsureSingleSpaceBeforeTokenChecker"
+    enabled="true">
     <parameters>
       <parameter name="tokens">EQUALS, ELSE, TRY, CATCH, FINALLY, LARROW, RARROW</parameter>
     </parameters>
@@ -155,8 +155,8 @@
 
   <!-- Ensure single space after certain token(s) -->
   <check level="error"
-         class="org.scalastyle.scalariform.EnsureSingleSpaceAfterTokenChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.EnsureSingleSpaceAfterTokenChecker"
+    enabled="true">
     <parameters>
       <parameter name="tokens">ARROW, EQUALS, COMMA, COLON, IF, ELSE, DO, WHILE, FOR, MATCH, TRY, CATCH, FINALLY, LARROW, RARROW</parameter>
     </parameters>
@@ -164,13 +164,13 @@
 
   <!-- Checks '???' are not checked into the code base -->
   <check level="error"
-         class="org.scalastyle.scalariform.NotImplementedErrorUsage"
-         enabled="true">
+    class="org.scalastyle.scalariform.NotImplementedErrorUsage"
+    enabled="true">
   </check>
 
   <!-- Custom Check: 'println' should not be used -->
   <check customId="println"
-         level="warn" class="org.scalastyle.scalariform.TokenChecker" enabled="true">
+    level="error" class="org.scalastyle.scalariform.TokenChecker" enabled="true">
     <parameters>
       <parameter name="regex">^println$</parameter>
     </parameters>
@@ -184,7 +184,7 @@
 
   <!-- Custom Check: 'mutable.SynchronizedBuffer' should not be used -->
   <check customId="mutableSynchronizedbuffer"
-         level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
+    level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
     <parameters>
       <parameter name="regex">mutable\.SynchronizedBuffer</parameter>
     </parameters>
@@ -201,7 +201,7 @@
 
   <!-- Custom Check: 'Class.forName' should not be used -->
   <check customId="classForName"
-         level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
+    level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
     <parameters>
       <parameter name="regex">Class\.forName</parameter>
     </parameters>
@@ -218,7 +218,7 @@
 
   <!-- Custom Check: 'Await.result' should not be used -->
   <check customId="awaitResult"
-         level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
+    level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
     <parameters>
       <parameter name="regex">Await\.result</parameter>
     </parameters>
@@ -235,7 +235,7 @@
 
   <!-- Custom Check: 'Await.ready' should not be used -->
   <check customId="awaitReady"
-         level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
+    level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
     <parameters>
       <parameter name="regex">Await\.ready</parameter>
     </parameters>
@@ -252,7 +252,7 @@
 
   <!-- Custom Check: 'JavaConverters' should be used instead of 'JavaConversions' -->
   <check customId="javaConversions"
-         level="error" class="org.scalastyle.scalariform.TokenChecker" enabled="true">
+    level="error" class="org.scalastyle.scalariform.TokenChecker" enabled="true">
     <parameters>
       <parameter name="regex">JavaConversions</parameter>
     </parameters>
@@ -265,7 +265,7 @@
 
   <!-- Custom Check: 'apache.commons.lang3' should be used instead of 'apache.commons.lang' -->
   <check customId="commonsLang2"
-         level="error" class="org.scalastyle.scalariform.TokenChecker" enabled="true">
+    level="error" class="org.scalastyle.scalariform.TokenChecker" enabled="true">
     <parameters>
       <parameter name="regex">org\.apache\.commons\.lang\.</parameter>
     </parameters>
@@ -279,7 +279,7 @@
        instead of '.extractOpt[T]'
   -->
   <check customId="extractOpt"
-         level="error" class="org.scalastyle.scalariform.TokenChecker" enabled="true">
+    level="error" class="org.scalastyle.scalariform.TokenChecker" enabled="true">
     <parameters>
       <parameter name="regex">extractOpt</parameter>
     </parameters>
@@ -291,7 +291,7 @@
 
   <!-- Custom Check: There should be space between ')' and '{' -->
   <check customId="singleSpaceBetweenRParenAndLCurlyBrace"
-         level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
+    level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
     <parameters>
       <parameter name="regex">\)\{</parameter>
     </parameters>
@@ -302,7 +302,7 @@
 
   <!-- Custom Check: JavaDoc style should be used -->
   <check customId="noScalaDoc"
-         level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
+    level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
     <parameters>
       <parameter name="regex">(?m)^(\s*)/[*][*].*$(\r|)\n^\1  [*]</parameter>
     </parameters>
@@ -313,7 +313,7 @@
 
   <!-- Custom Check: Braces should be omitted in case clauses -->
   <check customId="omitBracesInCase"
-         level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
+    level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
     <parameters>
       <parameter name="regex">case[^\n>]*=>\s*\{</parameter>
     </parameters>
@@ -324,7 +324,7 @@
 
   <!-- Custom Check: Ensure exactly one space between 'if' and '(' -->
   <check  customId="if.paren.spacing"
-          level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
+    level="error" class="org.scalastyle.file.RegexChecker" enabled="true">
     <parameters>
       <parameter name="regex"><![CDATA[if\(|if\s\s+\(]]></parameter>
     </parameters>
@@ -334,7 +334,7 @@
   </check>
 
   <!-- Checks that imports are grouped and ordered according to the style configuration -->
-  <check level="error" class="org.scalastyle.scalariform.ImportOrderChecker" enabled="true">
+  <check level="error" class="org.scalastyle.scalariform.ImportOrderChecker" enabled="false">
     <parameters>
       <parameter name="groups">java,scala,exasol,others</parameter>
       <parameter name="group.java">javax?\..*</parameter>
@@ -346,8 +346,8 @@
 
   <!-- Disallow space before certain token(s) -->
   <check level="error"
-         class="org.scalastyle.scalariform.DisallowSpaceBeforeTokenChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.DisallowSpaceBeforeTokenChecker"
+    enabled="true">
     <parameters>
       <parameter name="tokens">COMMA</parameter>
     </parameters>
@@ -355,26 +355,26 @@
 
   <!-- Checks that Java @Override is not used, Scala override keyword should be used instead -->
   <check level="error"
-         class="org.scalastyle.scalariform.OverrideJavaChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.OverrideJavaChecker"
+    enabled="true">
   </check>
 
   <!-- Checks that Java @Deprecated is not used, Scala @deprecated should be used instead -->
   <check level="error"
-         class="org.scalastyle.scalariform.DeprecatedJavaChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.DeprecatedJavaChecker"
+    enabled="true">
   </check>
 
   <!-- No whitespace before left bracket '[', this can be confusing to the reader -->
   <check level="error"
-         class="org.scalastyle.scalariform.NoWhitespaceBeforeLeftBracketChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.NoWhitespaceBeforeLeftBracketChecker"
+    enabled="true">
   </check>
 
   <!-- No whitespace after left bracket '[', this can be confusing to the reader -->
   <check level="error"
-         class="org.scalastyle.scalariform.NoWhitespaceAfterLeftBracketChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.NoWhitespaceAfterLeftBracketChecker"
+    enabled="true">
   </check>
 
   <!-- Check that method names match a regular expression -->
@@ -393,7 +393,7 @@
 
   <!-- Check that a class / trait / object does not have too many methods -->
   <check level="error"
-         class="org.scalastyle.scalariform.NumberOfMethodsInTypeChecker" enabled="true">
+    class="org.scalastyle.scalariform.NumberOfMethodsInTypeChecker" enabled="true">
     <parameters>
       <parameter name="maxMethods"><![CDATA[30]]></parameter>
     </parameters>
@@ -403,7 +403,7 @@
        If the code is too complex, then this can make code hard to read.
   -->
   <check level="warn"
-         class="org.scalastyle.scalariform.CyclomaticComplexityChecker" enabled="true">
+    class="org.scalastyle.scalariform.CyclomaticComplexityChecker" enabled="true">
     <parameters>
       <parameter name="maximum"><![CDATA[100]]></parameter>
     </parameters>
@@ -413,12 +413,12 @@
        it should implement the other
   -->
   <check level="error"
-         class="org.scalastyle.scalariform.EqualsHashCodeChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.EqualsHashCodeChecker"
+    enabled="true">
   </check>
 
   <!-- Checks for use of magic numbers, avoids assignments like: var baz = 4 -->
-  <check level="warn" class="org.scalastyle.scalariform.MagicNumberChecker" enabled="false">
+  <check level="warn" class="org.scalastyle.scalariform.MagicNumberChecker" enabled="true">
     <parameters>
       <parameter name="ignore"><![CDATA[-1,0,1,2,3,4,5,6,7]]></parameter>
     </parameters>
@@ -428,15 +428,15 @@
   <check level="error" class="org.scalastyle.scalariform.ReturnChecker" enabled="true"></check>
 
   <!-- Check that null is not used, prefer Option if possible -->
-  <check level="warn" class="org.scalastyle.scalariform.NullChecker" enabled="false"></check>
+  <check level="error" class="org.scalastyle.scalariform.NullChecker" enabled="false"></check>
 
   <!-- Check that classes and objects do not define the clone() method -->
   <check level="error" class="org.scalastyle.scalariform.NoCloneChecker" enabled="true"></check>
 
   <!-- A boolean expression which can be simplified can make code easier to read -->
   <check level="error"
-         class="org.scalastyle.scalariform.SimplifyBooleanExpressionChecker"
-         enabled="true">
+    class="org.scalastyle.scalariform.SimplifyBooleanExpressionChecker"
+    enabled="true">
   </check>
 
   <!-- Checks that braces are used in for comprehensions -->
@@ -449,8 +449,8 @@
 
   <!-- Use a : Unit = for procedure declarations -->
   <check level="error"
-         class="org.scalastyle.scalariform.ProcedureDeclarationChecker"
-         enabled="true"/>
+    class="org.scalastyle.scalariform.ProcedureDeclarationChecker"
+    enabled="true"/>
 
   <!-- Checks that there are not too many types declared in a file -->
   <check level="error" class="org.scalastyle.scalariform.NumberOfTypesChecker" enabled="true">

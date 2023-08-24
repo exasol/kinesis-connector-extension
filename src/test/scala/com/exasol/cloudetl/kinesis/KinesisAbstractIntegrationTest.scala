@@ -1,27 +1,30 @@
 package com.exasol.cloudetl.kinesis
 
-import com.amazonaws.SDKGlobalConfiguration.AWS_CBOR_DISABLE_SYSTEM_PROPERTY
-import com.amazonaws.services.kinesis.{AmazonKinesis, AmazonKinesisClientBuilder}
+import java.nio.file.Paths
+import java.sql.ResultSet
+
 import com.exasol.containers.ExasolContainer
 import com.exasol.dbbuilder.dialects.Column
 import com.exasol.dbbuilder.dialects.exasol._
 import com.exasol.dbbuilder.dialects.exasol.udf.UdfScript
+
+import com.amazonaws.SDKGlobalConfiguration.AWS_CBOR_DISABLE_SYSTEM_PROPERTY
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
+import com.amazonaws.services.kinesis.AmazonKinesis
+import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
 import org.testcontainers.containers.localstack.LocalStackContainer
 import org.testcontainers.utility.DockerImageName
 
-import java.io.File
-import java.nio.file.Paths
-import java.sql.ResultSet
-
 trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll {
-  val JAR_DIRECTORY_PATTERN = "scala-"
-  val JAR_NAME_PATTERN = "exasol-kinesis-connector-extension-"
+  val JAR_FILE_NAME = "exasol-kinesis-connector-extension-1.1.0.jar"
   val DOCKER_IP_ADDRESS = "172.17.0.1"
   val TEST_SCHEMA_NAME = "kinesis_schema"
-  val DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.3"
-  val LOCALSTACK_DOCKER_IMAGE = "localstack/localstack:0.13.2"
+  val DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.22"
+  val LOCALSTACK_DOCKER_IMAGE = "localstack/localstack:2.2"
 
   val exasolContainer = {
     val c: ExasolContainer[_] = new ExasolContainer(getExasolDockerImageVersion())
@@ -31,9 +34,8 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   val kinesisLocalStack: LocalStackContainer =
     new LocalStackContainer(DockerImageName.parse(LOCALSTACK_DOCKER_IMAGE))
       .withServices(LocalStackContainer.Service.KINESIS)
-      .withReuse(true)
+      .withReuse(false)
 
-  var assembledJarName: String = _
   var schema: ExasolSchema = _
   var factory: ExasolObjectFactory = _
 
@@ -49,19 +51,18 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
     )
     statement = connection.createStatement()
     kinesisLocalStack.start()
+    val endpoint = kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
+    val credentials = new BasicAWSCredentials(kinesisLocalStack.getAccessKey(), kinesisLocalStack.getSecretKey())
     kinesisClient = AmazonKinesisClientBuilder.standard
-      .withEndpointConfiguration(
-        kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
-      )
-      .withCredentials(kinesisLocalStack.getDefaultCredentialsProvider)
+      .withEndpointConfiguration(new EndpointConfiguration(endpoint, kinesisLocalStack.getRegion()))
+      .withCredentials(new AWSStaticCredentialsProvider(credentials))
       .build
     System.setProperty(AWS_CBOR_DISABLE_SYSTEM_PROPERTY, "true")
     ()
   }
 
   private[kinesis] def setupExasol(): Unit = {
-    assembledJarName = findAssembledJarName()
-    uploadJarToBucket(assembledJarName)
+    uploadJarToBucket(JAR_FILE_NAME)
     val exasolConfiguration = ExasolObjectConfiguration
       .builder()
       .withJvmOptions("-Dcom.amazonaws.sdk.disableCbor=true")
@@ -73,52 +74,22 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   }
 
   private[this] def createConnectionObject(): Unit = {
-    val credentials = kinesisLocalStack.getDefaultCredentialsProvider.getCredentials
-    val awsAccessKey = credentials.getAWSAccessKeyId()
-    val awsSecretKey = credentials.getAWSSecretKey()
-    val secret = s"AWS_ACCESS_KEY=$awsAccessKey;AWS_SECRET_KEY=$awsSecretKey"
+    val accessKey = kinesisLocalStack.getAccessKey()
+    val secretKey = kinesisLocalStack.getSecretKey()
+    val secret = s"AWS_ACCESS_KEY=$accessKey;AWS_SECRET_KEY=$secretKey"
     factory.createConnectionDefinition("KINESIS_CONNECTION", "", "user", secret)
     ()
   }
 
   private[this] def uploadJarToBucket(assembledJarName: String): Unit = {
-    val pathToJar = Paths.get("target", getScalaDirectory(), assembledJarName)
+    val pathToJar = Paths.get("target", assembledJarName)
     exasolContainer.getDefaultBucket.uploadFile(pathToJar, assembledJarName)
-  }
-
-  private[this] def getScalaDirectory(): String =
-    findFileOrDirectory("target", JAR_DIRECTORY_PATTERN)
-
-  private[this] def findFileOrDirectory(directoryToSearch: String, name: String): String = {
-    val files = listDirectoryFiles(directoryToSearch)
-    val jarFile = files.find(_.getName.contains(name))
-    jarFile match {
-      case Some(jarFilename) => jarFilename.getName
-      case None =>
-        throw new IllegalArgumentException(
-          "Cannot find a file or a directory with pattern" + name + " in " + directoryToSearch
-        )
-    }
   }
 
   private[kinesis] def createKinesisStream(streamName: String, shardsCounter: Integer): Unit = {
     kinesisClient.createStream(streamName, shardsCounter)
     // We have to wait until stream is ready to be accessed.
     Thread.sleep(30 * 1000)
-  }
-
-  def findAssembledJarName(): String = {
-    val scalaDirectory = getScalaDirectory()
-    findFileOrDirectory("target/" + scalaDirectory, JAR_NAME_PATTERN)
-  }
-
-  private[this] def listDirectoryFiles(directoryName: String): List[File] = {
-    val directory = new File(directoryName)
-    if (directory.exists && directory.isDirectory) {
-      directory.listFiles.toList
-    } else {
-      List.empty[File]
-    }
   }
 
   private[kinesis] def createKinesisMetadataScript(): Unit = {
@@ -132,7 +103,7 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
       )
       .bucketFsContent(
         "com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader",
-        s"/buckets/bfsdefault/default/$assembledJarName"
+        s"/buckets/bfsdefault/default/$JAR_FILE_NAME"
       )
       .build()
     ()
@@ -146,7 +117,7 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
       .inputType(UdfScript.InputType.SET)
       .bucketFsContent(
         "com.exasol.cloudetl.kinesis.KinesisShardDataImporter",
-        s"/buckets/bfsdefault/default/$assembledJarName"
+        s"/buckets/bfsdefault/default/$JAR_FILE_NAME"
       )
     if (emittedColumns.isEmpty) {
       udfScript.emits().build()

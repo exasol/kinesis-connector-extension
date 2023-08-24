@@ -3,8 +3,10 @@ package com.exasol.cloudetl.kinesis
 import java.nio.ByteBuffer
 import java.sql.ResultSet
 
-import com.exasol.cloudetl.kinesis.KinesisConstants.{KINESIS_SHARD_ID_COLUMN_NAME, SHARD_SEQUENCE_NUMBER_COLUMN_NAME}
+import com.exasol.cloudetl.kinesis.KinesisConstants.KINESIS_SHARD_ID_COLUMN_NAME
+import com.exasol.cloudetl.kinesis.KinesisConstants.SHARD_SEQUENCE_NUMBER_COLUMN_NAME
 import com.exasol.dbbuilder.dialects.Column
+
 import org.testcontainers.containers.localstack.LocalStackContainer
 
 class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
@@ -244,12 +246,12 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
     streamName: String
   ): ResultSet = {
     val endpointConfiguration =
-      kinesisLocalStack.getEndpointConfiguration(LocalStackContainer.Service.KINESIS)
+      kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
     val endpointInsideDocker =
-      endpointConfiguration.getServiceEndpoint.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
+      endpointConfiguration.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     val properties =
       s"""|'CONNECTION_NAME -> KINESIS_CONNECTION
-          |;REGION -> ${endpointConfiguration.getSigningRegion}
+          |;REGION -> ${kinesisLocalStack.getRegion()}
           |;STREAM_NAME -> $streamName
           |;MAX_RECORDS_PER_RUN -> 2
           |;AWS_SERVICE_ENDPOINT -> $endpointInsideDocker

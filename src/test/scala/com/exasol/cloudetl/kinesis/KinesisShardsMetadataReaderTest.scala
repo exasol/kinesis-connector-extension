@@ -64,8 +64,8 @@ class KinesisShardsMetadataReaderTest extends AnyFunSuite with MockitoSugar {
     assert(
       KinesisShardsMetadataReader
         .getShardsMetadataFromTable(exaIterator) === Map(
-        (firstShardId -> firstSequenceNumber),
-        (secondShardId -> secondSequenceNumber)
+        firstShardId -> firstSequenceNumber,
+        secondShardId -> secondSequenceNumber
       )
     )
   }
@@ -85,9 +85,9 @@ class KinesisShardsMetadataReaderTest extends AnyFunSuite with MockitoSugar {
     assert(
       KinesisShardsMetadataReader
         .combineShardsMetadata(shardsMetadata, shardsMetadataFromStream) === Map(
-        (firstShardId -> firstSequenceNumber),
-        (secondShardId -> secondSequenceNumber),
-        (thirdShardId -> null)
+        firstShardId -> firstSequenceNumber,
+        secondShardId -> secondSequenceNumber,
+        thirdShardId -> null
       )
     )
   }
