@@ -3,6 +3,8 @@ package com.exasol.cloudetl.kinesis;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.logging.Logger;
 
 import org.testcontainers.containers.localstack.LocalStackContainer;
@@ -13,6 +15,8 @@ import com.amazonaws.auth.*;
 import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration;
 import com.amazonaws.services.kinesis.AmazonKinesis;
 import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder;
+import com.amazonaws.services.kinesis.model.DescribeStreamSummaryRequest;
+import com.amazonaws.services.kinesis.model.DescribeStreamSummaryResult;
 
 class KinesisTestSetup implements AutoCloseable {
 
@@ -26,6 +30,7 @@ class KinesisTestSetup implements AutoCloseable {
     }
 
     static KinesisTestSetup create() {
+        @SuppressWarnings("resource") // Container will be stopped in close() method
         final LocalStackContainer container = new LocalStackContainer(
                 DockerImageName.parse(IntegrationTestConstants.LOCALSTACK_DOCKER_IMAGE))
                 .withServices(LocalStackContainer.Service.KINESIS).withReuse(false);
@@ -39,26 +44,96 @@ class KinesisTestSetup implements AutoCloseable {
         return new KinesisTestSetup(container, kinesisClient);
     }
 
-    public void createKinesisStream(final String streamName, final int shardsCounter) {
+    public KinesisStream createStream(final String streamName, final int shardsCounter) {
         client.createStream(streamName, shardsCounter);
-        LOG.fine("Waiting 30s until stream is created...");
+        waitForStreamStatus(streamName, "ACTIVE", Duration.ofSeconds(30));
+        return new KinesisStream(streamName, client);
+    }
+
+    private void waitForStreamStatus(final String streamName, final String expectedStatus, final Duration waitingTime) {
+        final Instant start = Instant.now();
+        LOG.fine("Waiting at most " + waitingTime + " for status " + expectedStatus + " of stream " + streamName);
+        while (true) {
+            final String status = getStreamStatus(streamName);
+            LOG.finest("Stream " + streamName + " has status " + status);
+            if (status.equals(expectedStatus)) {
+                return;
+            }
+            final Instant now = Instant.now();
+            if (now.minus(waitingTime).isAfter(start)) {
+                throw new IllegalStateException("Stream " + streamName + " still has status " + status + " after "
+                        + Duration.between(start, now));
+            }
+            sleep(Duration.ofSeconds(1));
+        }
+    }
+
+    @SuppressWarnings("java:S2925") // Sleep is required here
+    private void sleep(final Duration sleepDuration) {
         try {
-            // We have to wait until stream is ready to be accessed.
-            Thread.sleep(30 * 1000);
+            Thread.sleep(sleepDuration.toMillis());
         } catch (final InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new IllegalStateException("Sleep interrupted");
         }
     }
 
-    public void putRecord(final String streamName, final String data, final String partitionKey) {
-        final byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
-        client.putRecord(streamName, ByteBuffer.wrap(bytes), partitionKey);
+    private String getStreamStatus(final String streamName) {
+        final DescribeStreamSummaryResult summary = client
+                .describeStreamSummary(new DescribeStreamSummaryRequest().withStreamName(streamName));
+        return summary.getStreamDescriptionSummary().getStreamStatus();
     }
 
     @Override
     public void close() {
         this.client.shutdown();
         this.container.close();
+    }
+
+    public static class KinesisStream implements AutoCloseable {
+
+        private final String streamName;
+        private final AmazonKinesis client;
+
+        private KinesisStream(final String streamName, final AmazonKinesis client) {
+            this.streamName = streamName;
+            this.client = client;
+        }
+
+        public void putRecord(final String data, final String partitionKey) {
+            final byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+            client.putRecord(streamName, ByteBuffer.wrap(bytes), partitionKey);
+        }
+
+        @Override
+        public void close() {
+            client.deleteStream(streamName);
+        }
+
+        public String getName() {
+            return streamName;
+        }
+    }
+
+    public String getRegion() {
+        return container.getRegion();
+    }
+
+    public String getEndpoint() {
+        final String endpointConfiguration = container.getEndpointOverride(LocalStackContainer.Service.KINESIS)
+                .toString();
+        final String modifiedEndpoint = endpointConfiguration.replaceAll("127.0.0.1",
+                IntegrationTestConstants.DOCKER_IP_ADDRESS);
+        LOG.fine("Got endpoint override '" + endpointConfiguration + "' from container, using modified endpoint "
+                + modifiedEndpoint);
+        return modifiedEndpoint;
+    }
+
+    public String getAccessKey() {
+        return container.getAccessKey();
+    }
+
+    public String getSecretKey() {
+        return container.getSecretKey();
     }
 }

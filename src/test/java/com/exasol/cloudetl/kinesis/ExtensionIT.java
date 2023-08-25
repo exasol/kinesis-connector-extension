@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 import org.junit.jupiter.api.*;
 
 import com.exasol.bucketfs.BucketAccessException;
+import com.exasol.cloudetl.kinesis.KinesisTestSetup.KinesisStream;
+import com.exasol.dbbuilder.dialects.Table;
 import com.exasol.dbbuilder.dialects.exasol.*;
 import com.exasol.exasoltestsetup.ExasolTestSetup;
 import com.exasol.exasoltestsetup.ExasolTestSetupFactory;
@@ -39,6 +41,8 @@ class ExtensionIT {
     private static final Path EXTENSION_SOURCE_DIR = Paths.get("extension").toAbsolutePath();
     private static final String PROJECT_VERSION = MavenProjectVersionGetter.getCurrentProjectVersion();
     private static final Path ADAPTER_JAR = getAdapterJar();
+
+    private static final String PARTITION_KEY = "partitionKey-1";
 
     private static ExasolTestSetup exasolTestSetup;
     private static ExtensionManagerSetup setup;
@@ -139,9 +143,9 @@ class ExtensionIT {
     }
 
     @Test
-    void exportImportWorksAfterInstallation() throws SQLException {
+    void importWorksAfterInstallation() throws SQLException {
         setup.client().install();
-        verifyExportImportWorks();
+        verifyImportWorks();
     }
 
     @Test
@@ -190,7 +194,7 @@ class ExtensionIT {
     @Test
     void upgradeFailsWhenNotInstalled() {
         setup.client().assertRequestFails(() -> setup.client().upgrade(),
-                "Not all required scripts are installed: Validation failed: Script 'IMPORT_PATH' is missing, Script 'IMPORT_METADATA' is missing, Script 'IMPORT_FILES' is missing, Script 'EXPORT_PATH' is missing, Script 'EXPORT_TABLE' is missing",
+                "Not all required scripts are installed: Validation failed: Script 'KINESIS_METADATA' is missing, Script 'KINESIS_IMPORT' is missing, Script 'KINESIS_CONSUMER' is missing",
                 412);
     }
 
@@ -202,16 +206,17 @@ class ExtensionIT {
     }
 
     @Test
+    @Disabled("No previous version available yet")
     void upgradeFromPreviousVersion() throws InterruptedException, BucketAccessException, TimeoutException,
             FileNotFoundException, URISyntaxException, SQLException {
         final PreviousExtensionVersion previousVersion = createPreviousVersion();
         previousVersion.prepare();
         previousVersion.install();
-        verifyExportImportWorks();
+        verifyImportWorks();
         assertInstalledVersion("Kinesis Connector Extension", PREVIOUS_VERSION);
         previousVersion.upgrade();
         assertInstalledVersion("Kinesis Connector Extension", PROJECT_VERSION);
-        verifyExportImportWorks();
+        verifyImportWorks();
     }
 
     private void assertInstalledVersion(final String expectedName, final String expectedVersion) {
@@ -233,12 +238,58 @@ class ExtensionIT {
                 .build();
     }
 
-    private void verifyExportImportWorks() throws SQLException {
+    private void verifyImportWorks() throws SQLException {
         final ExasolSchema schema = exasolObjectFactory.createSchema("TESTING_SCHEMA_" + System.currentTimeMillis());
-        try {
+        final String connectionName = "KINESIS_CONNECTION";
+        try (final KinesisStream stream = kinesisSetup.createStream("extension-stream", 1)) {
+            stream.putRecord(sensorDataPayload(1, "OK"), PARTITION_KEY);
+            stream.putRecord(sensorDataPayload(2, "WARN"), PARTITION_KEY);
+            final Table targetTable = schema.createTableBuilder("TARGET").column("SENSOR_ID", "INTEGER")
+                    .column("STATUS", "VARCHAR(10)").column("KINESIS_SHARD_ID", "VARCHAR(2000)")
+                    .column("SHARD_SEQUENCE_NUMBER", "VARCHAR(2000)").build();
+
+            executeStatement("CREATE OR REPLACE CONNECTION " + connectionName + " TO '' USER '' \n" + //
+                    "IDENTIFIED BY 'AWS_ACCESS_KEY=" + kinesisSetup.getAccessKey() + ";AWS_SECRET_KEY="
+                    + kinesisSetup.getSecretKey() + "'");
+            executeKinesisImport(stream, targetTable, connectionName);
+            assertThat(
+                    connection.createStatement().executeQuery(
+                            "select * from " + targetTable.getFullyQualifiedName() + " order by sensor_id"),
+                    table("INTEGER", "VARCHAR", "VARCHAR", "BOOLEAN")
+                            .row(1, "WARN", IntegrationTestConstants.SHARD_ID, true)
+                            .row(2, "OK", IntegrationTestConstants.SHARD_ID, true).matches());
         } finally {
             schema.drop();
         }
+    }
+
+    private void executeKinesisImport(final KinesisStream stream, final Table targetTable,
+            final String kinesisConnection) throws SQLException {
+        final String properties = "CONNECTION_NAME -> KINESIS_CONNECTION" + //
+                ";REGION -> " + kinesisSetup.getRegion() + //
+                ";STREAM_NAME -> " + stream.getName() + //
+                ";MAX_RECORDS_PER_RUN -> 2" + //
+                ";AWS_SERVICE_ENDPOINT -> " + kinesisSetup.getEndpoint();
+        String sql = "SELECT " + ExtensionManagerSetup.EXTENSION_SCHEMA_NAME + ".KINESIS_IMPORT('" + properties
+                + "', KINESIS_SHARD_ID, SHARD_SEQUENCE_NUMBER)\n"
+                + "  FROM (VALUES (('$shardId', null)) AS t(KINESIS_SHARD_ID, SHARD_SEQUENCE_NUMBER))\n"
+                + "  ORDER BY KINESIS_SHARD_ID";
+
+        executeStatement("OPEN SCHEMA " + ExtensionManagerSetup.EXTENSION_SCHEMA_NAME);
+        sql = "IMPORT INTO " + targetTable.getFullyQualifiedName() + "\n" + //
+                " FROM SCRIPT " + ExtensionManagerSetup.EXTENSION_SCHEMA_NAME + ".KINESIS_CONSUMER WITH\n" + //
+                " TABLE_NAME = '" + targetTable.getFullyQualifiedName() + "'\n" + //
+                " CONNECTION_NAME = '" + kinesisConnection + "'\n" + //
+                " STREAM_NAME = '" + stream.getName() + "'\n" + //
+                " AWS_SERVICE_ENDPOINT = '" + kinesisSetup.getEndpoint() + "'\n" + //
+                " REGION = '" + kinesisSetup.getRegion() + "'\n" + //
+                " MAX_RECORDS_PER_RUN = '10'";
+        LOGGER.info("Executing query '" + sql + "'");
+        executeStatement(sql);
+    }
+
+    private String sensorDataPayload(final int sensor, final String status) {
+        return "{'sensor': " + sensor + ", 'status': '" + status + "'}".replace('\'', '"');
     }
 
     private void executeStatement(final String sql) {
@@ -253,9 +304,9 @@ class ExtensionIT {
 
     private void assertScriptsInstalled() {
         setup.exasolMetadata().assertScript(table() //
-                .row(setScript("KINESIS_METADATA", "com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader")) //
-                .row(setScript("KINESIS_IMPORT", "com.exasol.cloudetl.kinesis.KinesisShardDataImporter")) //
                 .row(setScript("KINESIS_CONSUMER", "com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator")) //
+                .row(setScript("KINESIS_IMPORT", "com.exasol.cloudetl.kinesis.KinesisShardDataImporter")) //
+                .row(setScript("KINESIS_METADATA", "com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader")) //
                 .matches());
     }
 

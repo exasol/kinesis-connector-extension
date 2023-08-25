@@ -22,7 +22,7 @@ import org.testcontainers.utility.DockerImageName
 trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll {
   val JAR_FILE_NAME = IntegrationTestConstants.JAR_FILE_NAME
   val DEFAULT_EXASOL_DOCKER_IMAGE = IntegrationTestConstants.DEFAULT_EXASOL_DOCKER_IMAGE
-  val DOCKER_IP_ADDRESS = "172.17.0.1"
+  val DOCKER_IP_ADDRESS = IntegrationTestConstants.DOCKER_IP_ADDRESS
   val TEST_SCHEMA_NAME = "kinesis_schema"
   val LOCALSTACK_DOCKER_IMAGE = IntegrationTestConstants.LOCALSTACK_DOCKER_IMAGE
 

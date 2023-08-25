@@ -11,7 +11,7 @@ import org.testcontainers.containers.localstack.LocalStackContainer
 
 class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
   private val partitionKey = "partitionKey-1"
-  private val shardId = "shardId-000000000000"
+  private val shardId = IntegrationTestConstants.SHARD_ID
 
   override final def beforeAll(): Unit = {
     prepareContainers()
