@@ -84,10 +84,41 @@ class KinesisTestSetup implements AutoCloseable {
         return summary.getStreamDescriptionSummary().getStreamStatus();
     }
 
+    public void putRecord(final String streamName, final String data, final String partitionKey) {
+        final byte[] bytes = data.getBytes(StandardCharsets.UTF_8);
+        client.putRecord(streamName, ByteBuffer.wrap(bytes), partitionKey);
+    }
+
     @Override
     public void close() {
         this.client.shutdown();
         this.container.close();
+    }
+
+    public String getEndpoint() {
+        final String endpointConfiguration = container.getEndpointOverride(LocalStackContainer.Service.KINESIS)
+                .toString();
+        final String modifiedEndpoint = endpointConfiguration.replaceAll("127.0.0.1",
+                IntegrationTestConstants.DOCKER_IP_ADDRESS);
+        LOG.fine("Got endpoint override '" + endpointConfiguration + "' from container, using modified endpoint "
+                + modifiedEndpoint);
+        return modifiedEndpoint;
+    }
+
+    public String getRegion() {
+        return container.getRegion();
+    }
+
+    public String getAccessKey() {
+        return container.getAccessKey();
+    }
+
+    public String getSecretKey() {
+        return container.getSecretKey();
+    }
+
+    public AWSCredentials getCredentials() {
+        return new BasicAWSCredentials(getAccessKey(), getSecretKey());
     }
 
     public static class KinesisStream implements AutoCloseable {
@@ -113,27 +144,5 @@ class KinesisTestSetup implements AutoCloseable {
         public String getName() {
             return streamName;
         }
-    }
-
-    public String getRegion() {
-        return container.getRegion();
-    }
-
-    public String getEndpoint() {
-        final String endpointConfiguration = container.getEndpointOverride(LocalStackContainer.Service.KINESIS)
-                .toString();
-        final String modifiedEndpoint = endpointConfiguration.replaceAll("127.0.0.1",
-                IntegrationTestConstants.DOCKER_IP_ADDRESS);
-        LOG.fine("Got endpoint override '" + endpointConfiguration + "' from container, using modified endpoint "
-                + modifiedEndpoint);
-        return modifiedEndpoint;
-    }
-
-    public String getAccessKey() {
-        return container.getAccessKey();
-    }
-
-    public String getSecretKey() {
-        return container.getSecretKey();
     }
 }

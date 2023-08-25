@@ -8,16 +8,8 @@ import com.exasol.dbbuilder.dialects.Column
 import com.exasol.dbbuilder.dialects.exasol._
 import com.exasol.dbbuilder.dialects.exasol.udf.UdfScript
 
-import com.amazonaws.SDKGlobalConfiguration.AWS_CBOR_DISABLE_SYSTEM_PROPERTY
-import com.amazonaws.auth.AWSStaticCredentialsProvider
-import com.amazonaws.auth.BasicAWSCredentials
-import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration
-import com.amazonaws.services.kinesis.AmazonKinesis
-import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.funsuite.AnyFunSuite
-import org.testcontainers.containers.localstack.LocalStackContainer
-import org.testcontainers.utility.DockerImageName
 
 trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll {
   val JAR_FILE_NAME = IntegrationTestConstants.JAR_FILE_NAME
@@ -31,17 +23,13 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
     c.withReuse(true)
     c
   }
-  val kinesisLocalStack: LocalStackContainer =
-    new LocalStackContainer(DockerImageName.parse(LOCALSTACK_DOCKER_IMAGE))
-      .withServices(LocalStackContainer.Service.KINESIS)
-      .withReuse(false)
+  val kinesisSetup: KinesisTestSetup = KinesisTestSetup.create()
 
   var schema: ExasolSchema = _
   var factory: ExasolObjectFactory = _
 
   private[this] var connection: java.sql.Connection = _
   var statement: java.sql.Statement = _
-  private[kinesis] var kinesisClient: AmazonKinesis = _
 
   private[kinesis] def prepareContainers(): Unit = {
     exasolContainer.start()
@@ -50,14 +38,6 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
       exasolContainer.getPassword
     )
     statement = connection.createStatement()
-    kinesisLocalStack.start()
-    val endpoint = kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
-    val credentials = new BasicAWSCredentials(kinesisLocalStack.getAccessKey(), kinesisLocalStack.getSecretKey())
-    kinesisClient = AmazonKinesisClientBuilder.standard
-      .withEndpointConfiguration(new EndpointConfiguration(endpoint, kinesisLocalStack.getRegion()))
-      .withCredentials(new AWSStaticCredentialsProvider(credentials))
-      .build
-    System.setProperty(AWS_CBOR_DISABLE_SYSTEM_PROPERTY, "true")
     ()
   }
 
@@ -74,8 +54,8 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   }
 
   private[this] def createConnectionObject(): Unit = {
-    val accessKey = kinesisLocalStack.getAccessKey()
-    val secretKey = kinesisLocalStack.getSecretKey()
+    val accessKey = kinesisSetup.getAccessKey()
+    val secretKey = kinesisSetup.getSecretKey()
     val secret = s"AWS_ACCESS_KEY=$accessKey;AWS_SECRET_KEY=$secretKey"
     factory.createConnectionDefinition("KINESIS_CONNECTION", "", "user", secret)
     ()
@@ -86,11 +66,8 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
     exasolContainer.getDefaultBucket.uploadFile(pathToJar, assembledJarName)
   }
 
-  private[kinesis] def createKinesisStream(streamName: String, shardsCounter: Integer): Unit = {
-    kinesisClient.createStream(streamName, shardsCounter)
-    // We have to wait until stream is ready to be accessed.
-    Thread.sleep(30 * 1000)
-  }
+  private[kinesis] def createKinesisStream(streamName: String, shardsCounter: Integer): KinesisTestSetup.KinesisStream =
+    kinesisSetup.createStream(streamName, shardsCounter)
 
   private[kinesis] def createKinesisMetadataScript(): Unit = {
     schema
@@ -145,8 +122,7 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
   override final def afterAll(): Unit = {
     connection.close()
     statement.close()
-    kinesisClient.shutdown()
     exasolContainer.stop()
-    kinesisLocalStack.stop()
+    kinesisSetup.close()
   }
 }

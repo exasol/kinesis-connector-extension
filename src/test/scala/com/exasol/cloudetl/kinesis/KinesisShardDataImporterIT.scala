@@ -1,13 +1,10 @@
 package com.exasol.cloudetl.kinesis
 
-import java.nio.ByteBuffer
 import java.sql.ResultSet
 
 import com.exasol.cloudetl.kinesis.KinesisConstants.KINESIS_SHARD_ID_COLUMN_NAME
 import com.exasol.cloudetl.kinesis.KinesisConstants.SHARD_SEQUENCE_NUMBER_COLUMN_NAME
 import com.exasol.dbbuilder.dialects.Column
-
-import org.testcontainers.containers.localstack.LocalStackContainer
 
 class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
   private val partitionKey = "partitionKey-1"
@@ -50,8 +47,7 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
       s"""{"sensorId": $sensorId,
          | "currentTemperature": $currentTemperature
          | }""".stripMargin.replace("\n", "")
-    val data = ByteBuffer.wrap(recordData.getBytes())
-    kinesisClient.putRecord(streamName, data, partitionKey)
+    kinesisSetup.putRecord(streamName, recordData, partitionKey)
     ()
   }
 
@@ -94,8 +90,7 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
       s"""{"sensorId": "$sensorId",
          | "status": "$status"
          | }""".stripMargin.replace("\n", "")
-    val data = ByteBuffer.wrap(recordData.getBytes())
-    kinesisClient.putRecord(streamName, data, partitionKey)
+    kinesisSetup.putRecord(streamName, recordData, partitionKey)
     ()
   }
 
@@ -138,8 +133,7 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
       s"""{"first_sensor_status": $firstSensorStatus,
          | "second_sensor_status": $secondSensorStatus
          | }""".stripMargin.replace("\n", "")
-    val data = ByteBuffer.wrap(recordData.getBytes())
-    kinesisClient.putRecord(streamName, data, partitionKey)
+    kinesisSetup.putRecord(streamName, recordData, partitionKey)
     ()
   }
 
@@ -188,8 +182,7 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
          | "statuses": {"max": $maxTemperature,
          | "min": $minTemperature,"cur": $currentTemperature}
          | }""".stripMargin.replace("\n", "")
-    val data = ByteBuffer.wrap(recordData.getBytes())
-    kinesisClient.putRecord(streamName, data, partitionKey)
+    kinesisSetup.putRecord(streamName, recordData, partitionKey)
     ()
   }
 
@@ -237,24 +230,19 @@ class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
       s"""{"sensorId": $sensorId,
          | "statuses": [$maxTemperature, $minTemperature, $currentTemperature]
          | }""".stripMargin.replace("\n", "")
-    val data = ByteBuffer.wrap(recordData.getBytes())
-    kinesisClient.putRecord(streamName, data, partitionKey)
+    kinesisSetup.putRecord(streamName, recordData, partitionKey)
     ()
   }
 
   private[this] def executeKinesisImportScript(
     streamName: String
   ): ResultSet = {
-    val endpointConfiguration =
-      kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
-    val endpointInsideDocker =
-      endpointConfiguration.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     val properties =
       s"""|'CONNECTION_NAME -> KINESIS_CONNECTION
-          |;REGION -> ${kinesisLocalStack.getRegion()}
+          |;REGION -> ${kinesisSetup.getRegion()}
           |;STREAM_NAME -> $streamName
           |;MAX_RECORDS_PER_RUN -> 2
-          |;AWS_SERVICE_ENDPOINT -> $endpointInsideDocker
+          |;AWS_SERVICE_ENDPOINT -> ${kinesisSetup.getEndpoint()}
           |'
           |
       """.stripMargin.replace("\n", "").strip()
