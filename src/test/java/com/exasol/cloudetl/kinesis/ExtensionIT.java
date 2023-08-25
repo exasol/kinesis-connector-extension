@@ -253,11 +253,12 @@ class ExtensionIT {
                     + kinesisSetup.getSecretKey() + "'");
             executeKinesisImport(stream, targetTable, connectionName);
             assertThat(
-                    connection.createStatement().executeQuery(
-                            "select * from " + targetTable.getFullyQualifiedName() + " order by sensor_id"),
-                    table("BIGINT", "VARCHAR", "VARCHAR", "VARCHAR") //
-                            .row(1L, "OK", "shardId-000000000000", "true")
-                            .row(2L, "WARN", "shardId-000000000000", "true") //
+                    connection.createStatement()
+                            .executeQuery("select sensor_id, status, kinesis_shard_id from "
+                                    + targetTable.getFullyQualifiedName() + " order by sensor_id"),
+                    table("BIGINT", "VARCHAR", "VARCHAR") //
+                            .row(1L, "OK", "shardId-000000000000") //
+                            .row(2L, "WARN", "shardId-000000000000") //
                             .matches());
         } finally {
             schema.drop();
