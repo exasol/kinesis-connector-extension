@@ -289,7 +289,8 @@ class ExtensionIT {
     }
 
     private String sensorDataPayload(final int sensor, final String status) {
-        return "{'sensor': " + sensor + ", 'status': '" + status + "'}".replace('\'', '"');
+        final String json = "{'sensor': " + sensor + ", 'status': '" + status + "'}";
+        return json.replaceAll("'", "\"");
     }
 
     private void executeStatement(final String sql) {
