@@ -51,11 +51,12 @@
 | [Scalastyle Maven Plugin][51]                           | [Apache 2.0][38]                               |
 | [spotless-maven-plugin][52]                             | [The Apache Software License, Version 2.0][26] |
 | [scalafix-maven-plugin][53]                             | [BSD-3-Clause][54]                             |
-| [Maven Clean Plugin][55]                                | [The Apache Software License, Version 2.0][30] |
-| [Maven Resources Plugin][56]                            | [The Apache Software License, Version 2.0][30] |
-| [Maven Install Plugin][57]                              | [The Apache Software License, Version 2.0][30] |
-| [Maven Deploy Plugin][58]                               | [The Apache Software License, Version 2.0][30] |
-| [Maven Site Plugin 3][59]                               | [The Apache Software License, Version 2.0][30] |
+| [Exec Maven Plugin][55]                                 | [Apache License 2][26]                         |
+| [Maven Clean Plugin][56]                                | [The Apache Software License, Version 2.0][30] |
+| [Maven Resources Plugin][57]                            | [The Apache Software License, Version 2.0][30] |
+| [Maven Install Plugin][58]                              | [The Apache Software License, Version 2.0][30] |
+| [Maven Deploy Plugin][59]                               | [The Apache Software License, Version 2.0][30] |
+| [Maven Site Plugin 3][60]                               | [The Apache Software License, Version 2.0][30] |
 
 ## Extension
 
@@ -63,7 +64,7 @@
 
 | Dependency                                | License |
 | ----------------------------------------- | ------- |
-| [@exasol/extension-manager-interface][60] | MIT     |
+| [@exasol/extension-manager-interface][61] | MIT     |
 
 [0]: https://www.scala-lang.org/
 [1]: https://www.apache.org/licenses/LICENSE-2.0
@@ -120,9 +121,10 @@
 [52]: https://github.com/diffplug/spotless
 [53]: https://github.com/evis/scalafix-maven-plugin
 [54]: https://opensource.org/licenses/BSD-3-Clause
-[55]: http://maven.apache.org/plugins/maven-clean-plugin/
-[56]: http://maven.apache.org/plugins/maven-resources-plugin/
-[57]: http://maven.apache.org/plugins/maven-install-plugin/
-[58]: http://maven.apache.org/plugins/maven-deploy-plugin/
-[59]: http://maven.apache.org/plugins/maven-site-plugin/
-[60]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.3.1.tgz
+[55]: https://www.mojohaus.org/exec-maven-plugin
+[56]: http://maven.apache.org/plugins/maven-clean-plugin/
+[57]: http://maven.apache.org/plugins/maven-resources-plugin/
+[58]: http://maven.apache.org/plugins/maven-install-plugin/
+[59]: http://maven.apache.org/plugins/maven-deploy-plugin/
+[60]: http://maven.apache.org/plugins/maven-site-plugin/
+[61]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.3.1.tgz

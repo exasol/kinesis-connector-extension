@@ -58,6 +58,7 @@ This release adds support for the [Extension Manager](https://github.com/exasol/
 * Added `org.apache.maven.plugins:maven-site-plugin:3.3`
 * Added `org.apache.maven.plugins:maven-surefire-plugin:3.1.2`
 * Added `org.basepom.maven:duplicate-finder-maven-plugin:2.0.1`
+* Added `org.codehaus.mojo:exec-maven-plugin:3.1.0`
 * Added `org.codehaus.mojo:flatten-maven-plugin:1.5.0`
 * Added `org.codehaus.mojo:versions-maven-plugin:2.16.0`
 * Added `org.jacoco:jacoco-maven-plugin:0.8.10`
