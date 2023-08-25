@@ -262,6 +262,10 @@
                         <!-- At the moment we cannot update to the latest scala-library version since avro4s-core_2.13:4.1.1 dependency is not compatible with it -->
                         <!-- CWE-502: Deserialization of Untrusted Data (9.8); https://ossindex.sonatype.org/vulnerability/CVE-2022-36944 -->
                         <exclude>CVE-2022-36944</exclude>
+                        <!-- Vulnerability of test dependency fr.turri:aXMLRPC -->
+                        <!-- CWE-611: Improper Restriction of XML External Entity Reference ('XXE') (9.8); https://ossindex.sonatype.org/vulnerability/CVE-2020-36641 -->
+                        <!-- Justification: only used in tests -->
+                        <exclude>CVE-2020-36641</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
             </plugin>
