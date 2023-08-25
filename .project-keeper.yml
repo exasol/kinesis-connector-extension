@@ -10,3 +10,4 @@ version:
   fromSource: pom.xml
 excludes:
   - "E-PK-CORE-18: Outdated content: '.github/workflows/ci-build.yml'"
+  - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_upload_github_release_assets.yml'"
