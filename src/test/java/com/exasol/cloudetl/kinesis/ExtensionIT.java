@@ -10,12 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.nio.file.*;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
+import org.hamcrest.Matcher;
 import org.junit.jupiter.api.*;
 
 import com.exasol.bucketfs.BucketAccessException;
@@ -238,7 +238,7 @@ class ExtensionIT {
                 .build();
     }
 
-    private void verifyImportWorks() throws SQLException {
+    private void verifyImportWorks() {
         final ExasolSchema schema = exasolObjectFactory.createSchema("TESTING_SCHEMA_" + System.currentTimeMillis());
         final String connectionName = "KINESIS_CONNECTION";
         try (final KinesisStream stream = kinesisSetup.createStream("extension-stream", 1)) {
@@ -252,10 +252,9 @@ class ExtensionIT {
                     "IDENTIFIED BY 'AWS_ACCESS_KEY=" + kinesisSetup.getAccessKey() + ";AWS_SECRET_KEY="
                     + kinesisSetup.getSecretKey() + "'");
             executeKinesisImport(stream, targetTable, connectionName);
-            assertThat(
-                    connection.createStatement()
-                            .executeQuery("select sensor_id, status, kinesis_shard_id from "
-                                    + targetTable.getFullyQualifiedName() + " order by sensor_id"),
+            assertQueryResult(
+                    "select sensor_id, status, kinesis_shard_id from " + targetTable.getFullyQualifiedName()
+                            + " order by sensor_id",
                     table("BIGINT", "VARCHAR", "VARCHAR") //
                             .row(1L, "OK", "shardId-000000000000") //
                             .row(2L, "WARN", "shardId-000000000000") //
@@ -266,19 +265,9 @@ class ExtensionIT {
     }
 
     private void executeKinesisImport(final KinesisStream stream, final Table targetTable,
-            final String kinesisConnection) throws SQLException {
-        final String properties = "CONNECTION_NAME -> KINESIS_CONNECTION" + //
-                ";REGION -> " + kinesisSetup.getRegion() + //
-                ";STREAM_NAME -> " + stream.getName() + //
-                ";MAX_RECORDS_PER_RUN -> 2" + //
-                ";AWS_SERVICE_ENDPOINT -> " + kinesisSetup.getEndpoint();
-        String sql = "SELECT " + ExtensionManagerSetup.EXTENSION_SCHEMA_NAME + ".KINESIS_IMPORT('" + properties
-                + "', KINESIS_SHARD_ID, SHARD_SEQUENCE_NUMBER)\n"
-                + "  FROM (VALUES (('$shardId', null)) AS t(KINESIS_SHARD_ID, SHARD_SEQUENCE_NUMBER))\n"
-                + "  ORDER BY KINESIS_SHARD_ID";
-
+            final String kinesisConnection) {
         executeStatement("OPEN SCHEMA " + ExtensionManagerSetup.EXTENSION_SCHEMA_NAME);
-        sql = "IMPORT INTO " + targetTable.getFullyQualifiedName() + "\n" + //
+        final String sql = "IMPORT INTO " + targetTable.getFullyQualifiedName() + "\n" + //
                 " FROM SCRIPT " + ExtensionManagerSetup.EXTENSION_SCHEMA_NAME + ".KINESIS_CONSUMER WITH\n" + //
                 " TABLE_NAME = '" + targetTable.getFullyQualifiedName() + "'\n" + //
                 " CONNECTION_NAME = '" + kinesisConnection + "'\n" + //
@@ -301,6 +290,16 @@ class ExtensionIT {
             statement.execute(sql);
         } catch (final SQLException exception) {
             throw new IllegalStateException("Failed to execute statement '" + sql + "': " + exception.getMessage(),
+                    exception);
+        }
+    }
+
+    private void assertQueryResult(final String sql, final Matcher<ResultSet> matcher) {
+        try (Statement statement = connection.createStatement()) {
+            final ResultSet result = statement.executeQuery(sql);
+            assertThat(result, matcher);
+        } catch (final SQLException exception) {
+            throw new IllegalStateException("Failed to execute query '" + sql + "': " + exception.getMessage(),
                     exception);
         }
     }
