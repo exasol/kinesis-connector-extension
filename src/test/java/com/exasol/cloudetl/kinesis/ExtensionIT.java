@@ -255,9 +255,9 @@ class ExtensionIT {
             assertThat(
                     connection.createStatement().executeQuery(
                             "select * from " + targetTable.getFullyQualifiedName() + " order by sensor_id"),
-                    table("INTEGER", "VARCHAR", "VARCHAR", "BOOLEAN")
-                            .row(1, "WARN", IntegrationTestConstants.SHARD_ID, true)
-                            .row(2, "OK", IntegrationTestConstants.SHARD_ID, true).matches());
+                    table("BIGINT", "VARCHAR", "VARCHAR", "VARCHAR")
+                            .row(1L, "WARN", IntegrationTestConstants.SHARD_ID, "true")
+                            .row(2L, "OK", IntegrationTestConstants.SHARD_ID, "true").matches());
         } finally {
             schema.drop();
         }
