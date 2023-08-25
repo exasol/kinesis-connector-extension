@@ -8,7 +8,7 @@ import com.exasol.dbbuilder.dialects.Column
 
 class KinesisShardDataImporterIT extends KinesisAbstractIntegrationTest {
   private val partitionKey = "partitionKey-1"
-  private val shardId = IntegrationTestConstants.SHARD_ID
+  private val shardId = "shardId-000000000000"
 
   override final def beforeAll(): Unit = {
     prepareContainers()

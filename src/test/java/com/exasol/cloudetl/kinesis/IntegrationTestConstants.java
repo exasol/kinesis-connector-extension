@@ -6,5 +6,4 @@ public class IntegrationTestConstants {
     public static String DEFAULT_EXASOL_DOCKER_IMAGE = "7.1.19";
     public static String LOCALSTACK_DOCKER_IMAGE = "localstack/localstack:2.2";
     public static String DOCKER_IP_ADDRESS = "172.17.0.1";
-    public static final String SHARD_ID = "shardId-000000000000";
 }

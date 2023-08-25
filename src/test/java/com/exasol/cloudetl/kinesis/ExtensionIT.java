@@ -255,9 +255,10 @@ class ExtensionIT {
             assertThat(
                     connection.createStatement().executeQuery(
                             "select * from " + targetTable.getFullyQualifiedName() + " order by sensor_id"),
-                    table("BIGINT", "VARCHAR", "VARCHAR", "VARCHAR")
-                            .row(1L, "WARN", IntegrationTestConstants.SHARD_ID, "true")
-                            .row(2L, "OK", IntegrationTestConstants.SHARD_ID, "true").matches());
+                    table("BIGINT", "VARCHAR", "VARCHAR", "VARCHAR") //
+                            .row(1L, "OK", "shardId-000000000000", "true")
+                            .row(2L, "WARN", "shardId-000000000000", "true") //
+                            .matches());
         } finally {
             schema.drop();
         }
