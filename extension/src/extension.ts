@@ -4,7 +4,6 @@ import { EXTENSION_DESCRIPTION } from "./extension-description";
 
 /** Script definitions for the required scripts. */
 const SCRIPTS: ScriptDefinition[] = [
-
     {
         name: "KINESIS_METADATA",
         type: "SET",
