@@ -154,13 +154,20 @@ CREATE OR REPLACE CONNECTION KINESIS_CONNECTION
 Run an import query:
 
 ```sql
-IMPORT INTO <table_name>
+OPEN SCHEMA <script_schema>;
+IMPORT INTO <schema_name>.<table_name>
 FROM SCRIPT KINESIS_CONSUMER WITH
-  TABLE_NAME = '<table_name>'
+  TABLE_NAME = '<schema_name>.<table_name>'
   CONNECTION_NAME = 'KINESIS_CONNECTION'
   STREAM_NAME = '<stream_name>'
   REGION = '<region>'
 ;
+```
+
+Please ensure to run the import script `KINESIS_CONSUMER` in the same schema where you created the scripts. You can do this by executing the `OPEN SCHEMA <schema>;` command before `IMPORT`. When you run the import script `KINESIS_CONSUMER` in a different schema, it will fail with the following error message:
+
+```
+function or script KINESIS_METADATA not found [line 7, column 10] (Session: 1775452932390977536)
 ```
 
 ### Properties
