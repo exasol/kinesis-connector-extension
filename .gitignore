@@ -44,6 +44,7 @@ tmp/
 .project
 .settings/org.eclipse.core.resources.prefs
 .settings/org.eclipse.jdt.apt.core.prefs
+.settings/org.eclipse.m2e.core.prefs
 .scala_dependencies
 *.sc
 
@@ -75,3 +76,7 @@ pom.xml.versionsBackup
 *.md.html
 *.flattened-pom.xml
 /.testcontainers-tmp-*
+/extension/node_modules/
+/extension/dist/
+/extension/src/extension-description.ts
+/extension/coverage/

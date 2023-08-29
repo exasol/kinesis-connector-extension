@@ -8,11 +8,24 @@ on:
 
 jobs:
   build:
+    name: Build with Exasol ${{ matrix.exasol-docker-version }}
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+      group: ${{ github.workflow }}-${{ github.ref }}-exasol-${{ matrix.exasol-docker-version }}
       cancel-in-progress: true
+    strategy:
+      fail-fast: false
+      matrix:
+        exasol-docker-version: ["7.1.22"]
+    env:
+      DEFAULT_DOCKER_DB_VERSION: "7.1.22"
     steps:
+      - name: Free Disk Space
+        run: |
+          df -h .
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/dotnet
+          df -h .
       - name: Checkout the repository
         uses: actions/checkout@v3
         with:
@@ -37,14 +50,15 @@ jobs:
         run: |
           JAVA_HOME=$JAVA_HOME_11_X64 mvn --batch-mode clean verify \
               -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
-              -DtrimStackTrace=false
+              -DtrimStackTrace=false \
+              -Dcom.exasol.dockerdb.image=${{ matrix.exasol-docker-version }}
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         if: ${{ always() && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Sonar analysis
-        if: ${{ env.SONAR_TOKEN != null }}
+        if: ${{ env.SONAR_TOKEN != null && matrix.exasol-docker-version == env.DEFAULT_DOCKER_DB_VERSION }}
         run: |
           JAVA_HOME=$JAVA_HOME_17_X64 mvn --batch-mode org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
               -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \

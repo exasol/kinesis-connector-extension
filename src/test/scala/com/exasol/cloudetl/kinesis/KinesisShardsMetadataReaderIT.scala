@@ -2,8 +2,6 @@ package com.exasol.cloudetl.kinesis
 
 import java.sql.ResultSet
 
-import org.testcontainers.containers.localstack.LocalStackContainer
-
 class KinesisShardsMetadataReaderIT extends KinesisAbstractIntegrationTest {
   val TEST_STREAM_NAME = "Test_stream"
 
@@ -50,15 +48,11 @@ class KinesisShardsMetadataReaderIT extends KinesisAbstractIntegrationTest {
   }
 
   private[this] def executeKinesisMetadataScript(tableImitatingValues: String): ResultSet = {
-    val endpointConfiguration =
-      kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
-    val endpointInsideDocker =
-      endpointConfiguration.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     val properties =
       s"""|'CONNECTION_NAME -> KINESIS_CONNECTION
-          |;REGION -> ${kinesisLocalStack.getRegion()}
+          |;REGION -> ${kinesisSetup.getRegion()}
           |;STREAM_NAME -> $TEST_STREAM_NAME
-          |;AWS_SERVICE_ENDPOINT -> $endpointInsideDocker
+          |;AWS_SERVICE_ENDPOINT -> ${kinesisSetup.getEndpoint()}
           |'
       """.stripMargin.replace("\n", "").strip()
     statement.executeQuery(

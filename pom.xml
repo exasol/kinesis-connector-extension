@@ -8,12 +8,14 @@
     <description>Exasol Kafka Extension for accessing Apache Kafka</description>
     <url>https://github.com/exasol/kinesis-connector-extension/</url>
     <properties>
-        <!-- Update this once the Avro4s version is updated -->
-        <!-- com.sksamuel.avro4s:avro4s-core_2.13:4.1.1 requires scala version: 2.13.3 -->
+        <!-- Upgrade to 2.13.11 causes compile errors. This will be done in https://github.com/exasol/kinesis-connector-extension/issues/36 -->
         <scala.version>2.13.3</scala.version>
         <scala.compat.version>2.13</scala.compat.version>
-        <sonar.sources>.</sonar.sources>
-        <sonar.inclusions>src/main/**</sonar.inclusions>
+        <sonar.sources>src/main/,extension/src/</sonar.sources>
+        <sonar.exclusions>extension/src/*.test.ts</sonar.exclusions>
+        <sonar.tests>src/test/,extension/src</sonar.tests>
+        <sonar.test.inclusions>src/test/,*.test.ts</sonar.test.inclusions>
+        <sonar.javascript.lcov.reportPaths>extension/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
     </properties>
     <dependencies>
         <dependency>
@@ -43,7 +45,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-kinesis</artifactId>
-            <version>1.12.533</version>
+            <version>1.12.537</version>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
@@ -66,7 +68,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.4.0</version>
+            <version>5.5.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -78,7 +80,7 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>localstack</artifactId>
-            <version>1.18.3</version>
+            <version>1.19.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -91,6 +93,12 @@
             <groupId>com.exasol</groupId>
             <artifactId>hamcrest-resultset-matcher</artifactId>
             <version>1.6.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.exasol</groupId>
+            <artifactId>extension-manager-integration-test-java</artifactId>
+            <version>0.5.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -175,6 +183,9 @@
                     <junitxml>.</junitxml>
                     <filereports>TestSuite.txt</filereports>
                     <argLine>-Djava.util.logging.config.file=src/test/resources/logging.properties ${argLine}</argLine>
+                    <systemProperties>
+                        <com.exasol.dockerdb.image>${com.exasol.dockerdb.image}</com.exasol.dockerdb.image>
+                    </systemProperties>
                 </configuration>
                 <executions>
                     <execution>
@@ -253,9 +264,13 @@
                 <configuration>
                     <excludeVulnerabilityIds>
                         <!-- Vulnerabilities from org.scala-lang:scala-library:2.13.3 -->
-                        <!-- At the moment we cannot update to the latest scala-library version since avro4s-core_2.13:4.1.1 dependency is not compatible with it -->
                         <!-- CWE-502: Deserialization of Untrusted Data (9.8); https://ossindex.sonatype.org/vulnerability/CVE-2022-36944 -->
+                        <!-- Upgrade will be done in https://github.com/exasol/kinesis-connector-extension/issues/36 -->
                         <exclude>CVE-2022-36944</exclude>
+                        <!-- Vulnerability of test dependency fr.turri:aXMLRPC -->
+                        <!-- CWE-611: Improper Restriction of XML External Entity Reference ('XXE') (9.8); https://ossindex.sonatype.org/vulnerability/CVE-2020-36641 -->
+                        <!-- Justification: only used in tests -->
+                        <exclude>CVE-2020-36641</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
             </plugin>
@@ -314,7 +329,7 @@
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>2.37.0</version>
+                <version>2.38.0</version>
                 <configuration>
                     <scala>
                         <scalafmt>
@@ -354,6 +369,65 @@
                 <configuration>
                     <mode>CHECK</mode>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>npm-ci</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>extension/</workingDirectory>
+                            <executable>npm</executable>
+                            <commandlineArgs>ci</commandlineArgs>
+                            <useMavenLogger>false</useMavenLogger>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-extension</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>extension/</workingDirectory>
+                            <executable>npm</executable>
+                            <commandlineArgs>run build</commandlineArgs>
+                            <useMavenLogger>false</useMavenLogger>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unit-test-extension</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>extension/</workingDirectory>
+                            <executable>npm</executable>
+                            <commandlineArgs>test</commandlineArgs>
+                            <useMavenLogger>false</useMavenLogger>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>lint-extension</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <workingDirectory>extension/</workingDirectory>
+                            <executable>npm</executable>
+                            <commandlineArgs>run lint</commandlineArgs>
+                            <useMavenLogger>false</useMavenLogger>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

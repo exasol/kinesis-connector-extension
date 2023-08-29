@@ -1,6 +1,5 @@
 package com.exasol.cloudetl.kinesis
 
-import java.nio.ByteBuffer
 import java.sql.ResultSet
 import java.sql.SQLDataException
 
@@ -10,7 +9,6 @@ import com.exasol.dbbuilder.dialects.Column
 import com.exasol.dbbuilder.dialects.exasol.udf.UdfScript
 
 import org.scalatest.BeforeAndAfterEach
-import org.testcontainers.containers.localstack.LocalStackContainer
 
 class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with BeforeAndAfterEach {
   final val TEST_TABLE_NAME = "kinesis_table"
@@ -75,8 +73,7 @@ class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with 
          | "currentTemperature": $currentTemperature,
          | "status": "$status"
          | }""".stripMargin.replace("\n", "")
-    val data = ByteBuffer.wrap(recordData.getBytes())
-    kinesisClient.putRecord(streamName, data, partitionKey)
+    kinesisSetup.putRecord(streamName, recordData, partitionKey)
     ()
   }
 
@@ -150,8 +147,7 @@ class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with 
          | "object_val": {"firstNestedValue": 10,"secondNestedValue": "second"},
          | "string_val": null
          | }""".stripMargin.replace("\n", "")
-    val data = ByteBuffer.wrap(recordData.getBytes())
-    kinesisClient.putRecord(streamName, data, partitionKey)
+    kinesisSetup.putRecord(streamName, recordData, partitionKey)
     ()
   }
 
@@ -197,37 +193,29 @@ class KinesisImportQueryGeneratorIT extends KinesisAbstractIntegrationTest with 
     )
 
   private[this] def executeKinesisConsumerScriptWithConnection(streamName: String): Unit = {
-    val endpointConfiguration =
-      kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
-    val endpointInsideDocker =
-      endpointConfiguration.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     statement.execute(
       s"""IMPORT INTO $TEST_TABLE_NAME
          |FROM SCRIPT KINESIS_CONSUMER WITH
          |  TABLE_NAME      = '$TEST_TABLE_NAME'
          |  CONNECTION_NAME = 'KINESIS_CONNECTION'
          |  STREAM_NAME     = '$streamName'
-         |  REGION          = '${kinesisLocalStack.getRegion()}'
-         |  AWS_SERVICE_ENDPOINT = '$endpointInsideDocker'
+         |  REGION          = '${kinesisSetup.getRegion()}'
+         |  AWS_SERVICE_ENDPOINT = '${kinesisSetup.getEndpoint()}'
       """.stripMargin
     )
     ()
   }
 
   private[this] def executeKinesisConsumerScriptWithoutConnection(streamName: String): Unit = {
-    val endpointConfiguration =
-      kinesisLocalStack.getEndpointOverride(LocalStackContainer.Service.KINESIS).toString()
-    val endpointInsideDocker =
-      endpointConfiguration.replaceAll("127.0.0.1", DOCKER_IP_ADDRESS)
     statement.execute(
       s"""IMPORT INTO $TEST_TABLE_NAME
          |FROM SCRIPT KINESIS_CONSUMER WITH
          |  TABLE_NAME     = '$TEST_TABLE_NAME'
-         |  AWS_ACCESS_KEY = '${kinesisLocalStack.getAccessKey()}'
-         |  AWS_SECRET_KEY = '${kinesisLocalStack.getSecretKey()}'
+         |  AWS_ACCESS_KEY = '${kinesisSetup.getAccessKey()}'
+         |  AWS_SECRET_KEY = '${kinesisSetup.getSecretKey()}'
          |  STREAM_NAME    = '$streamName'
-         |  REGION         = '${kinesisLocalStack.getRegion()}'
-         |  AWS_SERVICE_ENDPOINT = '$endpointInsideDocker'
+         |  REGION         = '${kinesisSetup.getRegion()}'
+         |  AWS_SERVICE_ENDPOINT = '${kinesisSetup.getEndpoint()}'
       """.stripMargin
     )
     ()
