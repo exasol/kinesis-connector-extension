@@ -1,4 +1,4 @@
-# Exasol Kinesis Connector Extension 1.1.0, released 2023-08-28
+# Exasol Kinesis Connector Extension 1.1.0, released 2023-08-29
 
 Code name: Add Extension
 
