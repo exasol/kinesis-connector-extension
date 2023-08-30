@@ -183,9 +183,6 @@
                     <junitxml>.</junitxml>
                     <filereports>TestSuite.txt</filereports>
                     <argLine>-Djava.util.logging.config.file=src/test/resources/logging.properties ${argLine}</argLine>
-                    <systemProperties>
-                        <com.exasol.dockerdb.image>${com.exasol.dockerdb.image}</com.exasol.dockerdb.image>
-                    </systemProperties>
                 </configuration>
                 <executions>
                     <execution>
