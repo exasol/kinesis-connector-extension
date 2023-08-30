@@ -41,7 +41,7 @@ This release adds support for the [Extension Manager](https://github.com/exasol/
 * Added `com.diffplug.spotless:spotless-maven-plugin:2.38.0`
 * Added `com.exasol:artifact-reference-checker-maven-plugin:0.4.2`
 * Added `com.exasol:error-code-crawler-maven-plugin:1.3.0`
-* Added `com.exasol:project-keeper-maven-plugin:2.9.10`
+* Added `com.exasol:project-keeper-maven-plugin:2.9.11`
 * Added `io.github.evis:scalafix-maven-plugin_2.13:0.1.8_0.11.0`
 * Added `io.github.zlika:reproducible-build-maven-plugin:0.16`
 * Added `net.alchim31.maven:scala-maven-plugin:4.8.1`
@@ -49,7 +49,7 @@ This release adds support for the [Extension Manager](https://github.com/exasol/
 * Added `org.apache.maven.plugins:maven-clean-plugin:2.5`
 * Added `org.apache.maven.plugins:maven-compiler-plugin:3.11.0`
 * Added `org.apache.maven.plugins:maven-deploy-plugin:2.7`
-* Added `org.apache.maven.plugins:maven-enforcer-plugin:3.3.0`
+* Added `org.apache.maven.plugins:maven-enforcer-plugin:3.4.0`
 * Added `org.apache.maven.plugins:maven-failsafe-plugin:3.1.2`
 * Added `org.apache.maven.plugins:maven-install-plugin:2.4`
 * Added `org.apache.maven.plugins:maven-jar-plugin:3.3.0`
