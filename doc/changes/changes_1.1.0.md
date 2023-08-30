@@ -20,7 +20,7 @@ This release adds support for the [Extension Manager](https://github.com/exasol/
 
 #### Compile Dependency Updates
 
-* Added `com.amazonaws:aws-java-sdk-kinesis:1.12.537`
+* Added `com.amazonaws:aws-java-sdk-kinesis:1.12.540`
 * Added `com.exasol:error-reporting-java:1.0.1`
 * Added `com.exasol:import-export-udf-common-scala_2.13:1.1.1`
 * Added `org.scala-lang:scala-library:2.13.3`
@@ -30,7 +30,7 @@ This release adds support for the [Extension Manager](https://github.com/exasol/
 * Added `com.exasol:exasol-testcontainers:6.6.1`
 * Added `com.exasol:extension-manager-integration-test-java:0.5.0`
 * Added `com.exasol:hamcrest-resultset-matcher:1.6.0`
-* Added `com.exasol:test-db-builder-java:3.4.2`
+* Added `com.exasol:test-db-builder-java:3.5.0`
 * Added `org.mockito:mockito-core:5.5.0`
 * Added `org.scalatestplus:scalatestplus-mockito_2.13:1.0.0-SNAP5`
 * Added `org.scalatest:scalatest_2.13:3.3.0-SNAP4`
@@ -38,7 +38,7 @@ This release adds support for the [Extension Manager](https://github.com/exasol/
 
 #### Plugin Dependency Updates
 
-* Added `com.diffplug.spotless:spotless-maven-plugin:2.38.0`
+* Added `com.diffplug.spotless:spotless-maven-plugin:2.39.0`
 * Added `com.exasol:artifact-reference-checker-maven-plugin:0.4.2`
 * Added `com.exasol:error-code-crawler-maven-plugin:1.3.0`
 * Added `com.exasol:project-keeper-maven-plugin:2.9.11`
