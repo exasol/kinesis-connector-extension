@@ -117,8 +117,8 @@ class ExtensionIT {
     @Test
     void getInstallationsReturnsResult() {
         client.install();
-        assertThat(client.getInstallations(), contains(
-                new InstallationsResponseInstallation().name("Kinesis Connector Extension").version(PROJECT_VERSION)));
+        assertThat(client.getInstallations(), contains(new InstallationsResponseInstallation()
+                .id("kinesis-connector-extension.js").name("Kinesis Connector Extension").version(PROJECT_VERSION)));
     }
 
     @Test
@@ -164,7 +164,7 @@ class ExtensionIT {
     void uninstallWrongVersionFails() {
         client.assertRequestFails(() -> client.uninstall("wrongVersion"),
                 equalTo("Uninstalling version 'wrongVersion' not supported, try '" + PROJECT_VERSION + "'."),
-                equalTo(404));
+                equalTo(400));
     }
 
     @Test
