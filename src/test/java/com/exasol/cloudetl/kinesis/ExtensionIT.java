@@ -34,7 +34,7 @@ import junit.framework.AssertionFailedError;
 
 class ExtensionIT {
     private static final Logger LOGGER = Logger.getLogger(ExtensionIT.class.getName());
-    private static final String PREVIOUS_VERSION = "2.7.2";
+    private static final String PREVIOUS_VERSION = "1.1.0";
     private static final String PREVIOUS_VERSION_JAR_FILE = "exasol-kinesis-connector-extension-" + PREVIOUS_VERSION
             + ".jar";
     private static final String EXTENSION_ID = "kinesis-connector-extension.js";
@@ -117,8 +117,8 @@ class ExtensionIT {
     @Test
     void getInstallationsReturnsResult() {
         client.install();
-        assertThat(client.getInstallations(), contains(
-                new InstallationsResponseInstallation().name("Kinesis Connector Extension").version(PROJECT_VERSION)));
+        assertThat(client.getInstallations(), contains(new InstallationsResponseInstallation()
+                .id("kinesis-connector-extension.js").name("Kinesis Connector Extension").version(PROJECT_VERSION)));
     }
 
     @Test
@@ -149,11 +149,13 @@ class ExtensionIT {
     }
 
     @Test
+    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallExtensionWithoutInstallation() throws SQLException {
         assertDoesNotThrow(() -> client.uninstall());
     }
 
     @Test
+    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallExtensionRemovesScripts() throws SQLException {
         client.install();
         client.uninstall();
@@ -161,10 +163,11 @@ class ExtensionIT {
     }
 
     @Test
+    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallWrongVersionFails() {
         client.assertRequestFails(() -> client.uninstall("wrongVersion"),
                 equalTo("Uninstalling version 'wrongVersion' not supported, try '" + PROJECT_VERSION + "'."),
-                equalTo(404));
+                equalTo(400));
     }
 
     @Test
@@ -206,27 +209,27 @@ class ExtensionIT {
     }
 
     @Test
-    @Disabled("No previous version available yet")
     void upgradeFromPreviousVersion() throws InterruptedException, BucketAccessException, TimeoutException,
             FileNotFoundException, URISyntaxException, SQLException {
         final PreviousExtensionVersion previousVersion = createPreviousVersion();
         previousVersion.prepare();
         previousVersion.install();
         verifyImportWorks();
-        assertInstalledVersion("Kinesis Connector Extension", PREVIOUS_VERSION);
+        assertInstalledVersion("Kinesis Connector Extension", PREVIOUS_VERSION, previousVersion);
         previousVersion.upgrade();
-        assertInstalledVersion("Kinesis Connector Extension", PROJECT_VERSION);
+        assertInstalledVersion("Kinesis Connector Extension", PROJECT_VERSION, previousVersion);
         verifyImportWorks();
     }
 
-    private void assertInstalledVersion(final String expectedName, final String expectedVersion) {
-        final List<InstallationsResponseInstallation> installations = setup.client().getInstallations();
-        final InstallationsResponseInstallation expectedInstallation = new InstallationsResponseInstallation()
-                .name(expectedName).version(expectedVersion);
-        // The extension is installed twice (previous and current version), so each one returns the same installation.
-        assertAll(() -> assertThat(installations, hasSize(2)),
-                () -> assertThat(installations.get(0), equalTo(expectedInstallation)),
-                () -> assertThat(installations.get(1), equalTo(expectedInstallation)));
+    private void assertInstalledVersion(final String expectedName, final String expectedVersion,
+            final PreviousExtensionVersion previousVersion) {
+        // The extension is installed twice (previous and current version), so each one returns one installation.
+        assertThat(setup.client().getInstallations(),
+                containsInAnyOrder(
+                        new InstallationsResponseInstallation().name(expectedName).version(expectedVersion)
+                                .id(EXTENSION_ID), //
+                        new InstallationsResponseInstallation().name(expectedName).version(expectedVersion)
+                                .id(previousVersion.getExtensionId())));
     }
 
     private PreviousExtensionVersion createPreviousVersion() {

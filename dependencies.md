@@ -18,7 +18,7 @@
 | ------------------------------------------ | ---------------------------------------- |
 | [scalatest][8]                             | [the Apache License, ASL Version 2.0][9] |
 | [scalatestplus-mockito][10]                | [Apache-2.0][9]                          |
-| [mockito-core][11]                         | [The MIT License][12]                    |
+| [mockito-core][11]                         | [MIT][12]                                |
 | [Test containers for Exasol on Docker][13] | [MIT License][14]                        |
 | [Testcontainers :: Localstack][15]         | [MIT][16]                                |
 | [Test Database Builder for Java][17]       | [MIT License][18]                        |
@@ -52,11 +52,6 @@
 | [spotless-maven-plugin][52]                             | [The Apache Software License, Version 2.0][26] |
 | [scalafix-maven-plugin][53]                             | [BSD-3-Clause][54]                             |
 | [Exec Maven Plugin][55]                                 | [Apache License 2][26]                         |
-| [Maven Clean Plugin][56]                                | [The Apache Software License, Version 2.0][30] |
-| [Maven Resources Plugin][57]                            | [The Apache Software License, Version 2.0][30] |
-| [Maven Install Plugin][58]                              | [The Apache Software License, Version 2.0][30] |
-| [Maven Deploy Plugin][59]                               | [The Apache Software License, Version 2.0][30] |
-| [Maven Site Plugin 3][60]                               | [The Apache Software License, Version 2.0][30] |
 
 ## Extension
 
@@ -64,7 +59,7 @@
 
 | Dependency                                | License |
 | ----------------------------------------- | ------- |
-| [@exasol/extension-manager-interface][61] | MIT     |
+| [@exasol/extension-manager-interface][56] | MIT     |
 
 [0]: https://www.scala-lang.org/
 [1]: https://www.apache.org/licenses/LICENSE-2.0
@@ -122,9 +117,4 @@
 [53]: https://github.com/evis/scalafix-maven-plugin
 [54]: https://opensource.org/licenses/BSD-3-Clause
 [55]: https://www.mojohaus.org/exec-maven-plugin
-[56]: http://maven.apache.org/plugins/maven-clean-plugin/
-[57]: http://maven.apache.org/plugins/maven-resources-plugin/
-[58]: http://maven.apache.org/plugins/maven-install-plugin/
-[59]: http://maven.apache.org/plugins/maven-deploy-plugin/
-[60]: http://maven.apache.org/plugins/maven-site-plugin/
-[61]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.3.1.tgz
+[56]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.3.1.tgz
