@@ -18,7 +18,7 @@
 | ------------------------------------------ | ---------------------------------------- |
 | [scalatest][8]                             | [the Apache License, ASL Version 2.0][9] |
 | [scalatestplus-mockito][10]                | [Apache-2.0][9]                          |
-| [mockito-core][11]                         | [The MIT License][12]                    |
+| [mockito-core][11]                         | [MIT][12]                                |
 | [Test containers for Exasol on Docker][13] | [MIT License][14]                        |
 | [Testcontainers :: Localstack][15]         | [MIT][16]                                |
 | [Test Database Builder for Java][17]       | [MIT License][18]                        |

@@ -14,6 +14,20 @@ This release fixes vulnerability CVE-2023-42503 in transitive test dependency to
 
 ### Exasol Kinesis Connector Extension
 
+#### Compile Dependency Updates
+
+* Updated `com.amazonaws:aws-java-sdk-kinesis:1.12.540` to `1.12.573`
+* Updated `org.scala-lang:scala-library:2.13.3` to `2.13.12`
+
+#### Test Dependency Updates
+
+* Updated `com.exasol:exasol-testcontainers:6.6.1` to `6.6.2`
+* Updated `com.exasol:extension-manager-integration-test-java:0.5.0` to `0.5.4`
+* Updated `com.exasol:hamcrest-resultset-matcher:1.6.0` to `1.6.1`
+* Updated `com.exasol:test-db-builder-java:3.5.0` to `3.5.1`
+* Updated `org.mockito:mockito-core:5.5.0` to `5.6.0`
+* Updated `org.testcontainers:localstack:1.19.0` to `1.19.1`
+
 #### Plugin Dependency Updates
 
 * Updated `com.exasol:error-code-crawler-maven-plugin:1.3.0` to `1.3.1`
