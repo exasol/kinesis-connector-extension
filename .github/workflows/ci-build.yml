@@ -16,9 +16,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        docker_db_version: ["7.1.23"]
+        docker_db_version: ["8.23.0"]
     env:
-      DEFAULT_DB_VERSION: "7.1.23"
+      DEFAULT_DB_VERSION: "8.23.0"
     steps:
       - name: Free Disk Space
         run: |
