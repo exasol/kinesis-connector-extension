@@ -17,7 +17,6 @@ This release fixes vulnerability CVE-2023-42503 in transitive test dependency to
 #### Compile Dependency Updates
 
 * Updated `com.amazonaws:aws-java-sdk-kinesis:1.12.540` to `1.12.573`
-* Updated `org.scala-lang:scala-library:2.13.3` to `2.13.12`
 
 #### Test Dependency Updates
 
