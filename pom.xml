@@ -9,7 +9,7 @@
     <url>https://github.com/exasol/kinesis-connector-extension/</url>
     <properties>
         <!-- Upgrade to 2.13.11 causes compile errors. This will be done in https://github.com/exasol/kinesis-connector-extension/issues/36 -->
-        <scala.version>2.13.12</scala.version>
+        <scala.version>2.13.3</scala.version>
         <scala.compat.version>2.13</scala.compat.version>
         <sonar.sources>src/main/,extension/src/</sonar.sources>
         <sonar.exclusions>extension/src/*.test.ts</sonar.exclusions>
