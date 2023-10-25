@@ -1,4 +1,4 @@
-# Kinesis Connector Extension 1.1.1, released 2023-10-25
+# Kinesis Connector Extension 1.1.1, released 2023-10-26
 
 Code name: Fix CVE-2023-42503
 
