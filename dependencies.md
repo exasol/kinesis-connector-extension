@@ -73,7 +73,7 @@
 [9]: http://www.apache.org/licenses/LICENSE-2.0
 [10]: https://github.com/scalatest/scalatestplus-mockito
 [11]: https://github.com/mockito/mockito
-[12]: https://github.com/mockito/mockito/blob/main/LICENSE
+[12]: https://opensource.org/licenses/MIT
 [13]: https://github.com/exasol/exasol-testcontainers/
 [14]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
 [15]: https://java.testcontainers.org
