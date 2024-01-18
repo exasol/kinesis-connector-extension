@@ -14,6 +14,14 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+      - name: Set up JDKs
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: |
+            11
+            17
+          cache: "maven"
       - name: Run scalafix checks
         run: mvn --batch-mode clean compile test-compile scalastyle:check scalafix:scalafix spotless:check
