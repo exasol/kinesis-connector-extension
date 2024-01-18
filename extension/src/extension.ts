@@ -7,19 +7,22 @@ const SCRIPTS: ScriptDefinition[] = [
     {
         name: "KINESIS_METADATA",
         type: "SET",
-        args: `KINESIS_SHARD_ID VARCHAR(130), SHARD_SEQUENCE_NUMBER VARCHAR(2000)`,
+        emitParameters: `KINESIS_SHARD_ID VARCHAR(130), SHARD_SEQUENCE_NUMBER VARCHAR(2000)`,
+        parameters: "...",
         scriptClass: "com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader"
     },
     {
         name: "KINESIS_IMPORT",
         type: "SET",
-        args: "...",
+        emitParameters: "...",
+        parameters: "...",
         scriptClass: "com.exasol.cloudetl.kinesis.KinesisShardDataImporter"
     },
     {
         name: "KINESIS_CONSUMER",
         type: "SET",
-        args: "...",
+        emitParameters: "...",
+        parameters: "...",
         scriptClass: "com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator"
     }
 ]
@@ -30,7 +33,7 @@ export function createExtension(): ExasolExtension {
         description: "Exasol Kinesis Extension for accessing Amazon Kinesis Data Streams",
         category: "cloud-storage-importer",
         version: EXTENSION_DESCRIPTION.version,
-        file: { name: EXTENSION_DESCRIPTION.fileName, size: EXTENSION_DESCRIPTION.fileSizeBytes },
+        files: [{ name: EXTENSION_DESCRIPTION.fileName, size: EXTENSION_DESCRIPTION.fileSizeBytes }],
         scripts: SCRIPTS,
         scriptVersionExtractor: jarFileVersionExtractor(/exasol-kinesis-connector-extension-(\d+\.\d+\.\d+).jar/)
     }
