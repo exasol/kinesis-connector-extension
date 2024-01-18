@@ -34,7 +34,7 @@ import junit.framework.AssertionFailedError;
 
 class ExtensionIT {
     private static final Logger LOGGER = Logger.getLogger(ExtensionIT.class.getName());
-    private static final String PREVIOUS_VERSION = "1.1.2";
+    private static final String PREVIOUS_VERSION = "1.1.0";
     private static final String PREVIOUS_VERSION_JAR_FILE = "exasol-kinesis-connector-extension-" + PREVIOUS_VERSION
             + ".jar";
     private static final String EXTENSION_ID = "kinesis-connector-extension.js";
@@ -125,8 +125,7 @@ class ExtensionIT {
     @Test
     void installingWrongVersionFails() {
         client.assertRequestFails(() -> client.install("wrongVersion"),
-                equalTo("Installing version 'wrongVersion' not supported, try '" + PROJECT_VERSION + "'."),
-                equalTo(400));
+                equalTo("Version 'wrongVersion' not supported, can only use '" + PROJECT_VERSION + "'."), equalTo(404));
         setup.exasolMetadata().assertNoScripts();
     }
 
@@ -164,8 +163,7 @@ class ExtensionIT {
     @Test
     void uninstallWrongVersionFails() {
         client.assertRequestFails(() -> client.uninstall("wrongVersion"),
-                equalTo("Uninstalling version 'wrongVersion' not supported, try '" + PROJECT_VERSION + "'."),
-                equalTo(400));
+                equalTo("Version 'wrongVersion' not supported, can only use '" + PROJECT_VERSION + "'."), equalTo(404));
     }
 
     @Test

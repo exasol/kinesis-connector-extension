@@ -14,3 +14,6 @@ build:
   exasolDbVersions:
     - "8.24.0"
     - "7.1.25"
+excludes:
+  # Uploads extension to GitHub release
+  - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_upload_github_release_assets.yml'"
