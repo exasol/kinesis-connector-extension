@@ -14,6 +14,19 @@ This release fixes vulnerability CVE-2024-21634 in transitive compile dependency
 
 ### Exasol Kinesis Connector Extension
 
+#### Compile Dependency Updates
+
+* Updated `com.amazonaws:aws-java-sdk-kinesis:1.12.593` to `1.12.639`
+* Updated `com.exasol:import-export-udf-common-scala_2.13:1.1.1` to `2.0.0`
+
+#### Test Dependency Updates
+
+* Updated `com.exasol:exasol-testcontainers:6.6.3` to `7.0.0`
+* Updated `com.exasol:hamcrest-resultset-matcher:1.6.3` to `1.6.4`
+* Updated `com.exasol:test-db-builder-java:3.5.2` to `3.5.3`
+* Updated `org.mockito:mockito-core:5.7.0` to `5.9.0`
+* Updated `org.testcontainers:localstack:1.19.2` to `1.19.3`
+
 #### Plugin Dependency Updates
 
 * Updated `com.exasol:project-keeper-maven-plugin:2.9.16` to `3.0.0`

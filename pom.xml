@@ -26,26 +26,12 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>import-export-udf-common-scala_${scala.compat.version}</artifactId>
-            <version>1.1.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.avro</groupId>
-                    <artifactId>avro</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-compress</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-kinesis</artifactId>
-            <version>1.12.593</version>
+            <version>1.12.639</version>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
@@ -68,31 +54,31 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.7.0</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-testcontainers</artifactId>
-            <version>6.6.3</version>
+            <version>7.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>localstack</artifactId>
-            <version>1.19.2</version>
+            <version>1.19.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>test-db-builder-java</artifactId>
-            <version>3.5.2</version>
+            <version>3.5.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>hamcrest-resultset-matcher</artifactId>
-            <version>1.6.3</version>
+            <version>1.6.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -268,10 +254,6 @@
                         <!-- CWE-611: Improper Restriction of XML External Entity Reference ('XXE') (9.8); https://ossindex.sonatype.org/vulnerability/CVE-2020-36641 -->
                         <!-- Justification: only used in tests -->
                         <exclude>CVE-2020-36641</exclude>
-                        <!-- Transitive dependency io.netty:netty-handler used by software.amazon.awssdk:*.
-                        Vulnerability still present in latest version 4.1.97.Final.
-                        We assume that the AWS SDK's usage of netty is not affected. -->
-                        <exclude>CVE-2023-4586</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
             </plugin>
