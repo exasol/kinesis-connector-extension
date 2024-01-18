@@ -34,7 +34,7 @@ import junit.framework.AssertionFailedError;
 
 class ExtensionIT {
     private static final Logger LOGGER = Logger.getLogger(ExtensionIT.class.getName());
-    private static final String PREVIOUS_VERSION = "1.1.0";
+    private static final String PREVIOUS_VERSION = "1.1.2";
     private static final String PREVIOUS_VERSION_JAR_FILE = "exasol-kinesis-connector-extension-" + PREVIOUS_VERSION
             + ".jar";
     private static final String EXTENSION_ID = "kinesis-connector-extension.js";
@@ -150,13 +150,11 @@ class ExtensionIT {
     }
 
     @Test
-    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallExtensionWithoutInstallation() throws SQLException {
         assertDoesNotThrow(() -> client.uninstall());
     }
 
     @Test
-    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallExtensionRemovesScripts() throws SQLException {
         client.install();
         client.uninstall();
@@ -164,7 +162,6 @@ class ExtensionIT {
     }
 
     @Test
-    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallWrongVersionFails() {
         client.assertRequestFails(() -> client.uninstall("wrongVersion"),
                 equalTo("Uninstalling version 'wrongVersion' not supported, try '" + PROJECT_VERSION + "'."),
