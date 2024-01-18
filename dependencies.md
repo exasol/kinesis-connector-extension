@@ -119,4 +119,4 @@
 [54]: https://github.com/evis/scalafix-maven-plugin
 [55]: https://opensource.org/licenses/BSD-3-Clause
 [56]: https://www.mojohaus.org/exec-maven-plugin
-[57]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.3.1.tgz
+[57]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.4.1.tgz
