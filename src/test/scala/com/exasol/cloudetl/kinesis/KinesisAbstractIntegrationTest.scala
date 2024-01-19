@@ -111,7 +111,7 @@ trait KinesisAbstractIntegrationTest extends AnyFunSuite with BeforeAndAfterAll 
     }.toList
 
   private[this] def getExasolDockerImageVersion(): String = {
-    val dockerVersion = System.getenv("EXASOL_DOCKER_VERSION")
+    val dockerVersion = System.getenv("EXASOL_DB_VERSION")
     if (dockerVersion == null) {
       DEFAULT_EXASOL_DOCKER_IMAGE
     } else {

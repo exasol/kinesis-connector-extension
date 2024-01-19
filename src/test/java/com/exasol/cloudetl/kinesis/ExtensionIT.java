@@ -125,8 +125,7 @@ class ExtensionIT {
     @Test
     void installingWrongVersionFails() {
         client.assertRequestFails(() -> client.install("wrongVersion"),
-                equalTo("Installing version 'wrongVersion' not supported, try '" + PROJECT_VERSION + "'."),
-                equalTo(400));
+                equalTo("Version 'wrongVersion' not supported, can only use '" + PROJECT_VERSION + "'."), equalTo(404));
         setup.exasolMetadata().assertNoScripts();
     }
 
@@ -150,13 +149,11 @@ class ExtensionIT {
     }
 
     @Test
-    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallExtensionWithoutInstallation() throws SQLException {
         assertDoesNotThrow(() -> client.uninstall());
     }
 
     @Test
-    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallExtensionRemovesScripts() throws SQLException {
         client.install();
         client.uninstall();
@@ -164,11 +161,9 @@ class ExtensionIT {
     }
 
     @Test
-    @Disabled("Blocked by https://github.com/exasol/extension-manager/issues/155")
     void uninstallWrongVersionFails() {
         client.assertRequestFails(() -> client.uninstall("wrongVersion"),
-                equalTo("Uninstalling version 'wrongVersion' not supported, try '" + PROJECT_VERSION + "'."),
-                equalTo(400));
+                equalTo("Version 'wrongVersion' not supported, can only use '" + PROJECT_VERSION + "'."), equalTo(404));
     }
 
     @Test
