@@ -8,7 +8,7 @@ This release fixes vulnerability CVE-2024-21634 in transitive compile dependency
 
 ## Security
 
-* #48: Fixed CVE-2024-21634 in `software.amazon.ion:ion-java`
+* #46: Fixed CVE-2024-21634 in `software.amazon.ion:ion-java`
 
 ## Dependency Updates
 
