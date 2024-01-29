@@ -1,7 +1,6 @@
 # Kinesis Connector Extension 1.1.4, released 2024-01-30
 
-Code name:
-Scala upgraded to fix CVE-2022-36944
+Code name: Scala upgraded to fix CVE-2022-36944
 
 ## Summary
 Scala upgraded to fix CVE-2022-36944. Project Keeper plugin updated. 
