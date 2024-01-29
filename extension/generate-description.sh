@@ -20,7 +20,11 @@ fi
 readonly complete_path="${all_built_files[0]}"
 file_name=$(basename "$complete_path")
 readonly file_name
-file_size_bytes=$(stat -c%s "$complete_path")
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    file_size_bytes=$(stat -f %z "$complete_path")
+else
+    file_size_bytes=$(stat -c%s "$complete_path")
+fi
 readonly file_size_bytes
 
 version=
