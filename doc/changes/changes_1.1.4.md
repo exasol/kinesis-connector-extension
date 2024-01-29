@@ -16,7 +16,7 @@ Utility build script fixed to work in Mac OS.
 
 #### Compile Dependency Updates
 
-* Updated `org.scala-lang:scala-library:2.13.3` to `2.13.11`
+* Updated `org.scala-lang:scala-library:2.13.3` to `2.13.12`
 
 #### Plugin Dependency Updates
 

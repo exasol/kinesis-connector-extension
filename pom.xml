@@ -8,7 +8,7 @@
     <description>Exasol Kafka Extension for accessing Apache Kafka</description>
     <url>https://github.com/exasol/kinesis-connector-extension/</url>
     <properties>
-        <scala.version>2.13.11</scala.version>
+        <scala.version>2.13.12</scala.version>
         <scala.compat.version>2.13</scala.compat.version>
         <sonar.sources>src/main/,extension/src/</sonar.sources>
         <sonar.exclusions>extension/src/*.test.ts</sonar.exclusions>
@@ -155,7 +155,7 @@
                         <compilerPlugin>
                             <groupId>org.scalameta</groupId>
                             <artifactId>semanticdb-scalac_${scala.version}</artifactId>
-                            <version>4.8.0</version>
+                            <version>4.8.15</version>
                         </compilerPlugin>
                     </compilerPlugins>
                 </configuration>
@@ -245,10 +245,6 @@
                 <artifactId>ossindex-maven-plugin</artifactId>
                 <configuration>
                     <excludeVulnerabilityIds>
-                        <!-- Vulnerabilities from org.scala-lang:scala-library:2.13.3 -->
-                        <!-- CWE-502: Deserialization of Untrusted Data (9.8); https://ossindex.sonatype.org/vulnerability/CVE-2022-36944 -->
-                        <!-- Upgrade will be done in https://github.com/exasol/kinesis-connector-extension/issues/36 -->
-                        <exclude>CVE-2022-36944</exclude>
                         <!-- Vulnerability of test dependency fr.turri:aXMLRPC -->
                         <!-- CWE-611: Improper Restriction of XML External Entity Reference ('XXE') (9.8); https://ossindex.sonatype.org/vulnerability/CVE-2020-36641 -->
                         <!-- Justification: only used in tests -->
