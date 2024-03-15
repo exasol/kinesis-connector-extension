@@ -33,7 +33,9 @@ class KinesisTestSetup implements AutoCloseable {
         @SuppressWarnings("resource") // Container will be stopped in close() method
         final LocalStackContainer container = new LocalStackContainer(
                 DockerImageName.parse(IntegrationTestConstants.LOCALSTACK_DOCKER_IMAGE))
-                .withServices(LocalStackContainer.Service.KINESIS).withReuse(false);
+                .withServices(LocalStackContainer.Service.KINESIS)
+                // Enabling reuse for Localstack container will cause tests to fail
+                .withReuse(false);
         container.start();
         final URI endpoint = container.getEndpointOverride(LocalStackContainer.Service.KINESIS);
         final AWSCredentials credentials = new BasicAWSCredentials(container.getAccessKey(), container.getSecretKey());
