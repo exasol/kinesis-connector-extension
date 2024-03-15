@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-kinesis</artifactId>
-            <version>1.12.646</version>
+            <version>1.12.680</version>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
@@ -53,38 +53,45 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.10.0</version>
+            <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-testcontainers</artifactId>
-            <version>7.0.0</version>
+            <version>7.0.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>localstack</artifactId>
-            <version>1.19.4</version>
+            <version>1.19.7</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>test-db-builder-java</artifactId>
-            <version>3.5.3</version>
+            <version>3.5.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>hamcrest-resultset-matcher</artifactId>
-            <version>1.6.4</version>
+            <version>1.6.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>extension-manager-integration-test-java</artifactId>
-            <version>0.5.7</version>
+            <version>0.5.8</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- Fix CVE-2017-10355 -->
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
     <build>
@@ -245,10 +252,6 @@
                 <artifactId>ossindex-maven-plugin</artifactId>
                 <configuration>
                     <excludeVulnerabilityIds>
-                        <!-- Vulnerability of test dependency fr.turri:aXMLRPC -->
-                        <!-- CWE-611: Improper Restriction of XML External Entity Reference ('XXE') (9.8); https://ossindex.sonatype.org/vulnerability/CVE-2020-36641 -->
-                        <!-- Justification: only used in tests -->
-                        <exclude>CVE-2020-36641</exclude>
                     </excludeVulnerabilityIds>
                 </configuration>
             </plugin>
