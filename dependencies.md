@@ -39,20 +39,20 @@
 | [ScalaTest Maven Plugin][34]                            | [the Apache License, ASL Version 2.0][9]       |
 | [Apache Maven Javadoc Plugin][35]                       | [Apache-2.0][26]                               |
 | [Maven Surefire Plugin][36]                             | [Apache-2.0][26]                               |
-| [Versions Maven Plugin][37]                             | [Apache License, Version 2.0][26]              |
-| [duplicate-finder-maven-plugin Maven Mojo][38]          | [Apache License 2.0][39]                       |
-| [Apache Maven Assembly Plugin][40]                      | [Apache-2.0][26]                               |
-| [Apache Maven JAR Plugin][41]                           | [Apache License, Version 2.0][26]              |
-| [Artifact reference checker and unifier][42]            | [MIT License][43]                              |
-| [Maven Failsafe Plugin][44]                             | [Apache-2.0][26]                               |
-| [JaCoCo :: Maven Plugin][45]                            | [Eclipse Public License 2.0][46]               |
-| [error-code-crawler-maven-plugin][47]                   | [MIT License][48]                              |
-| [Reproducible Build Maven Plugin][49]                   | [Apache 2.0][31]                               |
-| [Project Keeper Maven plugin][50]                       | [The MIT License][51]                          |
-| [Scalastyle Maven Plugin][52]                           | [Apache 2.0][39]                               |
-| [spotless-maven-plugin][53]                             | [The Apache Software License, Version 2.0][26] |
-| [scalafix-maven-plugin][54]                             | [BSD-3-Clause][55]                             |
-| [Exec Maven Plugin][56]                                 | [Apache License 2][26]                         |
+| [Project Keeper Maven plugin][37]                       | [The MIT License][38]                          |
+| [Scalastyle Maven Plugin][39]                           | [Apache 2.0][40]                               |
+| [spotless-maven-plugin][41]                             | [The Apache Software License, Version 2.0][26] |
+| [scalafix-maven-plugin][42]                             | [BSD-3-Clause][43]                             |
+| [Exec Maven Plugin][44]                                 | [Apache License 2][26]                         |
+| [Versions Maven Plugin][45]                             | [Apache License, Version 2.0][26]              |
+| [duplicate-finder-maven-plugin Maven Mojo][46]          | [Apache License 2.0][40]                       |
+| [Apache Maven Assembly Plugin][47]                      | [Apache-2.0][26]                               |
+| [Apache Maven JAR Plugin][48]                           | [Apache License, Version 2.0][26]              |
+| [Artifact reference checker and unifier][49]            | [MIT License][50]                              |
+| [Maven Failsafe Plugin][51]                             | [Apache-2.0][26]                               |
+| [JaCoCo :: Maven Plugin][52]                            | [Eclipse Public License 2.0][53]               |
+| [error-code-crawler-maven-plugin][54]                   | [MIT License][55]                              |
+| [Reproducible Build Maven Plugin][56]                   | [Apache 2.0][31]                               |
 
 ## Extension
 
@@ -99,24 +99,24 @@
 [34]: https://www.scalatest.org/user_guide/using_the_scalatest_maven_plugin
 [35]: https://maven.apache.org/plugins/maven-javadoc-plugin/
 [36]: https://maven.apache.org/surefire/maven-surefire-plugin/
-[37]: https://www.mojohaus.org/versions/versions-maven-plugin/
-[38]: https://basepom.github.io/duplicate-finder-maven-plugin
-[39]: http://www.apache.org/licenses/LICENSE-2.0.html
-[40]: https://maven.apache.org/plugins/maven-assembly-plugin/
-[41]: https://maven.apache.org/plugins/maven-jar-plugin/
-[42]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
-[43]: https://github.com/exasol/artifact-reference-checker-maven-plugin/blob/main/LICENSE
-[44]: https://maven.apache.org/surefire/maven-failsafe-plugin/
-[45]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
-[46]: https://www.eclipse.org/legal/epl-2.0/
-[47]: https://github.com/exasol/error-code-crawler-maven-plugin/
-[48]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
-[49]: http://zlika.github.io/reproducible-build-maven-plugin
-[50]: https://github.com/exasol/project-keeper/
-[51]: https://github.com/exasol/project-keeper/blob/main/LICENSE
-[52]: http://www.scalastyle.org
-[53]: https://github.com/diffplug/spotless
-[54]: https://github.com/evis/scalafix-maven-plugin
-[55]: https://opensource.org/licenses/BSD-3-Clause
-[56]: https://www.mojohaus.org/exec-maven-plugin
+[37]: https://github.com/exasol/project-keeper/
+[38]: https://github.com/exasol/project-keeper/blob/main/LICENSE
+[39]: http://www.scalastyle.org
+[40]: http://www.apache.org/licenses/LICENSE-2.0.html
+[41]: https://github.com/diffplug/spotless
+[42]: https://github.com/evis/scalafix-maven-plugin
+[43]: https://opensource.org/licenses/BSD-3-Clause
+[44]: https://www.mojohaus.org/exec-maven-plugin
+[45]: https://www.mojohaus.org/versions/versions-maven-plugin/
+[46]: https://basepom.github.io/duplicate-finder-maven-plugin
+[47]: https://maven.apache.org/plugins/maven-assembly-plugin/
+[48]: https://maven.apache.org/plugins/maven-jar-plugin/
+[49]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
+[50]: https://github.com/exasol/artifact-reference-checker-maven-plugin/blob/main/LICENSE
+[51]: https://maven.apache.org/surefire/maven-failsafe-plugin/
+[52]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
+[53]: https://www.eclipse.org/legal/epl-2.0/
+[54]: https://github.com/exasol/error-code-crawler-maven-plugin/
+[55]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
+[56]: http://zlika.github.io/reproducible-build-maven-plugin
 [57]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.4.1.tgz
