@@ -1,12 +1,15 @@
-# Kinesis Connector Extension 1.1.5, released 2024-??-??
+# Kinesis Connector Extension 1.1.5, released 2024-03-15
 
-Code name:
+Code name: Fix CVE-2024-25710 and CVE-2024-26308 in test dependency
 
 ## Summary
 
-## Features
+This release fixes CVE-2024-25710 and CVE-2024-26308 in test dependency `org.apache.commons:commons-compress:1.24.0`.
 
-* ISSUE_NUMBER: description
+## Security
+
+* #50: Fixed CVE-2024-25710 in `org.apache.commons:commons-compress:jar:1.24.0:test`
+* #51: Fixed CVE-2024-26308 in `org.apache.commons:commons-compress:jar:1.24.0:test`
 
 ## Dependency Updates
 
