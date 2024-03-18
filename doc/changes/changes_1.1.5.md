@@ -1,4 +1,4 @@
-# Kinesis Connector Extension 1.1.5, released 2024-03-15
+# Kinesis Connector Extension 1.1.5, released 2024-03-18
 
 Code name: Fix CVE-2024-25710 and CVE-2024-26308 in test dependency
 
