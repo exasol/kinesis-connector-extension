@@ -43,16 +43,16 @@
 | [Scalastyle Maven Plugin][39]                           | [Apache 2.0][40]                               |
 | [spotless-maven-plugin][41]                             | [The Apache Software License, Version 2.0][26] |
 | [scalafix-maven-plugin][42]                             | [BSD-3-Clause][43]                             |
-| [Exec Maven Plugin][44]                                 | [Apache License 2][26]                         |
-| [Versions Maven Plugin][45]                             | [Apache License, Version 2.0][26]              |
-| [duplicate-finder-maven-plugin Maven Mojo][46]          | [Apache License 2.0][40]                       |
-| [Apache Maven Assembly Plugin][47]                      | [Apache-2.0][26]                               |
-| [Apache Maven JAR Plugin][48]                           | [Apache License, Version 2.0][26]              |
-| [Artifact reference checker and unifier][49]            | [MIT License][50]                              |
-| [Maven Failsafe Plugin][51]                             | [Apache-2.0][26]                               |
-| [JaCoCo :: Maven Plugin][52]                            | [Eclipse Public License 2.0][53]               |
-| [error-code-crawler-maven-plugin][54]                   | [MIT License][55]                              |
-| [Reproducible Build Maven Plugin][56]                   | [Apache 2.0][31]                               |
+| [Versions Maven Plugin][44]                             | [Apache License, Version 2.0][26]              |
+| [duplicate-finder-maven-plugin Maven Mojo][45]          | [Apache License 2.0][40]                       |
+| [Apache Maven Assembly Plugin][46]                      | [Apache-2.0][26]                               |
+| [Apache Maven JAR Plugin][47]                           | [Apache License, Version 2.0][26]              |
+| [Artifact reference checker and unifier][48]            | [MIT License][49]                              |
+| [Maven Failsafe Plugin][50]                             | [Apache-2.0][26]                               |
+| [JaCoCo :: Maven Plugin][51]                            | [Eclipse Public License 2.0][52]               |
+| [error-code-crawler-maven-plugin][53]                   | [MIT License][54]                              |
+| [Reproducible Build Maven Plugin][55]                   | [Apache 2.0][31]                               |
+| [Exec Maven Plugin][56]                                 | [Apache License 2][26]                         |
 
 ## Extension
 
@@ -106,17 +106,17 @@
 [41]: https://github.com/diffplug/spotless
 [42]: https://github.com/evis/scalafix-maven-plugin
 [43]: https://opensource.org/licenses/BSD-3-Clause
-[44]: https://www.mojohaus.org/exec-maven-plugin
-[45]: https://www.mojohaus.org/versions/versions-maven-plugin/
-[46]: https://basepom.github.io/duplicate-finder-maven-plugin
-[47]: https://maven.apache.org/plugins/maven-assembly-plugin/
-[48]: https://maven.apache.org/plugins/maven-jar-plugin/
-[49]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
-[50]: https://github.com/exasol/artifact-reference-checker-maven-plugin/blob/main/LICENSE
-[51]: https://maven.apache.org/surefire/maven-failsafe-plugin/
-[52]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
-[53]: https://www.eclipse.org/legal/epl-2.0/
-[54]: https://github.com/exasol/error-code-crawler-maven-plugin/
-[55]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
-[56]: http://zlika.github.io/reproducible-build-maven-plugin
+[44]: https://www.mojohaus.org/versions/versions-maven-plugin/
+[45]: https://basepom.github.io/duplicate-finder-maven-plugin
+[46]: https://maven.apache.org/plugins/maven-assembly-plugin/
+[47]: https://maven.apache.org/plugins/maven-jar-plugin/
+[48]: https://github.com/exasol/artifact-reference-checker-maven-plugin/
+[49]: https://github.com/exasol/artifact-reference-checker-maven-plugin/blob/main/LICENSE
+[50]: https://maven.apache.org/surefire/maven-failsafe-plugin/
+[51]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
+[52]: https://www.eclipse.org/legal/epl-2.0/
+[53]: https://github.com/exasol/error-code-crawler-maven-plugin/
+[54]: https://github.com/exasol/error-code-crawler-maven-plugin/blob/main/LICENSE
+[55]: http://zlika.github.io/reproducible-build-maven-plugin
+[56]: https://www.mojohaus.org/exec-maven-plugin
 [57]: https://registry.npmjs.org/@exasol/extension-manager-interface/-/extension-manager-interface-0.4.1.tgz

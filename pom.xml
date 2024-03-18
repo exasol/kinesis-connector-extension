@@ -363,6 +363,16 @@
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!-- Not all depenedencies available for latest Scala version -->
+                        <exclude>org.scala-lang:scala-library:jar:*:*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.2.0</version>
                 <executions>
@@ -419,16 +429,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <!-- Not all depenedencies available for latest Scala version -->
-                        <exclude>org.scala-lang:scala-library:jar:*:*</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
         </plugins>
     </build>
