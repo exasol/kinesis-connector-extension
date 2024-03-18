@@ -34,6 +34,7 @@ import junit.framework.AssertionFailedError;
 
 class ExtensionIT {
     private static final Logger LOGGER = Logger.getLogger(ExtensionIT.class.getName());
+    private static final String DOCKER_DB_VERSION_SYSTEM_PROPERTY = "com.exasol.dockerdb.image";
     private static final String PREVIOUS_VERSION = "1.1.0";
     private static final String PREVIOUS_VERSION_JAR_FILE = "exasol-kinesis-connector-extension-" + PREVIOUS_VERSION
             + ".jar";
@@ -53,6 +54,7 @@ class ExtensionIT {
 
     @BeforeAll
     static void setup() throws FileNotFoundException, BucketAccessException, TimeoutException, SQLException {
+        configureDefaultExasolVersion(IntegrationTestConstants.DEFAULT_EXASOL_DOCKER_IMAGE);
         exasolTestSetup = new ExasolTestSetupFactory(Paths.get("no-cloud-setup")).getTestSetup();
         ExasolVersionCheck.assumeExasolVersion8(exasolTestSetup);
         setup = ExtensionManagerSetup.create(exasolTestSetup, ExtensionBuilder.createDefaultNpmBuilder(
@@ -63,6 +65,14 @@ class ExtensionIT {
         connection = exasolTestSetup.createConnection();
         exasolObjectFactory = new ExasolObjectFactory(connection,
                 ExasolObjectConfiguration.builder().withJvmOptions("-Dcom.amazonaws.sdk.disableCbor=true").build());
+    }
+
+    private static void configureDefaultExasolVersion(final String defaultExasolVersion) {
+        if (System.getProperty(DOCKER_DB_VERSION_SYSTEM_PROPERTY) == null) {
+            LOGGER.info(() -> "System property '" + DOCKER_DB_VERSION_SYSTEM_PROPERTY
+                    + "' not set. Using default value " + defaultExasolVersion);
+            System.setProperty(DOCKER_DB_VERSION_SYSTEM_PROPERTY, defaultExasolVersion);
+        }
     }
 
     private static Path getAdapterJar() {
