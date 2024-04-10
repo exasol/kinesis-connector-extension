@@ -17,7 +17,6 @@ This release fixed vulnerability CVE-2024-29025 in dependencies.
 #### Compile Dependency Updates
 
 * Updated `com.amazonaws:aws-java-sdk-kinesis:1.12.680` to `1.12.698`
-* Updated `org.scala-lang:scala-library:2.13.12` to `2.13.13`
 
 #### Test Dependency Updates
 
