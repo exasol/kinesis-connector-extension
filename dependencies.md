@@ -49,7 +49,7 @@
 | [Apache Maven JAR Plugin][47]                           | [Apache License, Version 2.0][26]              |
 | [Artifact reference checker and unifier][48]            | [MIT License][49]                              |
 | [Maven Failsafe Plugin][50]                             | [Apache-2.0][26]                               |
-| [JaCoCo :: Maven Plugin][51]                            | [Eclipse Public License 2.0][52]               |
+| [JaCoCo :: Maven Plugin][51]                            | [EPL-2.0][52]                                  |
 | [error-code-crawler-maven-plugin][53]                   | [MIT License][54]                              |
 | [Reproducible Build Maven Plugin][55]                   | [Apache 2.0][31]                               |
 | [Exec Maven Plugin][56]                                 | [Apache License 2][26]                         |

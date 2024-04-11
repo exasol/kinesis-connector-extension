@@ -6,6 +6,8 @@ sources:
       - integration_tests
   - type: npm
     path: extension/package.json
+    artifacts:
+    - dist/kinesis-connector-extension.js
 version:
   fromSource: pom.xml
 build:
@@ -15,6 +17,4 @@ build:
     - "8.24.0"
     - "7.1.25"
 excludes:
-  # Uploads extension to GitHub release
-  - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_upload_github_release_assets.yml'"
-  - "W-PK-CORE-153: Project-keeper version 4.1.0 is outdated. Please update project-keeper to latest version 4.2.0."
+- "E-PK-CORE-17: Missing required file: 'release_config.yml'"

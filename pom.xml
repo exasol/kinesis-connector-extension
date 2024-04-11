@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>kinesis-connector-extension</artifactId>
-    <version>1.1.5</version>
+    <version>1.1.6</version>
     <name>Exasol Kinesis Connector Extension</name>
     <description>Exasol Kafka Extension for accessing Apache Kafka</description>
     <url>https://github.com/exasol/kinesis-connector-extension/</url>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-kinesis</artifactId>
-            <version>1.12.680</version>
+            <version>1.12.698</version>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
@@ -83,7 +83,7 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>extension-manager-integration-test-java</artifactId>
-            <version>0.5.8</version>
+            <version>0.5.9</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -261,8 +261,7 @@
                 <groupId>org.sonatype.ossindex.maven</groupId>
                 <artifactId>ossindex-maven-plugin</artifactId>
                 <configuration>
-                    <excludeVulnerabilityIds>
-                    </excludeVulnerabilityIds>
+                    <excludeVulnerabilityIds/>
                 </configuration>
             </plugin>
             <plugin>
@@ -285,7 +284,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>4.1.0</version>
+                <version>4.3.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -366,7 +365,7 @@
                 <artifactId>versions-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <!-- Not all depenedencies available for latest Scala version -->
+                        <!-- Not all dependencies available for latest Scala version -->
                         <exclude>org.scala-lang:scala-library:jar:*:*</exclude>
                     </excludes>
                 </configuration>
@@ -435,7 +434,7 @@
     <parent>
         <artifactId>kinesis-connector-extension-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>1.1.5</version>
+        <version>1.1.6</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
