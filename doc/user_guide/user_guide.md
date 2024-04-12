@@ -45,8 +45,8 @@ the port number `2580` for http.
 Upload the jar file using curl:
 
 ```bash
-curl -X PUT -T exasol-kinesis-connector-extension-1.1.6.jar \
-  http://w:write-password@exasol.datanode.domain.com:2580/kinesis/exasol-kinesis-connector-extension-1.1.6.jar
+curl -X PUT -T exasol-kinesis-connector-extension-1.1.7.jar \
+  http://w:write-password@exasol.datanode.domain.com:2580/kinesis/exasol-kinesis-connector-extension-1.1.7.jar
 ```
 
 > Please also check out Exasol [BucketFS Client][bucketfs-client] as an
@@ -111,21 +111,21 @@ Create the following UDF scripts. Please do not change the names of the scripts.
 CREATE OR REPLACE JAVA SET SCRIPT KINESIS_METADATA (...)
 EMITS (KINESIS_SHARD_ID VARCHAR(130), SHARD_SEQUENCE_NUMBER VARCHAR(2000)) AS
   %scriptclass com.exasol.cloudetl.kinesis.KinesisShardsMetadataReader;
-  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-1.1.6.jar;
+  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-1.1.7.jar;
 /
 ;
 
 --/
 CREATE OR REPLACE JAVA SET SCRIPT KINESIS_IMPORT (...) EMITS (...) AS
   %scriptclass com.exasol.cloudetl.kinesis.KinesisShardDataImporter;
-  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-1.1.6.jar;
+  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-1.1.7.jar;
 /
 ;
 
 --/
 CREATE OR REPLACE JAVA SET SCRIPT KINESIS_CONSUMER (...) EMITS (...) AS
   %scriptclass com.exasol.cloudetl.kinesis.KinesisImportQueryGenerator;
-  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-1.1.6.jar;
+  %jar /buckets/bfsdefault/kinesis/exasol-kinesis-connector-extension-1.1.7.jar;
 /
 ;
 ```
