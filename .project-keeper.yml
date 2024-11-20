@@ -7,14 +7,12 @@ sources:
   - type: npm
     path: extension/package.json
     artifacts:
-    - dist/kinesis-connector-extension.js
+      - dist/kinesis-connector-extension.js
 version:
   fromSource: pom.xml
 build:
   runnerOs: ubuntu-20.04
   freeDiskSpace: false
   exasolDbVersions:
-    - "8.24.0"
-    - "7.1.25"
-excludes:
-- "E-PK-CORE-17: Missing required file: 'release_config.yml'"
+    - "8.32.0"
+    - "7.1.30"

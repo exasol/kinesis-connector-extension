@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>kinesis-connector-extension</artifactId>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
     <name>Exasol Kinesis Connector Extension</name>
     <description>Exasol Kafka Extension for accessing Apache Kafka</description>
     <url>https://github.com/exasol/kinesis-connector-extension/</url>
@@ -24,13 +24,13 @@
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
-            <artifactId>import-export-udf-common-scala_${scala.compat.version}</artifactId>
-            <version>2.0.0</version>
+            <artifactId>import-export-udf-common-scala</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-kinesis</artifactId>
-            <version>1.12.698</version>
+            <version>1.12.778</version>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
@@ -53,37 +53,37 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.11.0</version>
+            <version>5.14.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-testcontainers</artifactId>
-            <version>7.0.1</version>
+            <version>7.1.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>localstack</artifactId>
-            <version>1.19.7</version>
+            <version>1.20.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>test-db-builder-java</artifactId>
-            <version>3.5.4</version>
+            <version>3.6.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>hamcrest-resultset-matcher</artifactId>
-            <version>1.6.5</version>
+            <version>1.7.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>extension-manager-integration-test-java</artifactId>
-            <version>0.5.9</version>
+            <version>0.5.13</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -92,6 +92,12 @@
                     <artifactId>xercesImpl</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.exasol</groupId>
+            <artifactId>maven-project-version-getter</artifactId>
+            <version>1.2.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -284,7 +290,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>4.3.0</version>
+                <version>4.4.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -434,7 +440,7 @@
     <parent>
         <artifactId>kinesis-connector-extension-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>1.1.6</version>
+        <version>1.1.7</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
