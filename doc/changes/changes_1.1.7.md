@@ -1,12 +1,17 @@
-# Kinesis Connector Extension 1.1.7, released 2024-??-??
+# Kinesis Connector Extension 1.1.7, released 2024-11-20
 
-Code name:
+Code name: Fix CVE-2024-47535 & CVE-2024-47561
 
 ## Summary
 
-## Features
+This release fixes vulnerabilities
+* CVE-2024-47535 in `io.netty:netty-common:jar:4.1.108.Final:test`
+* CVE-2024-47561 in `org.apache.avro:avro:jar:1.11.3:compile`
 
-* ISSUE_NUMBER: description
+## Security
+
+* #59: Fixed CVE-2024-47535 in `io.netty:netty-common:jar:4.1.108.Final:test`
+* #58: Fixed CVE-2024-47561 in `org.apache.avro:avro:jar:1.11.3:compile`
 
 ## Dependency Updates
 
