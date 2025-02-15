@@ -4,7 +4,7 @@ Code name: Fix CWE-346, CVE-2024-4068, CVE-2025-24970 and CVE-2025-25193
 
 ## Summary
 
-This release updates the 3rd-party JavaScript libraries `esbuild` and `braces`to fix the vulnerabilities CWE-346 and CVE-2024-4068
+This release updates the 3rd-party JavaScript libraries `esbuild` and `braces` to fix the vulnerabilities CWE-346 and CVE-2024-4068.
 
 ## Features
 
