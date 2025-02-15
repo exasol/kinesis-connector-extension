@@ -33,7 +33,7 @@
 | [Apache Maven Clean Plugin][25]                         | [Apache-2.0][26]                               |
 | [Apache Maven Install Plugin][27]                       | [Apache-2.0][26]                               |
 | [Apache Maven Resources Plugin][28]                     | [Apache-2.0][26]                               |
-| [Apache Maven Site Plugin][29]                          | [Apache License, Version 2.0][26]              |
+| [Apache Maven Site Plugin][29]                          | [Apache-2.0][26]                               |
 | [SonarQube Scanner for Maven][30]                       | [GNU LGPL 3][31]                               |
 | [Apache Maven Toolchains Plugin][32]                    | [Apache-2.0][26]                               |
 | [Apache Maven Compiler Plugin][33]                      | [Apache-2.0][26]                               |
@@ -98,7 +98,7 @@
 [27]: https://maven.apache.org/plugins/maven-install-plugin/
 [28]: https://maven.apache.org/plugins/maven-resources-plugin/
 [29]: https://maven.apache.org/plugins/maven-site-plugin/
-[30]: http://sonarsource.github.io/sonar-scanner-maven/
+[30]: http://docs.sonarqube.org/display/PLUG/Plugin+Library/sonar-maven-plugin
 [31]: http://www.gnu.org/licenses/lgpl.txt
 [32]: https://maven.apache.org/plugins/maven-toolchains-plugin/
 [33]: https://maven.apache.org/plugins/maven-compiler-plugin/

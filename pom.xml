@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>kinesis-connector-extension</artifactId>
-    <version>1.1.7</version>
+    <version>1.1.8</version>
     <name>Exasol Kinesis Connector Extension</name>
     <description>Exasol Kafka Extension for accessing Apache Kafka</description>
     <url>https://github.com/exasol/kinesis-connector-extension/</url>
@@ -83,7 +83,7 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>extension-manager-integration-test-java</artifactId>
-            <version>0.5.13</version>
+            <version>0.5.15</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -290,7 +290,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>4.4.0</version>
+                <version>4.5.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -440,7 +440,7 @@
     <parent>
         <artifactId>kinesis-connector-extension-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>1.1.7</version>
+        <version>1.1.8</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
